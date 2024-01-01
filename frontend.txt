@@ -11,3 +11,7 @@ npx create-react-app frc-frontend --template typescript
 sudo openapi-generator-cli generate -i http://127.0.0.1:8000/api/schema/\?format\=json -g typescript-axios -o src/components/api --additional-properties=supportsES6=true
 sudo chown -R jakob:jakob components
 npm install axios
+
+# Applikationsumbegung installieren + Applikation starten
+npm install
+npm start
