@@ -68,14 +68,14 @@ export default function RuleEntry() {
   const getRule = async (id: number) => {
     try {
       console.log("getRule");
-      const responseRules = await rulesapi.rulesRetrieve(id);
-      console.log(responseRules.data);
-      setRule(responseRules.data);
-      setRuleStatus(responseRules.data.status);
-      setRuleAction(responseRules.data.action);
-      setRuleProtocol(responseRules.data.protocol);
-      if (responseRules.data.firewalls) {
-        setRuleFirewalls(responseRules.data.firewalls.map((firewall) => firewall.hostname));
+      const responseRule = await rulesapi.rulesRetrieve(id);
+      console.log(responseRule.data);
+      setRule(responseRule.data);
+      setRuleStatus(responseRule.data.status);
+      setRuleAction(responseRule.data.action);
+      setRuleProtocol(responseRule.data.protocol);
+      if (responseRule.data.firewalls) {
+        setRuleFirewalls(responseRule.data.firewalls.map((firewall) => firewall.hostname));
       }
       toast.success("Loaded rule successful");
     } catch (error) {
