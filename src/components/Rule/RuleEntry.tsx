@@ -19,8 +19,9 @@ import InputLabel from '@mui/material/InputLabel';
 import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
 import Chip from '@mui/material/Chip';
 import OutlinedInput from '@mui/material/OutlinedInput';
-
-
+import Button from '@mui/material/Button';
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 
 function Copyright() {
@@ -93,6 +94,25 @@ export default function RuleEntry() {
       console.log(responseFirewalls.data);
       setFirewalls(responseFirewalls.data);
       toast.success("Loaded firewalls successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+    }
+  }
+
+  const deleteRule = async (id: number | undefined) => {
+    if (id === undefined) {
+      console.log("ID is not valid")
+      toast.error("ID is not valid")
+      return
+    }
+    try {
+      console.log("deleteRule");
+      const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
+      console.log(responseDeleteRule.data);
+      toast.success("Deleted rule successful");
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
@@ -312,6 +332,21 @@ export default function RuleEntry() {
             </Grid>
           </Grid>
         </Grid>
+        <Button 
+          color='error'
+          variant='outlined'
+          endIcon={<DeleteOutlinedIcon />}
+          onClick={() => deleteRule(rule?.pk)}
+        >
+          Delete
+        </Button>
+        <Button 
+          color='success'
+          variant='outlined'
+          endIcon={<SaveOutlinedIcon />}
+        >
+          Update
+        </Button>
         </form>
         <Copyright />
         <ToastContainer
