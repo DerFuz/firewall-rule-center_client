@@ -14,7 +14,7 @@ import { Box, IconButton } from '@mui/material';
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
-  Mouse as MouseIcon,
+  Pageview as PageviewIcon,
 } from '@mui/icons-material';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -213,7 +213,7 @@ export default function RuleTable() {
     renderRowActions: ({ row, table }) => (
       <Box>
         <IconButton color="primary" onClick={() => navigate(`/rules/${row.original.pk}`)}>
-          <MouseIcon />
+          <PageviewIcon />
         </IconButton>
         <IconButton color="secondary" onClick={() => {
               table.setEditingRow(row);
