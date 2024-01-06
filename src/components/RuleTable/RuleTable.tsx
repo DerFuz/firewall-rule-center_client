@@ -42,6 +42,25 @@ export default function RuleTable() {
     }
   }
 
+  const deleteRule = async (id: number | undefined) => {
+    if (id === undefined) {
+      console.log("ID is not valid")
+      toast.error("ID is not valid")
+      return
+    }
+    try {
+      console.log("deleteRule");
+      const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
+      console.log(responseDeleteRule.data);
+      toast.success("Deleted rule successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+    }
+  }
+
   const columns = useMemo<MRT_ColumnDef<Rule>[]>(
     () => [
       // {
@@ -220,11 +239,7 @@ export default function RuleTable() {
             }}>
           <EditIcon />
         </IconButton>
-        <IconButton color="error" onClick={() => 
-          window.open(
-            `${row.original.delete_url}`, '_blank'
-          )
-        }>
+        <IconButton color="error" onClick={() => deleteRule(row.original.pk)}>
           <DeleteIcon />
         </IconButton>
       </Box>
