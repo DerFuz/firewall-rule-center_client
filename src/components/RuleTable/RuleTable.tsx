@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Rule } from '../api';
+import { ActionEnum, StatusEnum, ProtocolEnum, Rule, RulesApi } from '../api';
 import MyApi from '../api/myapi';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
@@ -9,6 +9,7 @@ import {
   type MRT_ColumnDef,
   type MRT_SortingState,
   type MRT_Virtualizer,
+  type MRT_TableOptions,
 } from 'material-react-table';
 import { Box, IconButton } from '@mui/material';
 import {
@@ -27,6 +28,7 @@ export default function RuleTable() {
   const rulesapi = api.rulesApi();
 
   const [rules, setRules] = useState<Rule[]>([]);
+  // const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
 
   const getRules = async () => {
     try {
@@ -63,31 +65,40 @@ export default function RuleTable() {
 
   const columns = useMemo<MRT_ColumnDef<Rule>[]>(
     () => [
-      // {
-      //   accessorKey: 'pk',
-      //   header: 'ID',
-      //   Cell: ({cell}) => (
-      //     <a href={cell.row.original.detail_url}>{cell.getValue<Number>().toLocaleString()}</a>
-      //   ),
-      //   enableGlobalFilter: false,
-      // },
+      {
+        accessorKey: 'pk',
+        header: 'ID',
+        enableGlobalFilter: false,
+        enableEditing: false,
+      },
       {
         accessorKey: 'status',
         header: 'Status',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
+        editVariant: 'select',
+        editSelectOptions: Object.values(StatusEnum),
+        // muiEditTextFieldProps: {
+        //   select: true,
+        //   error: !!validationErrors?.state,
+        //   helperText: validationErrors?.state,
+        // },
       },
       {
         accessorKey: 'action',
         header: 'Action',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
+        editVariant: 'select',
+        editSelectOptions: Object.values(ActionEnum),
       },
       {
         accessorKey: 'protocol',
         header: 'Protocol',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
+        editVariant: 'select',
+        editSelectOptions: Object.values(ProtocolEnum),
       },
       {
         accessorKey: 'source_name',
@@ -148,6 +159,7 @@ export default function RuleTable() {
         accessorKey: 'rule_set_request',
         header: 'Rule Set Request',
         enableGlobalFilter: false,
+        enableEditing: false,
       },
       {
         accessorFn: (originalRow) => new Date(originalRow.last_updated_on),
@@ -156,12 +168,14 @@ export default function RuleTable() {
         Cell: ({cell}) => (cell.getValue<Date>().toLocaleDateString('de-AT')),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
+        enableEditing: false,
       },
       {
         accessorKey: 'last_updated_by.username',
         header: 'Last Update by',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
+        enableEditing: false,
       },
       {
         accessorFn: (originalRow) => new Date(originalRow.created_on),
@@ -170,15 +184,18 @@ export default function RuleTable() {
         Cell: ({cell}) => (cell.getValue<Date>().toLocaleDateString('de-AT')),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
+        enableEditing: false,
       },
       {
         accessorKey: 'created_by.username',
         header: 'Created by',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
+        enableEditing: false,
       },
     ],
-    [],
+    []
+    // [validationErrors],
   );
 
   const rowVirtualizerInstanceRef =
@@ -203,12 +220,36 @@ export default function RuleTable() {
     }
   }, [sorting]);
 
+  const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({row, table, values}) => {
+
+    try {
+      console.log("updatingRule");
+      console.log("update: row", row);
+      console.log("update: table", table);
+      console.log("update: values", values);
+      const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(row.original.pk, values);
+      console.log(responseUpdateRule.data);
+      toast.success("Updated rule successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.statusText);
+      }
+    }
+    table.setEditingRow(null); //exit editing mode
+  };
+
+
   const table = useMaterialReactTable({
     columns: columns,
     data: rules,
     enableFacetedValues: true,
     enableColumnResizing: true,
     enableDensityToggle: false,
+    enableEditing: true,
+    editDisplayMode: 'row',
+    onEditingRowSave: handleSaveRule,
+    // onEditingRowCancel: () => setValidationErrors({}),
     initialState: { 
       showColumnFilters: true,
       density: 'compact',
@@ -216,6 +257,9 @@ export default function RuleTable() {
       pagination: {
         pageSize: 50,
         pageIndex: 0
+      },
+      columnVisibility: {
+        pk: false
       }
     },
     enableRowVirtualization: true,
@@ -234,9 +278,7 @@ export default function RuleTable() {
         <IconButton color="primary" onClick={() => navigate(`/rules/${row.original.pk}`)}>
           <PageviewIcon />
         </IconButton>
-        <IconButton color="secondary" onClick={() => {
-              table.setEditingRow(row);
-            }}>
+        <IconButton color="secondary" onClick={() => {table.setEditingRow(row)}}>
           <EditIcon />
         </IconButton>
         <IconButton color="error" onClick={() => deleteRule(row.original.pk)}>
@@ -258,7 +300,7 @@ export default function RuleTable() {
         pauseOnFocusLoss={false}
         draggable={false}
         pauseOnHover
-        limit={1}
+        limit={5}
         transition={Flip}
       />
     </div>
