@@ -170,6 +170,7 @@ export default function RuleEntry() {
                 <InputLabel id="status-label">Status</InputLabel>
                 <Select
                   id="status"
+                  name="status"
                   labelId="status-label"
                   label="Status"
                   onChange={handleChangeStatus}
@@ -188,6 +189,7 @@ export default function RuleEntry() {
                 <InputLabel id="action-label">Action</InputLabel>
                 <Select
                   id="action"
+                  name="action"
                   labelId="action-label"
                   label="Action"
                   onChange={handleChangeAction}
@@ -206,6 +208,7 @@ export default function RuleEntry() {
                 <InputLabel id="protocol-label">Protocol</InputLabel>
                 <Select
                   id="protocol"
+                  name="protocol"
                   labelId="protocol-label"
                   label="Protocol"
                   onChange={handleChangeProtocol}
@@ -224,7 +227,7 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
-                id="source-name"
+                name="source_name"
                 label="Source Name"
                 InputLabelProps={{ shrink: true }}
                 value={rule?.source_name}
@@ -233,7 +236,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="source-ip-orig" 
+                id="source_ip_orig" 
+                name="source_ip_orig" 
                 label="Source IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.source_ip_orig} 
@@ -242,7 +246,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="source-ip-nat" 
+                id="source_ip_nat" 
+                name="source_ip_nat" 
                 label="Source IP (NAT)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.source_ip_nat} 
@@ -251,7 +256,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="source-port" 
+                id="source_port" 
+                name="source_port" 
                 label="Source Port" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.source_port === null ? '' : rule?.source_port} 
@@ -267,7 +273,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="destination-name" 
+                id="destination_name" 
+                name="destination_name" 
                 label="Destination Name" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_name} 
@@ -276,7 +283,7 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="destination-ip-orig" 
+                name="destination_ip_orig" 
                 label="Destination IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_ip_orig} 
@@ -285,7 +292,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="destination-ip-nat" 
+                id="destination_ip_nat" 
+                name="destination_ip_nat" 
                 label="Destination IP (NAT)"
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_ip_nat} 
@@ -294,7 +302,8 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
-                id="destination-port" 
+                id="destination_port" 
+                name="destination_port" 
                 label="Destination Port" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_port === null ? '' : rule?.destination_port} 
@@ -307,6 +316,7 @@ export default function RuleEntry() {
                 <InputLabel id="firewalls-label">Firewalls</InputLabel>
                 <Select
                   id="firewalls"
+                  name="firewalls"
                   labelId="firewalls-label"
                   label="Firewalls"
                   multiple
