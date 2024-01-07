@@ -110,8 +110,21 @@ export default function RuleEntry() {
     }
   }
 
-  const updateRule = () => {
+  const updateRule = async () => {
     console.log(rule);
+    try {
+      if (rule) {
+        console.log("updatingRule");
+        const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(rule.pk, rule);
+        console.log(responseUpdateRule.data);
+        toast.success("Updated rule successful");
+      }
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.statusText);
+      }
+    }
   }
 
 
@@ -383,6 +396,7 @@ export default function RuleEntry() {
             </Grid>
           </Grid>
         </Grid>
+        <h1 color='red'>ADD OTHER VALUES</h1>
         <Button 
           color='error'
           variant='outlined'
