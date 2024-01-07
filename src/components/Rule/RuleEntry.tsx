@@ -130,22 +130,36 @@ export default function RuleEntry() {
     setRuleStatus(event.target.value);
   };
 
-  const handleChangeAction = (event: SelectChangeEvent) => {
-    setRuleAction(event.target.value);
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    const { name, value } = event.target;
+    if (rule) {
+      console.log(name);
+      switch (name) {
+        case "status":
+          setRule({
+            ...rule,
+            [name]: value as StatusEnum
+          }); 
+          break;
+        case "action":
+          setRule({
+            ...rule,
+            [name]: value as ActionEnum
+          }); 
+          break;
+        case "protocol":
+          setRule({
+            ...rule,
+            [name]: value as ProtocolEnum
+          }); 
+          break;
+      }     
+    }
+    else {
+      console.log("No existing rule instance");
+    }
   };
 
-  const handleChangeProtocol = (event: SelectChangeEvent) => {
-    setRuleProtocol(event.target.value);
-  };
-
-  const handleChangeFirewalls = (event: SelectChangeEvent<typeof ruleFirewalls>) => {
-    const {
-      target: { value },
-    } = event;
-    setRuleFirewalls(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );  
   };
 
  
@@ -177,11 +191,11 @@ export default function RuleEntry() {
                   name="status"
                   labelId="status-label"
                   label="Status"
-                  onChange={handleChangeStatus}
-                  value={ruleStatus}
+                  onChange={handleSelectChange}
+                  value={rule?.status ? rule.status : ''}
                 >
                   {
-                    Object.entries(StatusEnum).map(([key, value]) => {
+                    Object.values(StatusEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
@@ -196,11 +210,11 @@ export default function RuleEntry() {
                   name="action"
                   labelId="action-label"
                   label="Action"
-                  onChange={handleChangeAction}
-                  value={ruleAction}
+                  onChange={handleSelectChange}
+                  value={rule?.action ? rule.action : ''}
                 >
                   {
-                    Object.entries(ActionEnum).map(([key, value]) => {
+                    Object.values(ActionEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
@@ -215,11 +229,11 @@ export default function RuleEntry() {
                   name="protocol"
                   labelId="protocol-label"
                   label="Protocol"
-                  onChange={handleChangeProtocol}
-                  value={ruleProtocol}
+                  onChange={handleSelectChange}
+                  value={rule?.protocol ? rule.protocol : ''}
                 >
                   {
-                    Object.entries(ProtocolEnum).map(([key, value]) => {
+                    Object.values(ProtocolEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
