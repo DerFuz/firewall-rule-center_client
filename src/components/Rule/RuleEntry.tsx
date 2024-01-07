@@ -43,12 +43,7 @@ export default function RuleEntry() {
   console.log(useParams())
   
   const [rule, setRule] = useState<Rule>();
-  const [ruleStatus, setRuleStatus] = useState('');
-  const [ruleAction, setRuleAction] = useState('');
-  const [ruleProtocol, setRuleProtocol] = useState('');
-  const [ruleFirewalls, setRuleFirewalls] = useState<string[]>([]);
-  const [firewalls, setFirewalls] = useState<FirewallObject[]>([]);
-
+  const [allFirewalls, setAllFirewalls] = useState<FirewallObject[]>([]);
 
   useEffect(() => {
     if (ruleId !== undefined && !Number.isNaN(parseInt(ruleId))) {
@@ -72,12 +67,6 @@ export default function RuleEntry() {
       const responseRule = await rulesapi.rulesRetrieve(id);
       console.log(responseRule.data);
       setRule(responseRule.data);
-      setRuleStatus(responseRule.data.status);
-      setRuleAction(responseRule.data.action);
-      setRuleProtocol(responseRule.data.protocol);
-      if (responseRule.data.firewalls) {
-        setRuleFirewalls(responseRule.data.firewalls.map((firewall) => firewall.hostname));
-      }
       toast.success("Loaded rule successful");
     } catch (error) {
       console.log(error);
@@ -92,7 +81,7 @@ export default function RuleEntry() {
       console.log("getFirewalls");
       const responseFirewalls = await firewallsapi.firewallsList();
       console.log(responseFirewalls.data);
-      setFirewalls(responseFirewalls.data);
+      setAllFirewalls(responseFirewalls.data);
       toast.success("Loaded firewalls successful");
     } catch (error) {
       console.log(error);
@@ -121,27 +110,74 @@ export default function RuleEntry() {
     }
   }
 
+  const updateRule = () => {
+    console.log(rule);
+  }
 
-  const handleChangeStatus = (event: SelectChangeEvent) => {
-    setRuleStatus(event.target.value);
+
+  const handleTextFieldChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    if (rule) {
+      setRule({
+        ...rule,
+        [name]: value,
+      });
+    }
+    else {
+      console.log("No existing rule instance");
+    }
   };
 
-  const handleChangeAction = (event: SelectChangeEvent) => {
-    setRuleAction(event.target.value);
+
+
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    const { name, value } = event.target;
+    if (rule) {
+      console.log(name);
+      switch (name) {
+        case "status":
+          setRule({
+            ...rule,
+            [name]: value as StatusEnum
+          }); 
+          break;
+        case "action":
+          setRule({
+            ...rule,
+            [name]: value as ActionEnum
+          }); 
+          break;
+        case "protocol":
+          setRule({
+            ...rule,
+            [name]: value as ProtocolEnum
+          }); 
+          break;
+      }     
+    }
+    else {
+      console.log("No existing rule instance");
+    }
   };
 
-  const handleChangeProtocol = (event: SelectChangeEvent) => {
-    setRuleProtocol(event.target.value);
-  };
-
-  const handleChangeFirewalls = (event: SelectChangeEvent<typeof ruleFirewalls>) => {
-    const {
-      target: { value },
-    } = event;
-    setRuleFirewalls(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );  
+ 
+  const handleChangeFirewalls = (event: SelectChangeEvent) => {
+    const { name, value } = event.target;
+    console.log(value);
+    // setRuleFirewalls(
+    //   // On autofill we get a stringified value.
+    //   typeof value === 'string' ? value.split(',') : value,
+    // );
+    if (rule) {
+      console.log("firewalls", value, Object.values(allFirewalls).filter(firewall => value.includes(firewall.hostname)));
+      setRule({
+        ...rule,
+        "firewalls": Object.values(allFirewalls).filter(firewall => value.includes(firewall.hostname))
+      });
+    }
+    else {
+      console.log("No existing rule instance");
+    }
   };
 
  
@@ -173,11 +209,11 @@ export default function RuleEntry() {
                   name="status"
                   labelId="status-label"
                   label="Status"
-                  onChange={handleChangeStatus}
-                  value={ruleStatus}
+                  onChange={handleSelectChange}
+                  value={rule?.status ? rule.status : ''}
                 >
                   {
-                    Object.entries(StatusEnum).map(([key, value]) => {
+                    Object.values(StatusEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
@@ -192,11 +228,11 @@ export default function RuleEntry() {
                   name="action"
                   labelId="action-label"
                   label="Action"
-                  onChange={handleChangeAction}
-                  value={ruleAction}
+                  onChange={handleSelectChange}
+                  value={rule?.action ? rule.action : ''}
                 >
                   {
-                    Object.entries(ActionEnum).map(([key, value]) => {
+                    Object.values(ActionEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
@@ -211,11 +247,11 @@ export default function RuleEntry() {
                   name="protocol"
                   labelId="protocol-label"
                   label="Protocol"
-                  onChange={handleChangeProtocol}
-                  value={ruleProtocol}
+                  onChange={handleSelectChange}
+                  value={rule?.protocol ? rule.protocol : ''}
                 >
                   {
-                    Object.entries(ProtocolEnum).map(([key, value]) => {
+                    Object.values(ProtocolEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
@@ -227,10 +263,12 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                id="source_name"
                 name="source_name"
                 label="Source Name"
                 InputLabelProps={{ shrink: true }}
                 value={rule?.source_name}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -240,7 +278,8 @@ export default function RuleEntry() {
                 name="source_ip_orig" 
                 label="Source IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.source_ip_orig} 
+                value={rule?.source_ip_orig}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -250,7 +289,8 @@ export default function RuleEntry() {
                 name="source_ip_nat" 
                 label="Source IP (NAT)" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.source_ip_nat} 
+                value={rule?.source_ip_nat}                
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -260,7 +300,8 @@ export default function RuleEntry() {
                 name="source_port" 
                 label="Source Port" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.source_port === null ? '' : rule?.source_port} 
+                value={rule?.source_port ? rule.source_port : ''}
+                onChange={handleTextFieldChange}
               />
             </Grid>
           </Grid>
@@ -277,16 +318,19 @@ export default function RuleEntry() {
                 name="destination_name" 
                 label="Destination Name" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_name} 
+                value={rule?.destination_name}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
+                id="destination_ip_orig" 
                 name="destination_ip_orig" 
                 label="Destination IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_ip_orig} 
+                value={rule?.destination_ip_orig}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -295,8 +339,9 @@ export default function RuleEntry() {
                 id="destination_ip_nat" 
                 name="destination_ip_nat" 
                 label="Destination IP (NAT)"
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_ip_nat} 
+                InputLabelProps={{ shrink: true }}
+                value={rule?.destination_ip_nat}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -306,7 +351,8 @@ export default function RuleEntry() {
                 name="destination_port" 
                 label="Destination Port" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_port === null ? '' : rule?.destination_port} 
+                value={rule?.destination_port ? rule.destination_port : ''} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
           </Grid>
@@ -320,7 +366,7 @@ export default function RuleEntry() {
                   labelId="firewalls-label"
                   label="Firewalls"
                   multiple
-                  value={ruleFirewalls}
+                  value={rule?.firewalls ? Object.values(rule.firewalls).map(firewall => firewall.hostname) : []}
                   onChange={handleChangeFirewalls}
                   input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
                   renderValue={(selected) => (
@@ -333,7 +379,7 @@ export default function RuleEntry() {
                   MenuProps={MenuProps}
                 >
                   { 
-                    firewalls.map((firewall) => (
+                    allFirewalls.map((firewall) => (
                       <MenuItem key={firewall.hostname} value={firewall.hostname}>{firewall.hostname}</MenuItem>
                     ))
                   }
@@ -354,6 +400,7 @@ export default function RuleEntry() {
           color='success'
           variant='outlined'
           endIcon={<SaveOutlinedIcon />}
+          onClick={updateRule}
         >
           Update
         </Button>
