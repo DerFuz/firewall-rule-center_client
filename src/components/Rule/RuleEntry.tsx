@@ -121,6 +121,10 @@ export default function RuleEntry() {
     }
   }
 
+  const updateRule = () => {
+    console.log(rule);
+  }
+
 
   const handleChangeStatus = (event: SelectChangeEvent) => {
     setRuleStatus(event.target.value);
@@ -227,6 +231,7 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField
                 fullWidth
+                id="source_name"
                 name="source_name"
                 label="Source Name"
                 InputLabelProps={{ shrink: true }}
@@ -283,6 +288,7 @@ export default function RuleEntry() {
             <Grid xs={12} sm={6} md={6}>
               <TextField 
                 fullWidth 
+                id="destination_ip_orig" 
                 name="destination_ip_orig" 
                 label="Destination IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
@@ -354,6 +360,7 @@ export default function RuleEntry() {
           color='success'
           variant='outlined'
           endIcon={<SaveOutlinedIcon />}
+          onClick={updateRule}
         >
           Update
         </Button>
