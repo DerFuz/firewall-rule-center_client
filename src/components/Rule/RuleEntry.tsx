@@ -126,9 +126,20 @@ export default function RuleEntry() {
   }
 
 
-  const handleChangeStatus = (event: SelectChangeEvent) => {
-    setRuleStatus(event.target.value);
+  const handleTextFieldChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+    if (rule) {
+      setRule({
+        ...rule,
+        [name]: value,
+      });
+    }
+    else {
+      console.log("No existing rule instance");
+    }
   };
+
+
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
@@ -250,6 +261,7 @@ export default function RuleEntry() {
                 label="Source Name"
                 InputLabelProps={{ shrink: true }}
                 value={rule?.source_name}
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -260,6 +272,7 @@ export default function RuleEntry() {
                 label="Source IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.source_ip_orig} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -270,6 +283,7 @@ export default function RuleEntry() {
                 label="Source IP (NAT)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.source_ip_nat} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -279,7 +293,8 @@ export default function RuleEntry() {
                 name="source_port" 
                 label="Source Port" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.source_port === null ? '' : rule?.source_port} 
+                value={rule?.source_port ? rule.source_port : ''}
+                onChange={handleTextFieldChange}
               />
             </Grid>
           </Grid>
@@ -297,6 +312,7 @@ export default function RuleEntry() {
                 label="Destination Name" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_name} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -307,6 +323,7 @@ export default function RuleEntry() {
                 label="Destination IP (Original)" 
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_ip_orig} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -317,6 +334,7 @@ export default function RuleEntry() {
                 label="Destination IP (NAT)"
                 InputLabelProps={{ shrink: true }} 
                 value={rule?.destination_ip_nat} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
             <Grid xs={12} sm={6} md={6}>
@@ -326,7 +344,8 @@ export default function RuleEntry() {
                 name="destination_port" 
                 label="Destination Port" 
                 InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_port === null ? '' : rule?.destination_port} 
+                value={rule?.destination_port ? rule.destination_port : ''} 
+                onChange={handleTextFieldChange}
               />
             </Grid>
           </Grid>
