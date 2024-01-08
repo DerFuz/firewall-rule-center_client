@@ -177,7 +177,7 @@ export default function RuleTable() {
       },
       {
         accessorFn: (originalRow) => new Date(originalRow.last_updated_on),
-        id: 'last_update_on',
+        id: 'last_updated_on',
         header: 'Last Update on',
         Cell: ({cell}) => (dateTimeFormatShort.format(cell.getValue<Date>())),
         filterVariant: 'date-range',
@@ -273,7 +273,14 @@ export default function RuleTable() {
         pageIndex: 0
       },
       columnVisibility: {
-        pk: false
+        "pk": false,
+        "source_ip_nat": false,
+        "source_port": false,
+        "destination_ip_nat": false,
+        "last_updated_on": false,
+        "last_updated_by.username": false,
+        "created_on": false,
+        "created_by.username": false
       }
     },
     enableRowVirtualization: true,
