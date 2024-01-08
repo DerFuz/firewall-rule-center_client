@@ -23,12 +23,23 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Divider
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { 
   DoubleArrowRounded as DoubleArrowRoundedIcon,
   SaveOutlined as SaveOutlinedIcon,
-  DeleteOutlined as DeleteOutlinedIcon
+  DeleteOutlined as DeleteOutlinedIcon,
+  Add as AddIcon,
+  Delete as DeleteIcon,
+  Edit as EditIcon
 } from '@mui/icons-material';
 
 
@@ -209,6 +220,74 @@ export default function RuleEntry() {
     }
   };
 
+  interface historyColumn {
+    id: 'history_type' |
+      'history_id' |
+      'history_date' | 
+      'action' |
+      'protocol' |
+      'source_name' |
+      'source_ip_orig' |
+      'source_ip_nat' |
+      'source_port' |
+      'destination_name' |
+      'destination_ip_orig' |
+      'destination_ip_nat' |
+      'destination_port' |
+      'status' |
+      'requester' |
+      'created_on' |
+      'last_updated_on' |
+      'ticket' |
+      'notes' |
+      'is_deleted' |
+      'created_by_id' |
+      'last_updated_by_id' |
+      'rule_set_request_id';
+    label: string;
+    minWidth?: number;
+    align?: 'left';
+    format?: (value: any) => string | JSX.Element;
+  }
+
+  const returnHistoryTypeIcon = (type: string) => {
+    switch (type) {
+      case "+":
+        return <AddIcon />;
+      case "~":
+        return <EditIcon />;
+      case "-":
+        return <DeleteIcon />;
+      default:
+        return "";
+    }
+  }
+  
+  const historyColumns: historyColumn[] = [
+    { id: 'history_type', label: 'History Type', format: (value: string) => returnHistoryTypeIcon(value) },
+    { id: 'history_id', label: 'History ID' },
+    { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
+    { id: 'action', label: 'Action' },
+    { id: 'protocol', label: 'Protocol' },
+    { id: 'source_name', label: 'Source Name' },
+    { id: 'source_ip_orig', label: 'Source IP (Original)' },
+    { id: 'source_ip_nat', label: 'Source IP (NAT)' },
+    { id: 'source_port', label: 'Source Port' },
+    { id: 'destination_name', label: 'Destination Name' },
+    { id: 'destination_ip_orig', label: 'Destination IP (Original)' },
+    { id: 'destination_ip_nat', label: 'Destination IP (NAT)' },
+    { id: 'destination_port', label: 'Destination Port' },
+    { id: 'status', label: 'Status' },
+    { id: 'requester', label: 'Requester' },
+    { id: 'created_on', label: 'Created On', format: (value: string) => dateTimeFormatLong.format(new Date(value))  },
+    { id: 'last_updated_on', label: 'Last Updated On', format: (value: string) => dateTimeFormatLong.format(new Date(value))  },
+    { id: 'ticket', label: 'Ticket' },
+    { id: 'notes', label: 'Notes' },
+    { id: 'is_deleted', label: 'Is Deleted?' },
+    { id: 'created_by_id', label: 'Created By (ID)' },
+    { id: 'last_updated_by_id', label: 'Last Updated By (ID)' },
+    { id: 'rule_set_request_id', label: 'Rule Set Request (ID)' },
+  ];
  
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -223,12 +302,11 @@ export default function RuleEntry() {
 
   return (
     <Container>
-      <Box>
-        <Typography variant="h4" component="h1" gutterBottom>
+      <Container>
+        <Typography variant="h4" gutterBottom>
           Rule {rule?.pk} Info
         </Typography>
-        <form>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{marginTop: 1, marginBottom: 1}}>
         <Grid container>
             <Grid xs={12} sm={6} md={6}>
               <FormControl fullWidth>
@@ -471,7 +549,6 @@ export default function RuleEntry() {
             </Stack>
           </Grid>
         </Grid>
-        <h1 color='red'>ADD OTHER VALUES: History</h1>
         <Button 
           color='error'
           variant='outlined'
@@ -488,21 +565,70 @@ export default function RuleEntry() {
         >
           Update
         </Button>
-        </form>
-        <Copyright />
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss={false}
-          draggable={false}
-          pauseOnHover
-          limit={3}
-          transition={Flip}
-        />
-      </Box>
+      </Container>
+      
+      <Divider sx={{marginTop: 5, marginBottom: 5}} />
+
+      <Container>
+        <Typography variant="h6">
+          History
+        </Typography>
+        <TableContainer component={Paper}>
+          <Table sx={{ minWidth: 650 }} size="small" aria-label="history-table">
+            <TableHead>
+              <TableRow>
+                {historyColumns.map((column) => (
+                  <TableCell
+                    key={column.id}
+                    align={column.align}
+                    style={{ top: 57, minWidth: column.minWidth }}
+                  >
+                    {column.label}
+                  </TableCell>
+                ))}
+                  <TableCell
+                    key="firewalls"
+                    align="left"
+                    style={{ top: 57 }}
+                  >
+                    Firewalls
+                  </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rule?.history.map((row) => (
+                <TableRow
+                  key={row.history_id}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  {historyColumns.map((column) => (
+                    <TableCell component="th" scope="row">
+                      {column.format && row[column.id] ? column.format(row[column.id]) : row[column.id]}
+                    </TableCell>
+                  ))}
+                    <TableCell>
+                      Firewall History not implemented yet...
+                    </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Container>
+
+      <Copyright />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        limit={3}
+        transition={Flip}
+      />
     </Container>
   );
 }
