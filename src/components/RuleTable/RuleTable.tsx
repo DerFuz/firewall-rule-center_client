@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, StatusEnum, ProtocolEnum, Rule, RulesApi } from '../api';
+import { ActionEnum, StatusEnum, ProtocolEnum, Rule } from '../api';
 import MyApi from '../api/myapi';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
@@ -11,7 +11,10 @@ import {
   type MRT_Virtualizer,
   type MRT_TableOptions,
 } from 'material-react-table';
-import { Box, IconButton } from '@mui/material';
+import { 
+  Box, 
+  IconButton,
+} from '@mui/material';
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,

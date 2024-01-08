@@ -6,22 +6,31 @@ import "react-toastify/dist/ReactToastify.min.css";
 
 import { AxiosError } from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import FormControl from '@mui/material/FormControl';
+
+import {
+  Container,
+  Avatar,
+  Chip,
+  Typography,
+  Box,
+  Link,
+  TextField,
+  FormControl,
+  Button,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  SelectChangeEvent,
+  Stack,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
-import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
-import Chip from '@mui/material/Chip';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import Button from '@mui/material/Button';
-import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { 
+  DoubleArrowRounded as DoubleArrowRoundedIcon,
+  SaveOutlined as SaveOutlinedIcon,
+  DeleteOutlined as DeleteOutlinedIcon
+} from '@mui/icons-material';
+
 
 
 function Copyright() {
