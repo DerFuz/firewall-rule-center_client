@@ -387,6 +387,41 @@ export default function RuleEntry() {
           </Grid>
           <Grid container>
             <Grid xs={12} sm={6} md={6}>
+              <TextField 
+                fullWidth 
+                id="ticket" 
+                name="ticket" 
+                label="Ticket" 
+                InputLabelProps={{ shrink: true }} 
+                value={rule?.ticket}
+                onChange={handleTextFieldChange}
+              />
+            </Grid>
+            <Grid xs={12} sm={6} md={6}>
+              <TextField 
+                fullWidth 
+                id="requester" 
+                name="requester" 
+                label="Requester" 
+                InputLabelProps={{ shrink: true }} 
+                value={rule?.requester}
+                onChange={handleTextFieldChange}
+              />
+            </Grid>
+            <Grid xs={12} sm={12} md={12}>
+              <TextField 
+                fullWidth 
+                id="notes" 
+                name="notes" 
+                label="Notes"
+                InputLabelProps={{ shrink: true }}
+                value={rule?.notes}
+                onChange={handleTextFieldChange}
+              />
+            </Grid>
+          </Grid>
+          <Grid container>
+            <Grid xs={12} sm={6} md={6}>
               <FormControl sx={{ width: 300 }}>
                 <InputLabel id="firewalls-label">Firewalls</InputLabel>
                 <Select
@@ -417,6 +452,9 @@ export default function RuleEntry() {
             </Grid>
           </Grid>
           <Grid container>
+            <Chip label={`Rulesetrequest ${rule?.rule_set_request}`} onClick={() => navigate(`/rulesetrequest/${rule?.rule_set_request}`)} />
+          </Grid>
+          <Grid container>
             <Stack direction="column" spacing={0.5}>
               <span>
                 <span>Created: </span>
@@ -433,7 +471,7 @@ export default function RuleEntry() {
             </Stack>
           </Grid>
         </Grid>
-        <h1 color='red'>ADD OTHER VALUES</h1>
+        <h1 color='red'>ADD OTHER VALUES: History</h1>
         <Button 
           color='error'
           variant='outlined'
