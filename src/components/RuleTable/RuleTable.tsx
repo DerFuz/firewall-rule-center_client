@@ -33,6 +33,17 @@ export default function RuleTable() {
   const [rules, setRules] = useState<Rule[]>([]);
   // const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
 
+  const dateTimeFormatShort = new Intl.DateTimeFormat('de-AT', 
+    {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    }
+  );
+
   const getRules = async () => {
     try {
       console.log("getRules");
@@ -168,7 +179,7 @@ export default function RuleTable() {
         accessorFn: (originalRow) => new Date(originalRow.last_updated_on),
         id: 'last_update_on',
         header: 'Last Update on',
-        Cell: ({cell}) => (cell.getValue<Date>().toLocaleDateString('de-AT')),
+        Cell: ({cell}) => (dateTimeFormatShort.format(cell.getValue<Date>())),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
         enableEditing: false,
@@ -184,7 +195,7 @@ export default function RuleTable() {
         accessorFn: (originalRow) => new Date(originalRow.created_on),
         id: 'created_on',
         header: 'Created on',
-        Cell: ({cell}) => (cell.getValue<Date>().toLocaleDateString('de-AT')),
+        Cell: ({cell}) => (dateTimeFormatShort.format(cell.getValue<Date>())),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
         enableEditing: false,
