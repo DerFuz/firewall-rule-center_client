@@ -54,6 +54,18 @@ export default function RuleEntry() {
   const [rule, setRule] = useState<Rule>();
   const [allFirewalls, setAllFirewalls] = useState<FirewallObject[]>([]);
 
+  const dateTimeFormatLong = new Intl.DateTimeFormat('de-AT', 
+    {
+      weekday: "long",
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit"
+    }
+  );
+
   useEffect(() => {
     if (ruleId !== undefined && !Number.isNaN(parseInt(ruleId))) {
       const id = parseInt(ruleId);
@@ -403,6 +415,22 @@ export default function RuleEntry() {
                 </Select>
               </FormControl>
             </Grid>
+          </Grid>
+          <Grid container>
+            <Stack direction="column" spacing={0.5}>
+              <span>
+                <span>Created: </span>
+                <Chip size="small" label={rule?.created_on ? dateTimeFormatLong.format(new Date(rule.created_on)) : ""} />
+                <span> by </span>
+                <Chip size="small" avatar={<Avatar>{rule?.created_by ? rule.created_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.created_by ? rule.created_by.username : ""} />
+              </span>
+              <span>
+                <span>Last updated: </span>
+                <Chip size="small" label={rule?.last_updated_on ? dateTimeFormatLong.format(new Date(rule.last_updated_on)) : ""} />
+                <span> by </span> 
+                <Chip size="small" avatar={<Avatar>{rule?.last_updated_by ? rule.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.last_updated_by ? rule.last_updated_by.username : ""} />
+              </span>
+            </Stack>
           </Grid>
         </Grid>
         <h1 color='red'>ADD OTHER VALUES</h1>
