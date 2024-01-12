@@ -196,8 +196,13 @@ export function CreateRuleSetRequest() {
 
       const handleDeleteRule = (row: MRT_Row<Rule>) => {
         console.log("deleting Rule " + row.index + " from state");
-        setRules({...rules.splice(row.index, 1)})
+        console.log(row.original);
         console.log(rules);
+        rules.splice(row.index, 1);
+        setRules([...rules]);
+        // TODO Table displays wrong data; backenddata looks correct
+        console.log(rules);
+        console.log(table.getRowModel().rows);
       };
 
       const handleCreateRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
