@@ -1,10 +1,11 @@
-import Login from './components/Login/Login';
-import RuleTable from './components/RuleTable/RuleTable';
 import {BrowserRouter, Route, Routes, useParams} from 'react-router-dom';
 import Home from './Home';
-import RuleEntry from './components/Rule/RuleEntry';
 import axios from 'axios';
+import Login from './components/Login/Login';
 import MyApi from './components/api/myapi';
+import RuleEntry from './components/Rule/RuleEntry';
+import RuleTable from './components/RuleTable/RuleTable';
+import RuleSetRequestEntry, { CreateRuleSetRequest } from './components/RuleSetRequest/RuleSetRequest';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 
@@ -55,7 +56,6 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/rules">
           <Route path=":ruleId" element={<RuleEntry />} />
-          <Route path=":ruleId/delete" element={<RuleEntry />} />
           <Route index element={
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <RuleTable />
@@ -63,6 +63,10 @@ function App() {
             } />
         </Route>
         <Route path="/login" element={<Login />} />
+        <Route path="/rulesetrequest">
+          <Route path=":rulesetrequestId" element={<RuleSetRequestEntry />} />
+          <Route index element={<CreateRuleSetRequest />} />
+        </Route>
       </Routes>
     </BrowserRouter>
 );
