@@ -9,8 +9,9 @@ function Home() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <h1>Home</h1>
-        <Link to="/rules">Rules</Link>
         <Link to="/login">Login</Link>
+        <Link to="/rules">Rules</Link>
+        <Link to="/rulesetrequest">RuleSetRequest</Link>
         </header>
     </div>
   );
