@@ -277,9 +277,7 @@ export function CreateRuleSetRequest() {
         console.log("deleting Rule " + row.index + " from state");
         console.log(row.original);
         console.log(rules);
-        rules.splice(row.index, 1);
-        setRules([...rules]);
-        // TODO Table displays wrong data; backenddata looks correct
+    setRules(rules.filter((_, index) => (index !== row.index))); // better to compare objects
         console.log(rules);
         console.log(table.getRowModel().rows);
       };
@@ -297,7 +295,7 @@ export function CreateRuleSetRequest() {
         enableColumnResizing: true,
         enableDensityToggle: false,
         enableEditing: true,
-        editDisplayMode: 'table',
+    editDisplayMode: 'row', // row fixes the problem in table mode
         createDisplayMode: 'row',
         onEditingRowSave: handleEditRule,
         // onEditingRowCancel: () => setValidationErrors({}),
