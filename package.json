@@ -15,7 +15,8 @@
     "axios": "^1.6.0",
     "bootstrap": "^5.3.2",
     "dayjs": "^1.11.10",
-    "material-react-table": "^2.0.4",
+    "material-react-table": "^2.6.1",
+    "papaparse": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.48.2",
@@ -48,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.14"
   }
 }
