@@ -30,45 +30,123 @@ import { validateSections } from "@mui/x-date-pickers/internals/hooks/useField/u
 
 export function CreateRuleSetRequest() {
 
-    const [rules, setRules] = useState<Rule[]>([]
-    //     [{
-    //     "pk": 2,
-    //     "action": "DEN",
-    //     "protocol": "UDP",
-    //     "source_name": "any",
-    //     "source_ip_orig": "0.0.0.0/0",
-    //     "source_ip_nat": "",
-    //     "source_port": null,
-    //     "destination_name": "Google-DNS",
-    //     "destination_ip_orig": "8.8.8.8",
-    //     "destination_ip_nat": "",
-    //     "destination_port": 53,
-    //     "requester": "1",
-    //     "ticket": "#126",
-    //     "rule_set_request": null,
-    //     "notes": "No DNS to Google-DNS (UDP)",
-    //     "firewalls": [
-    //         {
-    //             "hostname": "Firewall2"
-    //         }
-    //     ],
-    //     "status": "CON",
-    //     "created_on": "2023-08-24T12:11:21.910000+02:00",
-    //     "created_by": {
-    //         "id": 2,
-    //         "username": "user1"
-    //     },
-    //     "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
-    //     "last_updated_by": {
-    //         "id": 1,
-    //         "username": "jakob"
-    //     },
-    //     "is_deleted": false,
-    //     "detail_url": "http://127.0.0.1:8000/api/rules/2/",
-    //     "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
-    //     "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
-    //     "history": [ ]
-    // }]
+  const [rules, setRules] = useState<Rule[]>(
+    [
+      {
+        "pk": 2,
+        "action": "DEN",
+        "protocol": "UDP",
+        "source_name": "any",
+        "source_ip_orig": "0.0.0.0/0",
+        "source_ip_nat": "",
+        "source_port": null,
+        "destination_name": "Google-DNS",
+        "destination_ip_orig": "8.8.8.8",
+        "destination_ip_nat": "",
+        "destination_port": 53,
+        "requester": "1",
+        "ticket": "#126",
+        "rule_set_request": null,
+        "notes": "No DNS to Google-DNS (UDP)",
+        "firewalls": [
+          {
+            "hostname": "Firewall2"
+          }
+        ],
+        "status": "CON",
+        "created_on": "2023-08-24T12:11:21.910000+02:00",
+        "created_by": {
+          "id": 2,
+          "username": "user1"
+        },
+        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
+        "last_updated_by": {
+          "id": 1,
+          "username": "jakob"
+        },
+        "is_deleted": false,
+        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
+        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
+        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
+        "history": []
+      },
+      {
+        "pk": 2,
+        "action": "DEN",
+        "protocol": "TCP",
+        "source_name": "any",
+        "source_ip_orig": "0.0.0.0/0",
+        "source_ip_nat": "",
+        "source_port": null,
+        "destination_name": "Google-DNS",
+        "destination_ip_orig": "8.8.8.8",
+        "destination_ip_nat": "",
+        "destination_port": 53,
+        "requester": "1",
+        "ticket": "#126",
+        "rule_set_request": null,
+        "notes": "No DNS to Google-DNS (UDP)",
+        "firewalls": [
+          {
+            "hostname": "Firewall2"
+          }
+        ],
+        "status": "CON",
+        "created_on": "2023-08-24T12:11:21.910000+02:00",
+        "created_by": {
+          "id": 2,
+          "username": "user1"
+        },
+        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
+        "last_updated_by": {
+          "id": 1,
+          "username": "jakob"
+        },
+        "is_deleted": false,
+        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
+        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
+        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
+        "history": []
+      },
+      {
+        "pk": 2,
+        "action": "DEN",
+        "protocol": "TCPUDP",
+        "source_name": "any",
+        "source_ip_orig": "0.0.0.0/0",
+        "source_ip_nat": "",
+        "source_port": null,
+        "destination_name": "Google-DNS",
+        "destination_ip_orig": "8.8.8.8",
+        "destination_ip_nat": "",
+        "destination_port": 53,
+        "requester": "1",
+        "ticket": "#126",
+        "rule_set_request": null,
+        "notes": "No DNS to Google-DNS (UDP)",
+        "firewalls": [
+          {
+            "hostname": "Firewall2"
+          }
+        ],
+        "status": "CON",
+        "created_on": "2023-08-24T12:11:21.910000+02:00",
+        "created_by": {
+          "id": 2,
+          "username": "user1"
+        },
+        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
+        "last_updated_by": {
+          "id": 1,
+          "username": "jakob"
+        },
+        "is_deleted": false,
+        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
+        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
+        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
+        "history": []
+      }
+    ]
     );
 
    
