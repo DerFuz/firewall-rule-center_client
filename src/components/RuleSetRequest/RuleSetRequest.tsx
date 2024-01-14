@@ -259,9 +259,9 @@ export function CreateRuleSetRequest() {
                 "firewalls": values.firewalls,
                 "status": values.status,
                 "created_on": "",
-                "created_by": { "id": 0, "username": ""},
+        "created_by": { "id": 0, "username": "" },
                 "last_updated_on": "",
-                "last_updated_by": { "id": 0, "username": ""},
+        "last_updated_by": { "id": 0, "username": "" },
                 "is_deleted": false,
                 "detail_url": "",
                 "edit_url": "",
@@ -355,7 +355,7 @@ export function CreateRuleSetRequest() {
                 <Typography color="error">Fix errors before submitting</Typography>
               )} */}
             </Box>
-          ),
+    )
       });
 
     const VisuallyHiddenInput = styled('input')({
