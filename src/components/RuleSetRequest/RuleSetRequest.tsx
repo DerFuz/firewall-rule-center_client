@@ -1,31 +1,29 @@
 import "react-toastify/dist/ReactToastify.min.css";
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { ActionEnum, StatusEnum, ProtocolEnum, Rule, RuleSetRequest, FirewallObjectShort } from '../api';
 import MyApi from '../api/myapi';
+import Papa from 'papaparse';
 import {
-    MaterialReactTable,
-    useMaterialReactTable,
-    type MRT_ColumnDef,
-    type MRT_SortingState,
-    type MRT_Virtualizer,
-    type MRT_TableOptions,
-    MRT_Row,
-    MRT_TableInstance,
-  } from 'material-react-table';
+  MaterialReactTable,
+  useMaterialReactTable,
+  type MRT_ColumnDef,
+  type MRT_TableOptions,
+  type MRT_Row,
+  type MRT_TableInstance,
+} from 'material-react-table';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import { styled } from '@mui/material/styles';
-import { 
-    Button,
-    Box,
-    IconButton,
-    Tooltip
+import {
+  Button,
+  Box,
+  IconButton,
+  Tooltip
 } from '@mui/material';
 import {
-    CloudUpload as CloudUploadIcon,
+  CloudUpload as CloudUploadIcon,
   Delete as DeleteIcon,
   Edit as EditIcon
- } from '@mui/icons-material';
-import { validateSections } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
+} from '@mui/icons-material';
 
 
 
@@ -148,263 +146,322 @@ export function CreateRuleSetRequest() {
         "history": []
       }
     ]
-    );
+  );
 
-   
 
-    const columns = useMemo<MRT_ColumnDef<Rule>[]>(
-        () => [
-          {
-            accessorKey: 'status',
-            header: 'Status',
-            editVariant: 'select',
-            editSelectOptions: Object.values(StatusEnum),
-          },
-          {
-            accessorKey: 'action',
-            header: 'Action',
-            editVariant: 'select',
-            editSelectOptions: Object.values(ActionEnum),
-          },
-          {
-            accessorKey: 'protocol',
-            header: 'Protocol',
-            editVariant: 'select',
-            editSelectOptions: Object.values(ProtocolEnum),
-          },
-          {
-            accessorKey: 'source_name',
-            header: 'Source Name',
-          },
-          {
-            accessorKey: 'source_ip_orig',
-            header: 'Source IP',
-          },
-          {
-            accessorKey: 'source_ip_nat',
-            header: 'Source IP (NAT)',
-          },
-          {
-            accessorFn: (originalRow) => (originalRow.source_port?.toLocaleString()),
-            id: 'source_port',
-            header: 'Source Port',        
-          },
-          {
-            accessorKey: 'destination_name',
-            header: 'Destination Name',
-          },
-          {
-            accessorKey: 'destination_ip_orig',
-            header: 'Destination IP',
-          },
-          {
-            accessorKey: 'destination_ip_nat',
-            header: 'Destination IP (NAT)',
-          },
-          {
-            accessorFn: (originalRow) => (originalRow.destination_port?.toLocaleString()),
-            id: 'destination_port',
-            header: 'Destination Port',
-          },
-          {
-            accessorKey: 'notes',
-            header: 'Notes',
-          },
-          {
-            accessorKey: 'requester',
-            header: 'Requester',
-          },
-          {
-            accessorKey: 'ticket',
-            header: 'Ticket',
-          }
-        ],
-        []
-      );
+
+  const columns = useMemo<MRT_ColumnDef<Rule>[]>(
+    () => [
+      {
+        accessorKey: 'status',
+        header: 'Status',
+        editVariant: 'select',
+        editSelectOptions: Object.values(StatusEnum),
+      },
+      {
+        accessorKey: 'action',
+        header: 'Action',
+        editVariant: 'select',
+        editSelectOptions: Object.values(ActionEnum),
+      },
+      {
+        accessorKey: 'protocol',
+        header: 'Protocol',
+        editVariant: 'select',
+        editSelectOptions: Object.values(ProtocolEnum),
+      },
+      {
+        accessorKey: 'source_name',
+        header: 'Source Name',
+      },
+      {
+        accessorKey: 'source_ip_orig',
+        header: 'Source IP',
+      },
+      {
+        accessorKey: 'source_ip_nat',
+        header: 'Source IP (NAT)',
+      },
+      {
+        accessorFn: (originalRow) => (originalRow.source_port?.toLocaleString()),
+        id: 'source_port',
+        header: 'Source Port',
+      },
+      {
+        accessorKey: 'destination_name',
+        header: 'Destination Name',
+      },
+      {
+        accessorKey: 'destination_ip_orig',
+        header: 'Destination IP',
+      },
+      {
+        accessorKey: 'destination_ip_nat',
+        header: 'Destination IP (NAT)',
+      },
+      {
+        accessorFn: (originalRow) => (originalRow.destination_port?.toLocaleString()),
+        id: 'destination_port',
+        header: 'Destination Port',
+      },
+      {
+        accessorKey: 'notes',
+        header: 'Notes',
+      },
+      {
+        accessorKey: 'requester',
+        header: 'Requester',
+      },
+      {
+        accessorKey: 'ticket',
+        header: 'Ticket',
+      }
+    ],
+    []
+  );
 
 
   const handleEditRule: MRT_TableOptions<Rule>['onEditingRowSave'] = ({ row, table, values }) => {
-          console.log("updatingRule");
-          console.log("update: row", row);
-          console.log("update: table", table);
-          console.log("update: values", values);
+    console.log("updatingRule");
+    console.log("update: row", row);
+    console.log("update: table", table);
+    console.log("update: values", values);
     let rulesCopy = [...rules];
     rulesCopy[row.index] = values;
     setRules(rulesCopy);
-          toast.success("Updated rule successful");
-        table.setEditingRow(null); //exit editing mode
-      };
+    toast.success("Updated rule successful");
+    table.setEditingRow(null); //exit editing mode
+  };
 
   const handleCreateRule: MRT_TableOptions<Rule>['onCreatingRowSave'] = ({ row, table, values }) => {
-        console.log("creatingRule");
-        console.log("update: row", row);
-        console.log("update: table", table);
-        console.log("update: values", values);
-        console.log(rules);
-        toast.success("Updated rule successful");
-        setRules(oldRules => [
-            ...oldRules,
-            {
-                "pk": 0,
-                "action": values.action,
-                "protocol": values.protocol,
-                "source_name": values.source_name,
-                "source_ip_orig": values.source_ip_orig,
-                "source_ip_nat": values.source_ip_nat,
-                "source_port": values.source_port,
-                "destination_name": values.destination_name,
-                "destination_ip_orig": values.destination_ip_orig,
-                "destination_ip_nat": values.destination_ip_nat,
-                "destination_port": values.destination_port,
-                "requester": values.requester,
-                "ticket": values.ticket,
-                "rule_set_request": 0,
-                "notes": values.notes,
-                "firewalls": values.firewalls,
-                "status": values.status,
-                "created_on": "",
+    console.log("creatingRule");
+    console.log("update: row", row);
+    console.log("update: table", table);
+    console.log("update: values", values);
+    console.log(rules);
+    setRules(oldRules => [
+      ...oldRules,
+      {
+        "pk": 0,
+        "action": values.action,
+        "protocol": values.protocol,
+        "source_name": values.source_name,
+        "source_ip_orig": values.source_ip_orig,
+        "source_ip_nat": values.source_ip_nat,
+        "source_port": values.source_port,
+        "destination_name": values.destination_name,
+        "destination_ip_orig": values.destination_ip_orig,
+        "destination_ip_nat": values.destination_ip_nat,
+        "destination_port": values.destination_port,
+        "requester": values.requester,
+        "ticket": values.ticket,
+        "rule_set_request": 0,
+        "notes": values.notes,
+        "firewalls": values.firewalls,
+        "status": values.status,
+        "created_on": "",
         "created_by": { "id": 0, "username": "" },
-                "last_updated_on": "",
+        "last_updated_on": "",
         "last_updated_by": { "id": 0, "username": "" },
-                "is_deleted": false,
-                "detail_url": "",
-                "edit_url": "",
-                "delete_url": "",
-                "history": []
-            }
-        ]);
+        "is_deleted": false,
+        "detail_url": "",
+        "edit_url": "",
+        "delete_url": "",
+        "history": []
+      }
+    ]);
     toast.success("Updated rule successful");
-        console.log(rules);
-        table.setCreatingRow(null); //exit creating mode
-    };
+    console.log(rules);
+    table.setCreatingRow(null); //exit creating mode
+  };
 
-      const handleDeleteRule = (row: MRT_Row<Rule>) => {
-        console.log("deleting Rule " + row.index + " from state");
-        console.log(row.original);
-        console.log(rules);
+  const handleDeleteRule = (row: MRT_Row<Rule>) => {
+    console.log("deleting Rule " + row.index + " from state");
+    console.log(row.original);
+    console.log(rules);
     setRules(rules.filter((_, index) => (index !== row.index))); // better to compare objects
-        console.log(rules);
-        console.log(table.getRowModel().rows);
-      };
+    console.log(rules);
+  };
 
-      const handleCreateRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
-        console.log("creating rulesetrequest");
-        console.log(rules);
-        console.log(table);
-      };
+  const handleCreateRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
+    console.log("creating rulesetrequest");
+    console.log(rules);
+    console.log(table.getRowModel().rows);
+  };
 
-
-      const table = useMaterialReactTable({
-        columns: columns,
-        data: rules,
-        enableColumnResizing: true,
-        enableDensityToggle: false,
-        enableEditing: true,
-    editDisplayMode: 'row', // row fixes the problem in table mode
-        createDisplayMode: 'row',
-        onEditingRowSave: handleEditRule,
-        // onEditingRowCancel: () => setValidationErrors({}),
-        onCreatingRowSave: handleCreateRule,
-        // onCreatingRowCancel: () => setValidationErrors({}),
-        initialState: { 
-          showColumnFilters: false,
-          density: 'compact',
-          showGlobalFilter: false,
-          pagination: {
-            pageSize: 50,
-            pageIndex: 0
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    console.log("upload");
+    const eventFiles: FileList | null = event.target.files;
+    if (eventFiles && eventFiles.length == 1 && eventFiles[0] instanceof File) {
+      Papa.parse<Rule, File>(
+        eventFiles[0],
+        {
+          delimiter: ',',
+          header: true,
+          dynamicTyping: true,
+          complete: (results, file) => {
+            if (results.errors.length !== 0) {
+              console.log("CSV-parsing-errors", results.errors);
+              toast.error(`Some errors appear when reading ${file.name}`);
+            } else {
+              console.log(results);
+              const newResults = results.data.map(element => {
+                return {
+                  "pk": 0,
+                  "action": element.action,
+                  "protocol": element.protocol,
+                  "source_name": element.source_name,
+                  "source_ip_orig": element.source_ip_orig,
+                  "source_ip_nat": element.source_ip_nat,
+                  "source_port": element.source_port,
+                  "destination_name": element.destination_name,
+                  "destination_ip_orig": element.destination_ip_orig,
+                  "destination_ip_nat": element.destination_ip_nat,
+                  "destination_port": element.destination_port,
+                  "requester": element.requester,
+                  "ticket": element.ticket,
+                  "rule_set_request": 0,
+                  "notes": element.notes,
+                  "firewalls": element.firewalls,
+                  "status": element.status,
+                  "created_on": "",
+                  "created_by": { "id": 0, "username": "" },
+                  "last_updated_on": "",
+                  "last_updated_by": { "id": 0, "username": "" },
+                  "is_deleted": false,
+                  "detail_url": "",
+                  "edit_url": "",
+                  "delete_url": "",
+                  "history": []
+                }
+              });
+              console.log(newResults);
+              setRules(oldRules => [
+                ...oldRules,
+                ...newResults
+              ]);
+              toast.success(`Import of file ${file.name} successful`);
+            }
           },
-        },
-        enableRowActions: true,
+          error: (error, file) => {
+            console.log(error, file);
+          }
+        }
+      );
+    }
+  };
+
+  const table = useMaterialReactTable({
+    columns: columns,
+    data: rules,
+    enableColumnResizing: true,
+    enableDensityToggle: false,
+    enableEditing: true,
+    editDisplayMode: 'row', // row fixes the problem in table mode
+    createDisplayMode: 'row',
+    onEditingRowSave: handleEditRule,
+    // onEditingRowCancel: () => setValidationErrors({}),
+    onCreatingRowSave: handleCreateRule,
+    // onCreatingRowCancel: () => setValidationErrors({}),
+    initialState: {
+      showColumnFilters: false,
+      density: 'compact',
+      showGlobalFilter: false,
+      pagination: {
+        pageSize: 50,
+        pageIndex: 0
+      },
+    },
+    enableRowActions: true,
     displayColumnDefOptions: {
       'mrt-row-actions': {
         size: 92, // 2*40px per icon + 0.75rem gap
       },
     },
-        renderRowActions: ({ row }) => (
-            <Box sx={{ display: 'flex', gap: '1rem' }}>
-              <Tooltip title="Delete">
-                <IconButton color="error" onClick={() => handleDeleteRule(row)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>
+    renderRowActions: ({ row }) => (
+      <Box sx={{ display: 'flex', gap: '0.75rem' }}>
+        <Tooltip title="Delete">
+          <IconButton color="error" onClick={() => handleDeleteRule(row)}>
+            <DeleteIcon />
+          </IconButton>
+        </Tooltip>
         <Tooltip title="Edit">
           <IconButton color="warning" onClick={() => table.setEditingRow(row)}>
             <EditIcon />
           </IconButton>
         </Tooltip>
-            </Box>
-        ),
-        renderTopToolbarCustomActions: ({ table }) => (
-            <Button
-              variant="contained"
-              onClick={() => {
-                table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-                //or you can pass in a row object to set default values with the `createRow` helper function
-                // table.setCreatingRow(
-                //   createRow(table, {
-                //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-                //   }),
-                // );
-              }}
-            >
-              Create New User
-            </Button>
-        ),
-        renderBottomToolbarCustomActions: () => (
-            <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-              <Button
-                color="success"
-                variant="contained"
-                onClick={() => handleCreateRuleSetRequest(table)}
-                // disabled={
-                //   Object.keys(editedUsers).length === 0 ||
-                //   Object.values(validationErrors).some((error) => !!error)
-                // }
-              >
-                Save
-              </Button>
-              {/* {Object.values(validationErrors).some((error) => !!error) && (
+      </Box>
+    ),
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Button
+        variant="contained"
+        onClick={() => {
+          table.setCreatingRow(true); //simplest way to open the create row modal with no default values
+          //or you can pass in a row object to set default values with the `createRow` helper function
+          // table.setCreatingRow(
+          //   createRow(table, {
+          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
+          //   }),
+          // );
+        }}
+      >
+        Create New User
+      </Button>
+    ),
+    renderBottomToolbarCustomActions: () => (
+      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => handleCreateRuleSetRequest(table)}
+        // disabled={
+        //   Object.keys(editedUsers).length === 0 ||
+        //   Object.values(validationErrors).some((error) => !!error)
+        // }
+        >
+          Save
+        </Button>
+        {/* {Object.values(validationErrors).some((error) => !!error) && (
                 <Typography color="error">Fix errors before submitting</Typography>
               )} */}
-            </Box>
+      </Box>
     )
-      });
+  });
 
-    const VisuallyHiddenInput = styled('input')({
-        clip: 'rect(0 0 0 0)',
-        clipPath: 'inset(50%)',
-        height: 1,
-        overflow: 'hidden',
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        whiteSpace: 'nowrap',
-        width: 1,
-      });
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
 
-    return (
-        <div>
-        <h1>TEST CreateRuleSetRequest</h1>
-        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-            Upload file
-            <VisuallyHiddenInput type="file" />
-        </Button>
-        <MaterialReactTable table={table} />
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable={false}
-            pauseOnHover
-            limit={5}
-            transition={Flip}
-          />
-        </div>
-      );
+  return (
+    <div>
+      <h1>TEST CreateRuleSetRequest</h1>
+      <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+        Upload file
+        <VisuallyHiddenInput type="file" id="fileUpload" onChange={handleFileUpload} />
+      </Button>
+      <MaterialReactTable table={table} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover
+        limit={5}
+        transition={Flip}
+      />
+    </div>
+  );
 }
 
 export default function RuleSetRequestEntry() {
@@ -412,7 +469,7 @@ export default function RuleSetRequestEntry() {
 
   return (
     <div>
-    <h1>TEST RuleSetRequest</h1>
+      <h1>TEST RuleSetRequest</h1>
       <ToastContainer
         position="top-right"
         autoClose={5000}
