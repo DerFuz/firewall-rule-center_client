@@ -22,7 +22,8 @@ import {
 } from '@mui/material';
 import {
     CloudUpload as CloudUploadIcon,
-    Delete as DeleteIcon
+  Delete as DeleteIcon,
+  Edit as EditIcon
  } from '@mui/icons-material';
 import { validateSections } from "@mui/x-date-pickers/internals/hooks/useField/useField.utils";
 
@@ -227,6 +228,9 @@ export function CreateRuleSetRequest() {
           console.log("update: row", row);
           console.log("update: table", table);
           console.log("update: values", values);
+    let rulesCopy = [...rules];
+    rulesCopy[row.index] = values;
+    setRules(rulesCopy);
           toast.success("Updated rule successful");
         table.setEditingRow(null); //exit editing mode
       };
@@ -269,6 +273,7 @@ export function CreateRuleSetRequest() {
                 "history": []
             }
         ]);
+    toast.success("Updated rule successful");
         console.log(rules);
         table.setCreatingRow(null); //exit creating mode
     };
@@ -311,6 +316,11 @@ export function CreateRuleSetRequest() {
           },
         },
         enableRowActions: true,
+    displayColumnDefOptions: {
+      'mrt-row-actions': {
+        size: 92, // 2*40px per icon + 0.75rem gap
+      },
+    },
         renderRowActions: ({ row }) => (
             <Box sx={{ display: 'flex', gap: '1rem' }}>
               <Tooltip title="Delete">
@@ -318,6 +328,11 @@ export function CreateRuleSetRequest() {
                   <DeleteIcon />
                 </IconButton>
               </Tooltip>
+        <Tooltip title="Edit">
+          <IconButton color="warning" onClick={() => table.setEditingRow(row)}>
+            <EditIcon />
+          </IconButton>
+        </Tooltip>
             </Box>
         ),
         renderTopToolbarCustomActions: ({ table }) => (
