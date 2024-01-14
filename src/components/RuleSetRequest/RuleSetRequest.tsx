@@ -221,7 +221,8 @@ export function CreateRuleSetRequest() {
         []
       );
 
-        const handleEditRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({row, table, values}) => {
+
+  const handleEditRule: MRT_TableOptions<Rule>['onEditingRowSave'] = ({ row, table, values }) => {
           console.log("updatingRule");
           console.log("update: row", row);
           console.log("update: table", table);
@@ -230,7 +231,7 @@ export function CreateRuleSetRequest() {
         table.setEditingRow(null); //exit editing mode
       };
 
-      const handleCreateRule: MRT_TableOptions<Rule>['onCreatingRowSave'] = async ({row, table, values}) => {
+  const handleCreateRule: MRT_TableOptions<Rule>['onCreatingRowSave'] = ({ row, table, values }) => {
         console.log("creatingRule");
         console.log("update: row", row);
         console.log("update: table", table);
