@@ -29,7 +29,6 @@ axios.interceptors.response.use(
             
             const response = await tokenapi.tokenRefreshCreate(
               {
-                'access': '',
                 'refresh': refreshToken
               }
             );

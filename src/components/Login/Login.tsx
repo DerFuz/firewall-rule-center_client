@@ -15,10 +15,10 @@ export default function Login() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         tokenapi.tokenCreate(
-            {'username': username,
-            'password': password,
-            'access': '',
-            'refresh': ''}
+            {
+                'username': username,
+                'password': password,
+            }
             ).then((response) => {
                 console.log("Access-Token: ", response.data.access);
                 localStorage.setItem("access", response.data.access);
