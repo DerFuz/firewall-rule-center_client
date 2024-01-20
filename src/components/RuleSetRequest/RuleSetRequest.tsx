@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.min.css";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, StatusEnum, ProtocolEnum, Rule, RuleSetRequest, FirewallObjectShort } from '../api';
+import { ActionEnum, StatusEnum, ProtocolEnum, RuleRequest, RuleSetRequestRequest, FirewallObjectShort, Rule, RuleSetRequest } from '../api';
 import MyApi from '../api/myapi';
 import Papa from 'papaparse';
 import {
@@ -24,12 +24,16 @@ import {
   Delete as DeleteIcon,
   Edit as EditIcon
 } from '@mui/icons-material';
+import { AxiosError } from "axios";
 
 
 
 export function CreateRuleSetRequest() {
 
-  const [rules, setRules] = useState<Rule[]>(
+  const api = new MyApi();
+  const rulesapi = api.rulesApi();
+
+  const [rules, setRules] = useState<RuleRequest[]>(
     [
       {
         "pk": 2,
@@ -150,7 +154,7 @@ export function CreateRuleSetRequest() {
 
 
 
-  const columns = useMemo<MRT_ColumnDef<Rule>[]>(
+  const columns = useMemo<MRT_ColumnDef<RuleRequest>[]>(
     () => [
       {
         accessorKey: 'status',
@@ -221,7 +225,7 @@ export function CreateRuleSetRequest() {
   );
 
 
-  const handleEditRule: MRT_TableOptions<Rule>['onEditingRowSave'] = ({ row, table, values }) => {
+  const handleEditRule: MRT_TableOptions<RuleRequest>['onEditingRowSave'] = ({ row, table, values }) => {
     console.log("updatingRule");
     console.log("update: row", row);
     console.log("update: table", table);
@@ -233,7 +237,7 @@ export function CreateRuleSetRequest() {
     table.setEditingRow(null); //exit editing mode
   };
 
-  const handleCreateRule: MRT_TableOptions<Rule>['onCreatingRowSave'] = ({ row, table, values }) => {
+  const handleCreateRule: MRT_TableOptions<RuleRequest>['onCreatingRowSave'] = ({ row, table, values }) => {
     console.log("creatingRule");
     console.log("update: row", row);
     console.log("update: table", table);
@@ -258,11 +262,7 @@ export function CreateRuleSetRequest() {
         "rule_set_request": 0,
         "notes": values.notes,
         "firewalls": values.firewalls,
-        "status": values.status,
-        "created_on": "",
-        "created_by": { "id": 0, "username": "" },
-        "last_updated_on": "",
-        "last_updated_by": { "id": 0, "username": "" },
+        "status": StatusEnum.Req,
         "is_deleted": false,
         "detail_url": "",
         "edit_url": "",
@@ -275,7 +275,7 @@ export function CreateRuleSetRequest() {
     table.setCreatingRow(null); //exit creating mode
   };
 
-  const handleDeleteRule = (row: MRT_Row<Rule>) => {
+  const handleDeleteRule = (row: MRT_Row<RuleRequest>) => {
     console.log("deleting Rule " + row.index + " from state");
     console.log(row.original);
     console.log(rules);
@@ -283,17 +283,61 @@ export function CreateRuleSetRequest() {
     console.log(rules);
   };
 
-  const handleCreateRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
+  const createRuleSetRequest = async () => {
+    try {
+      console.log("createRuleSet");
+      const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
+        {"approver": 
+          // TODO CHANGE1!!!
+          { "id": 1, "username": "jakob" }
+        }
+      );
+      console.log(responseRuleSetRequestCreate.data);
+      toast.success("Created ruleSetRequest successful");
+      return responseRuleSetRequestCreate.data.pk;
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+      return null;
+    }
+  }
+
+  const createRule = async (rule: RuleRequest, ruleSetNumber: number) => {
+    try {
+      console.log("getRule");
+      const responseRuleCreate = await rulesapi.rulesCreate({...rule, 'rule_set_request': ruleSetNumber});
+      console.log(responseRuleCreate.data);
+      toast.success("Created rule successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+    }
+  }
+
+  const handleCreateRuleSetRequest = async (table: MRT_TableInstance<RuleRequest>) => {
     console.log("creating rulesetrequest");
     console.log(rules);
     console.log(table.getRowModel().rows);
+
+    const ruleSetRequestId = await createRuleSetRequest();
+    if (ruleSetRequestId) {
+      // TODO Change Create Serializer to accept many Rules at once
+      // many=True
+      rules.forEach(rule => {
+        createRule(rule, ruleSetRequestId);
+      });
+    }
   };
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     console.log("upload");
     const eventFiles: FileList | null = event.target.files;
     if (eventFiles && eventFiles.length == 1 && eventFiles[0] instanceof File) {
-      Papa.parse<Rule, File>(
+      Papa.parse<RuleRequest, File>(
         eventFiles[0],
         {
           delimiter: ',',
@@ -307,7 +351,6 @@ export function CreateRuleSetRequest() {
               console.log(results);
               const newResults = results.data.map(element => {
                 return {
-                  "pk": 0,
                   "action": element.action,
                   "protocol": element.protocol,
                   "source_name": element.source_name,
@@ -323,16 +366,8 @@ export function CreateRuleSetRequest() {
                   "rule_set_request": 0,
                   "notes": element.notes,
                   "firewalls": element.firewalls,
-                  "status": element.status,
-                  "created_on": "",
-                  "created_by": { "id": 0, "username": "" },
-                  "last_updated_on": "",
-                  "last_updated_by": { "id": 0, "username": "" },
+                  "status": StatusEnum.Req,
                   "is_deleted": false,
-                  "detail_url": "",
-                  "edit_url": "",
-                  "delete_url": "",
-                  "history": []
                 }
               });
               console.log(newResults);
@@ -405,7 +440,7 @@ export function CreateRuleSetRequest() {
           // );
         }}
       >
-        Create New User
+        Create New Rule
       </Button>
     ),
     renderBottomToolbarCustomActions: () => (
