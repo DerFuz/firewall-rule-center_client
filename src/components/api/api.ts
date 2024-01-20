@@ -48,19 +48,26 @@ export interface AuthToken {
      * @type {string}
      * @memberof AuthToken
      */
+    'token': string;
+}
+/**
+ * 
+ * @export
+ * @interface AuthTokenRequest
+ */
+export interface AuthTokenRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof AuthTokenRequest
+     */
     'username': string;
     /**
      * 
      * @type {string}
-     * @memberof AuthToken
+     * @memberof AuthTokenRequest
      */
     'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof AuthToken
-     */
-    'token': string;
 }
 /**
  * 
@@ -109,165 +116,124 @@ export interface FirewallObjectShort {
 /**
  * 
  * @export
- * @interface PatchedRule
+ * @interface FirewallObjectShortRequest
  */
-export interface PatchedRule {
+export interface FirewallObjectShortRequest {
     /**
      * 
-     * @type {number}
-     * @memberof PatchedRule
+     * @type {string}
+     * @memberof FirewallObjectShortRequest
      */
-    'pk'?: number;
+    'hostname': string;
+}
+/**
+ * 
+ * @export
+ * @interface PatchedRuleRequest
+ */
+export interface PatchedRuleRequest {
     /**
      * 
      * @type {ActionEnum}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'action'?: ActionEnum;
     /**
      * 
      * @type {ProtocolEnum}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'protocol'?: ProtocolEnum;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'source_name'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'source_ip_orig'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'source_ip_nat'?: string;
     /**
      * 
      * @type {number}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'source_port'?: number | null;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'destination_name'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'destination_ip_orig'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'destination_ip_nat'?: string;
     /**
      * 
      * @type {number}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'destination_port'?: number | null;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'requester'?: string;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'ticket'?: string;
     /**
      * 
      * @type {number}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'rule_set_request'?: number | null;
     /**
      * 
      * @type {string}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'notes'?: string;
     /**
      * 
-     * @type {Array<FirewallObjectShort>}
-     * @memberof PatchedRule
+     * @type {Array<FirewallObjectShortRequest>}
+     * @memberof PatchedRuleRequest
      */
-    'firewalls'?: Array<FirewallObjectShort>;
+    'firewalls'?: Array<FirewallObjectShortRequest>;
     /**
      * 
      * @type {StatusEnum}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'status'?: StatusEnum;
     /**
      * 
-     * @type {string}
-     * @memberof PatchedRule
-     */
-    'created_on'?: string;
-    /**
-     * 
-     * @type {UserPublic}
-     * @memberof PatchedRule
-     */
-    'created_by'?: UserPublic;
-    /**
-     * 
-     * @type {string}
-     * @memberof PatchedRule
-     */
-    'last_updated_on'?: string;
-    /**
-     * 
-     * @type {UserPublic}
-     * @memberof PatchedRule
-     */
-    'last_updated_by'?: UserPublic;
-    /**
-     * 
      * @type {boolean}
-     * @memberof PatchedRule
+     * @memberof PatchedRuleRequest
      */
     'is_deleted'?: boolean;
-    /**
-     * 
-     * @type {string}
-     * @memberof PatchedRule
-     */
-    'detail_url'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PatchedRule
-     */
-    'edit_url'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof PatchedRule
-     */
-    'delete_url'?: string;
-    /**
-     * 
-     * @type {Array<{ [key: string]: any; }>}
-     * @memberof PatchedRule
-     */
-    'history'?: Array<{ [key: string]: any; }>;
 }
 
 
@@ -469,6 +435,117 @@ export interface RuleInline {
 /**
  * 
  * @export
+ * @interface RuleRequest
+ */
+export interface RuleRequest {
+    /**
+     * 
+     * @type {ActionEnum}
+     * @memberof RuleRequest
+     */
+    'action': ActionEnum;
+    /**
+     * 
+     * @type {ProtocolEnum}
+     * @memberof RuleRequest
+     */
+    'protocol': ProtocolEnum;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'source_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'source_ip_orig'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'source_ip_nat'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof RuleRequest
+     */
+    'source_port'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'destination_name': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'destination_ip_orig'?: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'destination_ip_nat'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof RuleRequest
+     */
+    'destination_port'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'requester': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'ticket'?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof RuleRequest
+     */
+    'rule_set_request'?: number | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof RuleRequest
+     */
+    'notes'?: string;
+    /**
+     * 
+     * @type {Array<FirewallObjectShortRequest>}
+     * @memberof RuleRequest
+     */
+    'firewalls'?: Array<FirewallObjectShortRequest>;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof RuleRequest
+     */
+    'status': StatusEnum;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof RuleRequest
+     */
+    'is_deleted'?: boolean;
+}
+
+
+/**
+ * 
+ * @export
  * @interface RuleSetRequest
  */
 export interface RuleSetRequest {
@@ -546,6 +623,19 @@ export interface RuleSetRequest {
     'history': Array<{ [key: string]: any; }>;
 }
 /**
+ * 
+ * @export
+ * @interface RuleSetRequestRequest
+ */
+export interface RuleSetRequestRequest {
+    /**
+     * 
+     * @type {UserPublicRequest}
+     * @memberof RuleSetRequestRequest
+     */
+    'approver': UserPublicRequest;
+}
+/**
  * * `REQ` - Rule requested * `REF` - Rule refused * `APR` - Rule approved * `CON` - Rule configured * `TES` - Rule tested * `DEL` - Rule deleted
  * @export
  * @enum {string}
@@ -574,18 +664,6 @@ export interface TokenObtainPair {
      * @type {string}
      * @memberof TokenObtainPair
      */
-    'username': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenObtainPair
-     */
-    'password': string;
-    /**
-     * 
-     * @type {string}
-     * @memberof TokenObtainPair
-     */
     'access': string;
     /**
      * 
@@ -593,6 +671,25 @@ export interface TokenObtainPair {
      * @memberof TokenObtainPair
      */
     'refresh': string;
+}
+/**
+ * 
+ * @export
+ * @interface TokenObtainPairRequest
+ */
+export interface TokenObtainPairRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TokenObtainPairRequest
+     */
+    'username': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof TokenObtainPairRequest
+     */
+    'password': string;
 }
 /**
  * 
@@ -616,13 +713,26 @@ export interface TokenRefresh {
 /**
  * 
  * @export
- * @interface TokenVerify
+ * @interface TokenRefreshRequest
  */
-export interface TokenVerify {
+export interface TokenRefreshRequest {
     /**
      * 
      * @type {string}
-     * @memberof TokenVerify
+     * @memberof TokenRefreshRequest
+     */
+    'refresh': string;
+}
+/**
+ * 
+ * @export
+ * @interface TokenVerifyRequest
+ */
+export interface TokenVerifyRequest {
+    /**
+     * 
+     * @type {string}
+     * @memberof TokenVerifyRequest
      */
     'token': string;
 }
@@ -645,6 +755,25 @@ export interface UserPublic {
      */
     'username': string;
 }
+/**
+ * 
+ * @export
+ * @interface UserPublicRequest
+ */
+export interface UserPublicRequest {
+    /**
+     * 
+     * @type {number}
+     * @memberof UserPublicRequest
+     */
+    'id': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof UserPublicRequest
+     */
+    'username': string;
+}
 
 /**
  * AuthApi - axios parameter creator
@@ -656,17 +785,14 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * 
          * @param {string} username 
          * @param {string} password 
-         * @param {string} token 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authCreate: async (username: string, password: string, token: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        authCreate: async (username: string, password: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'username' is not null or undefined
             assertParamExists('authCreate', 'username', username)
             // verify required parameter 'password' is not null or undefined
             assertParamExists('authCreate', 'password', password)
-            // verify required parameter 'token' is not null or undefined
-            assertParamExists('authCreate', 'token', token)
             const localVarPath = `/api/auth/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -698,10 +824,6 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                 localVarFormParams.append('password', password as any);
             }
     
-            if (token !== undefined) { 
-                localVarFormParams.append('token', token as any);
-            }
-    
     
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
     
@@ -729,12 +851,11 @@ export const AuthApiFp = function(configuration?: Configuration) {
          * 
          * @param {string} username 
          * @param {string} password 
-         * @param {string} token 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authCreate(username: string, password: string, token: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthToken>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.authCreate(username, password, token, options);
+        async authCreate(username: string, password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AuthToken>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.authCreate(username, password, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -751,12 +872,11 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * 
          * @param {string} username 
          * @param {string} password 
-         * @param {string} token 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authCreate(username: string, password: string, token: string, options?: any): AxiosPromise<AuthToken> {
-            return localVarFp.authCreate(username, password, token, options).then((request) => request(axios, basePath));
+        authCreate(username: string, password: string, options?: any): AxiosPromise<AuthToken> {
+            return localVarFp.authCreate(username, password, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -772,13 +892,12 @@ export class AuthApi extends BaseAPI {
      * 
      * @param {string} username 
      * @param {string} password 
-     * @param {string} token 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof AuthApi
      */
-    public authCreate(username: string, password: string, token: string, options?: AxiosRequestConfig) {
-        return AuthApiFp(this.configuration).authCreate(username, password, token, options).then((request) => request(this.axios, this.basePath));
+    public authCreate(username: string, password: string, options?: AxiosRequestConfig) {
+        return AuthApiFp(this.configuration).authCreate(username, password, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -968,13 +1087,13 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesCreate: async (rule: Rule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'rule' is not null or undefined
-            assertParamExists('rulesCreate', 'rule', rule)
+        rulesCreate: async (ruleRequest: RuleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ruleRequest' is not null or undefined
+            assertParamExists('rulesCreate', 'ruleRequest', ruleRequest)
             const localVarPath = `/api/rules/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1003,7 +1122,7 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(rule, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ruleRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1054,13 +1173,13 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesImportCreate: async (rule: Rule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'rule' is not null or undefined
-            assertParamExists('rulesImportCreate', 'rule', rule)
+        rulesImportCreate: async (ruleRequest: RuleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ruleRequest' is not null or undefined
+            assertParamExists('rulesImportCreate', 'ruleRequest', ruleRequest)
             const localVarPath = `/api/rules/import/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1089,7 +1208,7 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(rule, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ruleRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1178,13 +1297,13 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
-         * @param {RuleSetRequest} ruleSetRequest 
+         * @param {RuleSetRequestRequest} ruleSetRequestRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesRequestsCreate: async (ruleSetRequest: RuleSetRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'ruleSetRequest' is not null or undefined
-            assertParamExists('rulesRequestsCreate', 'ruleSetRequest', ruleSetRequest)
+        rulesRequestsCreate: async (ruleSetRequestRequest: RuleSetRequestRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ruleSetRequestRequest' is not null or undefined
+            assertParamExists('rulesRequestsCreate', 'ruleSetRequestRequest', ruleSetRequestRequest)
             const localVarPath = `/api/rules/requests/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -1213,7 +1332,7 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(ruleSetRequest, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ruleSetRequestRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1387,11 +1506,11 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @param {number} id 
-         * @param {PatchedRule} [patchedRule] 
+         * @param {PatchedRuleRequest} [patchedRuleRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesUpdatePartialUpdate: async (id: number, patchedRule?: PatchedRule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        rulesUpdatePartialUpdate: async (id: number, patchedRuleRequest?: PatchedRuleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('rulesUpdatePartialUpdate', 'id', id)
             const localVarPath = `/api/rules/{id}/update/`
@@ -1423,7 +1542,7 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(patchedRule, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(patchedRuleRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1433,15 +1552,15 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @param {number} id 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesUpdateUpdate: async (id: number, rule: Rule, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        rulesUpdateUpdate: async (id: number, ruleRequest: RuleRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('rulesUpdateUpdate', 'id', id)
-            // verify required parameter 'rule' is not null or undefined
-            assertParamExists('rulesUpdateUpdate', 'rule', rule)
+            // verify required parameter 'ruleRequest' is not null or undefined
+            assertParamExists('rulesUpdateUpdate', 'ruleRequest', ruleRequest)
             const localVarPath = `/api/rules/{id}/update/`
                 .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -1471,7 +1590,7 @@ export const RulesApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(rule, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(ruleRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -1490,12 +1609,12 @@ export const RulesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rulesCreate(rule: Rule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesCreate(rule, options);
+        async rulesCreate(ruleRequest: RuleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesCreate(ruleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1510,12 +1629,12 @@ export const RulesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rulesImportCreate(rule: Rule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesImportCreate(rule, options);
+        async rulesImportCreate(ruleRequest: RuleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesImportCreate(ruleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1539,12 +1658,12 @@ export const RulesApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {RuleSetRequest} ruleSetRequest 
+         * @param {RuleSetRequestRequest} ruleSetRequestRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rulesRequestsCreate(ruleSetRequest: RuleSetRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleSetRequest>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesRequestsCreate(ruleSetRequest, options);
+        async rulesRequestsCreate(ruleSetRequestRequest: RuleSetRequestRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RuleSetRequest>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesRequestsCreate(ruleSetRequestRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
@@ -1589,23 +1708,23 @@ export const RulesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {number} id 
-         * @param {PatchedRule} [patchedRule] 
+         * @param {PatchedRuleRequest} [patchedRuleRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rulesUpdatePartialUpdate(id: number, patchedRule?: PatchedRule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesUpdatePartialUpdate(id, patchedRule, options);
+        async rulesUpdatePartialUpdate(id: number, patchedRuleRequest?: PatchedRuleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesUpdatePartialUpdate(id, patchedRuleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * 
          * @param {number} id 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async rulesUpdateUpdate(id: number, rule: Rule, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesUpdateUpdate(id, rule, options);
+        async rulesUpdateUpdate(id: number, ruleRequest: RuleRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Rule>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.rulesUpdateUpdate(id, ruleRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -1620,12 +1739,12 @@ export const RulesApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesCreate(rule: Rule, options?: any): AxiosPromise<Rule> {
-            return localVarFp.rulesCreate(rule, options).then((request) => request(axios, basePath));
+        rulesCreate(ruleRequest: RuleRequest, options?: any): AxiosPromise<Rule> {
+            return localVarFp.rulesCreate(ruleRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1638,12 +1757,12 @@ export const RulesApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesImportCreate(rule: Rule, options?: any): AxiosPromise<Rule> {
-            return localVarFp.rulesImportCreate(rule, options).then((request) => request(axios, basePath));
+        rulesImportCreate(ruleRequest: RuleRequest, options?: any): AxiosPromise<Rule> {
+            return localVarFp.rulesImportCreate(ruleRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1664,12 +1783,12 @@ export const RulesApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
-         * @param {RuleSetRequest} ruleSetRequest 
+         * @param {RuleSetRequestRequest} ruleSetRequestRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesRequestsCreate(ruleSetRequest: RuleSetRequest, options?: any): AxiosPromise<RuleSetRequest> {
-            return localVarFp.rulesRequestsCreate(ruleSetRequest, options).then((request) => request(axios, basePath));
+        rulesRequestsCreate(ruleSetRequestRequest: RuleSetRequestRequest, options?: any): AxiosPromise<RuleSetRequest> {
+            return localVarFp.rulesRequestsCreate(ruleSetRequestRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1709,22 +1828,22 @@ export const RulesApiFactory = function (configuration?: Configuration, basePath
         /**
          * 
          * @param {number} id 
-         * @param {PatchedRule} [patchedRule] 
+         * @param {PatchedRuleRequest} [patchedRuleRequest] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesUpdatePartialUpdate(id: number, patchedRule?: PatchedRule, options?: any): AxiosPromise<Rule> {
-            return localVarFp.rulesUpdatePartialUpdate(id, patchedRule, options).then((request) => request(axios, basePath));
+        rulesUpdatePartialUpdate(id: number, patchedRuleRequest?: PatchedRuleRequest, options?: any): AxiosPromise<Rule> {
+            return localVarFp.rulesUpdatePartialUpdate(id, patchedRuleRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @param {number} id 
-         * @param {Rule} rule 
+         * @param {RuleRequest} ruleRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        rulesUpdateUpdate(id: number, rule: Rule, options?: any): AxiosPromise<Rule> {
-            return localVarFp.rulesUpdateUpdate(id, rule, options).then((request) => request(axios, basePath));
+        rulesUpdateUpdate(id: number, ruleRequest: RuleRequest, options?: any): AxiosPromise<Rule> {
+            return localVarFp.rulesUpdateUpdate(id, ruleRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1738,13 +1857,13 @@ export const RulesApiFactory = function (configuration?: Configuration, basePath
 export class RulesApi extends BaseAPI {
     /**
      * 
-     * @param {Rule} rule 
+     * @param {RuleRequest} ruleRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RulesApi
      */
-    public rulesCreate(rule: Rule, options?: AxiosRequestConfig) {
-        return RulesApiFp(this.configuration).rulesCreate(rule, options).then((request) => request(this.axios, this.basePath));
+    public rulesCreate(ruleRequest: RuleRequest, options?: AxiosRequestConfig) {
+        return RulesApiFp(this.configuration).rulesCreate(ruleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1760,13 +1879,13 @@ export class RulesApi extends BaseAPI {
 
     /**
      * 
-     * @param {Rule} rule 
+     * @param {RuleRequest} ruleRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RulesApi
      */
-    public rulesImportCreate(rule: Rule, options?: AxiosRequestConfig) {
-        return RulesApiFp(this.configuration).rulesImportCreate(rule, options).then((request) => request(this.axios, this.basePath));
+    public rulesImportCreate(ruleRequest: RuleRequest, options?: AxiosRequestConfig) {
+        return RulesApiFp(this.configuration).rulesImportCreate(ruleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1792,13 +1911,13 @@ export class RulesApi extends BaseAPI {
 
     /**
      * 
-     * @param {RuleSetRequest} ruleSetRequest 
+     * @param {RuleSetRequestRequest} ruleSetRequestRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RulesApi
      */
-    public rulesRequestsCreate(ruleSetRequest: RuleSetRequest, options?: AxiosRequestConfig) {
-        return RulesApiFp(this.configuration).rulesRequestsCreate(ruleSetRequest, options).then((request) => request(this.axios, this.basePath));
+    public rulesRequestsCreate(ruleSetRequestRequest: RuleSetRequestRequest, options?: AxiosRequestConfig) {
+        return RulesApiFp(this.configuration).rulesRequestsCreate(ruleSetRequestRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1847,25 +1966,25 @@ export class RulesApi extends BaseAPI {
     /**
      * 
      * @param {number} id 
-     * @param {PatchedRule} [patchedRule] 
+     * @param {PatchedRuleRequest} [patchedRuleRequest] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RulesApi
      */
-    public rulesUpdatePartialUpdate(id: number, patchedRule?: PatchedRule, options?: AxiosRequestConfig) {
-        return RulesApiFp(this.configuration).rulesUpdatePartialUpdate(id, patchedRule, options).then((request) => request(this.axios, this.basePath));
+    public rulesUpdatePartialUpdate(id: number, patchedRuleRequest?: PatchedRuleRequest, options?: AxiosRequestConfig) {
+        return RulesApiFp(this.configuration).rulesUpdatePartialUpdate(id, patchedRuleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
      * @param {number} id 
-     * @param {Rule} rule 
+     * @param {RuleRequest} ruleRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof RulesApi
      */
-    public rulesUpdateUpdate(id: number, rule: Rule, options?: AxiosRequestConfig) {
-        return RulesApiFp(this.configuration).rulesUpdateUpdate(id, rule, options).then((request) => request(this.axios, this.basePath));
+    public rulesUpdateUpdate(id: number, ruleRequest: RuleRequest, options?: AxiosRequestConfig) {
+        return RulesApiFp(this.configuration).rulesUpdateUpdate(id, ruleRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -2111,13 +2230,13 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
     return {
         /**
          * Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-         * @param {TokenObtainPair} tokenObtainPair 
+         * @param {TokenObtainPairRequest} tokenObtainPairRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenCreate: async (tokenObtainPair: TokenObtainPair, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'tokenObtainPair' is not null or undefined
-            assertParamExists('tokenCreate', 'tokenObtainPair', tokenObtainPair)
+        tokenCreate: async (tokenObtainPairRequest: TokenObtainPairRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tokenObtainPairRequest' is not null or undefined
+            assertParamExists('tokenCreate', 'tokenObtainPairRequest', tokenObtainPairRequest)
             const localVarPath = `/api/token/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2137,7 +2256,7 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(tokenObtainPair, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(tokenObtainPairRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2146,13 +2265,13 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
-         * @param {TokenRefresh} tokenRefresh 
+         * @param {TokenRefreshRequest} tokenRefreshRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenRefreshCreate: async (tokenRefresh: TokenRefresh, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'tokenRefresh' is not null or undefined
-            assertParamExists('tokenRefreshCreate', 'tokenRefresh', tokenRefresh)
+        tokenRefreshCreate: async (tokenRefreshRequest: TokenRefreshRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tokenRefreshRequest' is not null or undefined
+            assertParamExists('tokenRefreshCreate', 'tokenRefreshRequest', tokenRefreshRequest)
             const localVarPath = `/api/token/refresh/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2172,7 +2291,7 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(tokenRefresh, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(tokenRefreshRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2181,13 +2300,13 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * Takes a token and indicates if it is valid.  This view provides no information about a token\'s fitness for a particular use.
-         * @param {TokenVerify} tokenVerify 
+         * @param {TokenVerifyRequest} tokenVerifyRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenVerifyCreate: async (tokenVerify: TokenVerify, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'tokenVerify' is not null or undefined
-            assertParamExists('tokenVerifyCreate', 'tokenVerify', tokenVerify)
+        tokenVerifyCreate: async (tokenVerifyRequest: TokenVerifyRequest, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tokenVerifyRequest' is not null or undefined
+            assertParamExists('tokenVerifyCreate', 'tokenVerifyRequest', tokenVerifyRequest)
             const localVarPath = `/api/token/verify/`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -2207,7 +2326,7 @@ export const TokenApiAxiosParamCreator = function (configuration?: Configuration
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(tokenVerify, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(tokenVerifyRequest, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -2226,32 +2345,32 @@ export const TokenApiFp = function(configuration?: Configuration) {
     return {
         /**
          * Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-         * @param {TokenObtainPair} tokenObtainPair 
+         * @param {TokenObtainPairRequest} tokenObtainPairRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tokenCreate(tokenObtainPair: TokenObtainPair, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenObtainPair>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenCreate(tokenObtainPair, options);
+        async tokenCreate(tokenObtainPairRequest: TokenObtainPairRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenObtainPair>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenCreate(tokenObtainPairRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
-         * @param {TokenRefresh} tokenRefresh 
+         * @param {TokenRefreshRequest} tokenRefreshRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tokenRefreshCreate(tokenRefresh: TokenRefresh, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenRefresh>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenRefreshCreate(tokenRefresh, options);
+        async tokenRefreshCreate(tokenRefreshRequest: TokenRefreshRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenRefresh>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenRefreshCreate(tokenRefreshRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
         /**
          * Takes a token and indicates if it is valid.  This view provides no information about a token\'s fitness for a particular use.
-         * @param {TokenVerify} tokenVerify 
+         * @param {TokenVerifyRequest} tokenVerifyRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async tokenVerifyCreate(tokenVerify: TokenVerify, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TokenVerify>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenVerifyCreate(tokenVerify, options);
+        async tokenVerifyCreate(tokenVerifyRequest: TokenVerifyRequest, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.tokenVerifyCreate(tokenVerifyRequest, options);
             return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
         },
     }
@@ -2266,30 +2385,30 @@ export const TokenApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-         * @param {TokenObtainPair} tokenObtainPair 
+         * @param {TokenObtainPairRequest} tokenObtainPairRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenCreate(tokenObtainPair: TokenObtainPair, options?: any): AxiosPromise<TokenObtainPair> {
-            return localVarFp.tokenCreate(tokenObtainPair, options).then((request) => request(axios, basePath));
+        tokenCreate(tokenObtainPairRequest: TokenObtainPairRequest, options?: any): AxiosPromise<TokenObtainPair> {
+            return localVarFp.tokenCreate(tokenObtainPairRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
-         * @param {TokenRefresh} tokenRefresh 
+         * @param {TokenRefreshRequest} tokenRefreshRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenRefreshCreate(tokenRefresh: TokenRefresh, options?: any): AxiosPromise<TokenRefresh> {
-            return localVarFp.tokenRefreshCreate(tokenRefresh, options).then((request) => request(axios, basePath));
+        tokenRefreshCreate(tokenRefreshRequest: TokenRefreshRequest, options?: any): AxiosPromise<TokenRefresh> {
+            return localVarFp.tokenRefreshCreate(tokenRefreshRequest, options).then((request) => request(axios, basePath));
         },
         /**
          * Takes a token and indicates if it is valid.  This view provides no information about a token\'s fitness for a particular use.
-         * @param {TokenVerify} tokenVerify 
+         * @param {TokenVerifyRequest} tokenVerifyRequest 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        tokenVerifyCreate(tokenVerify: TokenVerify, options?: any): AxiosPromise<TokenVerify> {
-            return localVarFp.tokenVerifyCreate(tokenVerify, options).then((request) => request(axios, basePath));
+        tokenVerifyCreate(tokenVerifyRequest: TokenVerifyRequest, options?: any): AxiosPromise<void> {
+            return localVarFp.tokenVerifyCreate(tokenVerifyRequest, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -2303,35 +2422,35 @@ export const TokenApiFactory = function (configuration?: Configuration, basePath
 export class TokenApi extends BaseAPI {
     /**
      * Takes a set of user credentials and returns an access and refresh JSON web token pair to prove the authentication of those credentials.
-     * @param {TokenObtainPair} tokenObtainPair 
+     * @param {TokenObtainPairRequest} tokenObtainPairRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenApi
      */
-    public tokenCreate(tokenObtainPair: TokenObtainPair, options?: AxiosRequestConfig) {
-        return TokenApiFp(this.configuration).tokenCreate(tokenObtainPair, options).then((request) => request(this.axios, this.basePath));
+    public tokenCreate(tokenObtainPairRequest: TokenObtainPairRequest, options?: AxiosRequestConfig) {
+        return TokenApiFp(this.configuration).tokenCreate(tokenObtainPairRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Takes a refresh type JSON web token and returns an access type JSON web token if the refresh token is valid.
-     * @param {TokenRefresh} tokenRefresh 
+     * @param {TokenRefreshRequest} tokenRefreshRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenApi
      */
-    public tokenRefreshCreate(tokenRefresh: TokenRefresh, options?: AxiosRequestConfig) {
-        return TokenApiFp(this.configuration).tokenRefreshCreate(tokenRefresh, options).then((request) => request(this.axios, this.basePath));
+    public tokenRefreshCreate(tokenRefreshRequest: TokenRefreshRequest, options?: AxiosRequestConfig) {
+        return TokenApiFp(this.configuration).tokenRefreshCreate(tokenRefreshRequest, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * Takes a token and indicates if it is valid.  This view provides no information about a token\'s fitness for a particular use.
-     * @param {TokenVerify} tokenVerify 
+     * @param {TokenVerifyRequest} tokenVerifyRequest 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof TokenApi
      */
-    public tokenVerifyCreate(tokenVerify: TokenVerify, options?: AxiosRequestConfig) {
-        return TokenApiFp(this.configuration).tokenVerifyCreate(tokenVerify, options).then((request) => request(this.axios, this.basePath));
+    public tokenVerifyCreate(tokenVerifyRequest: TokenVerifyRequest, options?: AxiosRequestConfig) {
+        return TokenApiFp(this.configuration).tokenVerifyCreate(tokenVerifyRequest, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
