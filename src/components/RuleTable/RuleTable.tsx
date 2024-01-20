@@ -14,6 +14,7 @@ import {
 import { 
   Box, 
   IconButton,
+  Chip
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -172,6 +173,11 @@ export default function RuleTable() {
       {
         accessorKey: 'rule_set_request',
         header: 'Rule Set Request',
+        Cell: ({cell}) => (
+          cell.getValue<number>() 
+            ? <Chip label={`${cell.getValue<number>()}`} onClick={() => navigate(`/rulesetrequest/${cell.getValue<number>()}/`)} />
+            : ''
+          ),
         enableGlobalFilter: false,
         enableEditing: false,
       },
