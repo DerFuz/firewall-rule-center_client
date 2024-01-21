@@ -17,7 +17,11 @@ import {
   Button,
   Box,
   IconButton,
-  Tooltip
+  Tooltip,
+  Typography,
+  Container,
+  Chip,
+  Avatar
 } from '@mui/material';
 import {
   CloudUpload as CloudUploadIcon,
@@ -25,6 +29,7 @@ import {
   Edit as EditIcon
 } from '@mui/icons-material';
 import { AxiosError } from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 
@@ -36,7 +41,6 @@ export function CreateRuleSetRequest() {
   const [rules, setRules] = useState<RuleRequest[]>(
     [
       {
-        "pk": 2,
         "action": "DEN",
         "protocol": "UDP",
         "source_name": "any",
@@ -57,24 +61,9 @@ export function CreateRuleSetRequest() {
           }
         ],
         "status": "CON",
-        "created_on": "2023-08-24T12:11:21.910000+02:00",
-        "created_by": {
-          "id": 2,
-          "username": "user1"
-        },
-        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
-        "last_updated_by": {
-          "id": 1,
-          "username": "jakob"
-        },
         "is_deleted": false,
-        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
-        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
-        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
-        "history": []
       },
       {
-        "pk": 2,
         "action": "DEN",
         "protocol": "TCP",
         "source_name": "any",
@@ -95,24 +84,9 @@ export function CreateRuleSetRequest() {
           }
         ],
         "status": "CON",
-        "created_on": "2023-08-24T12:11:21.910000+02:00",
-        "created_by": {
-          "id": 2,
-          "username": "user1"
-        },
-        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
-        "last_updated_by": {
-          "id": 1,
-          "username": "jakob"
-        },
         "is_deleted": false,
-        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
-        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
-        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
-        "history": []
       },
       {
-        "pk": 2,
         "action": "DEN",
         "protocol": "TCPUDP",
         "source_name": "any",
@@ -133,21 +107,7 @@ export function CreateRuleSetRequest() {
           }
         ],
         "status": "CON",
-        "created_on": "2023-08-24T12:11:21.910000+02:00",
-        "created_by": {
-          "id": 2,
-          "username": "user1"
-        },
-        "last_updated_on": "2024-01-06T20:01:53.989028+01:00",
-        "last_updated_by": {
-          "id": 1,
-          "username": "jakob"
-        },
         "is_deleted": false,
-        "detail_url": "http://127.0.0.1:8000/api/rules/2/",
-        "edit_url": "http://127.0.0.1:8000/api/rules/2/update/",
-        "delete_url": "http://127.0.0.1:8000/api/rules/2/delete/",
-        "history": []
       }
     ]
   );
@@ -156,12 +116,6 @@ export function CreateRuleSetRequest() {
 
   const columns = useMemo<MRT_ColumnDef<RuleRequest>[]>(
     () => [
-      {
-        accessorKey: 'status',
-        header: 'Status',
-        editVariant: 'select',
-        editSelectOptions: Object.values(StatusEnum),
-      },
       {
         accessorKey: 'action',
         header: 'Action',
@@ -246,7 +200,6 @@ export function CreateRuleSetRequest() {
     setRules(oldRules => [
       ...oldRules,
       {
-        "pk": 0,
         "action": values.action,
         "protocol": values.protocol,
         "source_name": values.source_name,
@@ -264,10 +217,6 @@ export function CreateRuleSetRequest() {
         "firewalls": values.firewalls,
         "status": StatusEnum.Req,
         "is_deleted": false,
-        "detail_url": "",
-        "edit_url": "",
-        "delete_url": "",
-        "history": []
       }
     ]);
     toast.success("Updated rule successful");
@@ -428,20 +377,26 @@ export function CreateRuleSetRequest() {
       </Box>
     ),
     renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        variant="contained"
-        onClick={() => {
-          table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-          //or you can pass in a row object to set default values with the `createRow` helper function
-          // table.setCreatingRow(
-          //   createRow(table, {
-          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-          //   }),
-          // );
-        }}
-      >
-        Create New Rule
-      </Button>
+      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+          Upload file
+          <VisuallyHiddenInput type="file" id="fileUpload" onChange={handleFileUpload} />
+        </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            table.setCreatingRow(true); //simplest way to open the create row modal with no default values
+            //or you can pass in a row object to set default values with the `createRow` helper function
+            // table.setCreatingRow(
+            //   createRow(table, {
+            //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
+            //   }),
+            // );
+          }}
+        >
+          Create New Rule
+        </Button>
+      </Box>
     ),
     renderBottomToolbarCustomActions: () => (
       <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
@@ -477,11 +432,11 @@ export function CreateRuleSetRequest() {
 
   return (
     <div>
-      <h1>TEST CreateRuleSetRequest</h1>
-      <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-        Upload file
-        <VisuallyHiddenInput type="file" id="fileUpload" onChange={handleFileUpload} />
-      </Button>
+    <Container>
+        <Typography variant="h4" gutterBottom>
+          Create RuleSetRequest
+        </Typography>     
+    </Container>
       <MaterialReactTable table={table} />
       <ToastContainer
         position="top-right"
@@ -501,10 +456,177 @@ export function CreateRuleSetRequest() {
 
 export default function RuleSetRequestEntry() {
 
+  const { rulesetrequestId } = useParams();
+  const navigate = useNavigate();
+
+  const api = new MyApi();
+  const rulesapi = api.rulesApi();
+
+  const [ruleSetRequest, setRuleSetRequest] = useState<RuleSetRequest>();
+
+  const columns = useMemo<MRT_ColumnDef<Rule>[]>(
+    () => [
+      {
+        accessorKey: 'action',
+        header: 'Action',
+        editVariant: 'select',
+      },
+      {
+        accessorKey: 'protocol',
+        header: 'Protocol',
+        editVariant: 'select',
+      },
+      {
+        accessorKey: 'source_name',
+        header: 'Source Name',
+      },
+      {
+        accessorKey: 'source_ip_orig',
+        header: 'Source IP',
+      },
+      {
+        accessorKey: 'source_ip_nat',
+        header: 'Source IP (NAT)',
+      },
+      {
+        accessorFn: (originalRow) => (originalRow.source_port?.toLocaleString()),
+        id: 'source_port',
+        header: 'Source Port',
+      },
+      {
+        accessorKey: 'destination_name',
+        header: 'Destination Name',
+      },
+      {
+        accessorKey: 'destination_ip_orig',
+        header: 'Destination IP',
+      },
+      {
+        accessorKey: 'destination_ip_nat',
+        header: 'Destination IP (NAT)',
+      },
+      {
+        accessorFn: (originalRow) => (originalRow.destination_port?.toLocaleString()),
+        id: 'destination_port',
+        header: 'Destination Port',
+      },
+      {
+        accessorKey: 'notes',
+        header: 'Notes',
+      },
+      {
+        accessorKey: 'requester',
+        header: 'Requester',
+      },
+      {
+        accessorKey: 'ticket',
+        header: 'Ticket',
+      }
+    ],
+    []
+  );
+
+  const getRuleSetRequest = async (id: number) => {
+    try {
+      console.log("getRuleSetRequest");
+      const responseRuleSetRequest = await rulesapi.rulesRequestsRetrieve(id);
+      console.log(responseRuleSetRequest.data);
+      setRuleSetRequest(responseRuleSetRequest.data);
+      toast.success("Loaded rulesetrequest successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (rulesetrequestId !== undefined && !Number.isNaN(parseInt(rulesetrequestId))) {
+      const id = parseInt(rulesetrequestId);
+      console.log("parsed", id);
+      getRuleSetRequest(id);
+    } else {
+      navigate("..");
+    }
+  }, [rulesetrequestId, navigate]
+  );
+
+  const approveRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
+    console.log("approving rulesetrequest");
+    console.log(ruleSetRequest);
+    console.log(table.getRowModel().rows);
+  };
+
+  const refuseRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
+    console.log("approving rulesetrequest");
+    console.log(ruleSetRequest);
+    console.log(table.getRowModel().rows);
+  };
+
+
+  const table = useMaterialReactTable({
+    columns: columns,
+    data: ruleSetRequest?.related_rules ? ruleSetRequest.related_rules : [],
+    enableColumnResizing: true,
+    enableDensityToggle: false,
+    initialState: {
+      showColumnFilters: false,
+      density: 'compact',
+      showGlobalFilter: false,
+      pagination: {
+        pageSize: 50,
+        pageIndex: 0
+      },
+    },
+    renderBottomToolbarCustomActions: () => (
+      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Button
+          color="success"
+          variant="contained"
+          onClick={() => approveRuleSetRequest(table)}
+        // disabled={
+        //   Object.keys(editedUsers).length === 0 ||
+        //   Object.values(validationErrors).some((error) => !!error)
+        // }
+        >
+          Approve
+        </Button>
+        {/* {Object.values(validationErrors).some((error) => !!error) && (
+                <Typography color="error">Fix errors before submitting</Typography>
+              )} */}
+        <Button
+          color="error"
+          variant="contained"
+          onClick={() => refuseRuleSetRequest(table)}
+        // disabled={
+        //   Object.keys(editedUsers).length === 0 ||
+        //   Object.values(validationErrors).some((error) => !!error)
+        // }
+        >
+          Refuse
+        </Button>
+        {/* {Object.values(validationErrors).some((error) => !!error) && (
+                <Typography color="error">Fix errors before submitting</Typography>
+              )} */}
+      </Box>
+    )
+  });
+
 
   return (
     <div>
-      <h1>TEST RuleSetRequest</h1>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        RuleSetRequest {ruleSetRequest?.pk}
+      </Typography>   
+      <Box>
+        Current Status: <Chip size="small" label={ruleSetRequest?.status} />
+        Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
+        Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
+      </Box>
+    </Container>
+      <MaterialReactTable table={table} />
       <ToastContainer
         position="top-right"
         autoClose={5000}
