@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.min.css";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, StatusEnum, ProtocolEnum, RuleRequest, RuleSetRequestRequest, FirewallObjectShort, Rule, RuleSetRequest } from '../api';
+import { ActionEnum, StatusEnum, ProtocolEnum, RuleRequest, Rule, RuleSetRequest, UserPublic, UsersApi } from '../api';
 import MyApi from '../api/myapi';
 import Papa from 'papaparse';
 import {
@@ -21,7 +21,12 @@ import {
   Typography,
   Container,
   Chip,
-  Avatar
+  Avatar,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent
 } from '@mui/material';
 import {
   CloudUpload as CloudUploadIcon,
@@ -37,6 +42,7 @@ export function CreateRuleSetRequest() {
 
   const api = new MyApi();
   const rulesapi = api.rulesApi();
+  const usersapi = api.usersApi();
 
   const [rules, setRules] = useState<RuleRequest[]>(
     [
@@ -112,7 +118,28 @@ export function CreateRuleSetRequest() {
     ]
   );
 
+  const [users, setUsers] = useState<UserPublic[]>([]);
+  const [approver, setApprover] = useState<UserPublic>();
 
+  const getUsers = async () => {
+    try {
+      console.log("getUsers");
+      const responseUsers = await usersapi.usersList();
+      console.log(responseUsers.data);
+      setUsers(responseUsers.data);
+      toast.success("Loaded users successful");
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Loading failed: " + error.response.data.detail);
+      }
+    }
+  }
+
+  useEffect(() => {
+    getUsers();
+  }, []
+  );
 
   const columns = useMemo<MRT_ColumnDef<RuleRequest>[]>(
     () => [
@@ -235,15 +262,14 @@ export function CreateRuleSetRequest() {
   const createRuleSetRequest = async () => {
     try {
       console.log("createRuleSet");
-      const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
-        {"approver": 
-          // TODO CHANGE1!!!
-          { "id": 1, "username": "jakob" }
-        }
-      );
-      console.log(responseRuleSetRequestCreate.data);
-      toast.success("Created ruleSetRequest successful");
-      return responseRuleSetRequestCreate.data.pk;
+      if (approver) {
+        const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
+          {"approver": approver }
+        );
+        console.log(responseRuleSetRequestCreate.data);
+        toast.success("Created ruleSetRequest successful");
+        return responseRuleSetRequestCreate.data.pk;
+      }
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
@@ -335,6 +361,14 @@ export function CreateRuleSetRequest() {
     }
   };
 
+  const handleSelectChange = (event: SelectChangeEvent) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    if (users) {
+      setApprover(users.filter((user) => user.id == parseInt(value))[0]); 
+    }
+  };
+
   const table = useMaterialReactTable({
     columns: columns,
     data: rules,
@@ -399,7 +433,24 @@ export function CreateRuleSetRequest() {
       </Box>
     ),
     renderBottomToolbarCustomActions: () => (
-      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center', width: '300px' }}>
+        <FormControl fullWidth size="small">
+          <InputLabel id="action-label">Approver</InputLabel>
+          <Select
+            id="approver"
+            name="approver"
+            labelId="approver-label"
+            label="Approver"
+            onChange={handleSelectChange}
+            value={approver?.id ? approver.id.toString() : ''}
+          >
+            {
+              Object.values(users).map((value) => {
+                return <MenuItem value={value.id}>{value.username}</MenuItem>
+              })
+            }
+          </Select>
+        </FormControl>
         <Button
           color="success"
           variant="contained"
