@@ -3,7 +3,7 @@ Inspiration from: https://stackoverflow.com/a/70187506
 */
 
 import { Configuration } from './configuration';
-import { RulesApi, TokenApi, FirewallsApi } from './api';
+import { RulesApi, TokenApi, FirewallsApi, UsersApi } from './api';
 import { AxiosError } from 'axios';
 
 class MyApi {
@@ -100,6 +100,11 @@ class MyApi {
 
   public firewallsApi = () => {
     const api = new FirewallsApi(this.configuration());
+    return api;
+  };
+
+  public usersApi = () => {
+    const api = new UsersApi(this.configuration());
     return api;
   };
 
