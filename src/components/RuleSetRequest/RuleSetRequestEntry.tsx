@@ -157,26 +157,12 @@ export default function RuleSetRequestEntry() {
     id: 'history_type' |
       'history_id' |
       'history_date' | 
-      'action' |
-      'protocol' |
-      'source_name' |
-      'source_ip_orig' |
-      'source_ip_nat' |
-      'source_port' |
-      'destination_name' |
-      'destination_ip_orig' |
-      'destination_ip_nat' |
-      'destination_port' |
       'status' |
-      'requester' |
+      'approver_id' |
       'created_on' |
       'last_updated_on' |
-      'ticket' |
-      'notes' |
-      'is_deleted' |
       'created_by_id' |
-      'last_updated_by_id' |
-      'rule_set_request_id';
+      'last_updated_by_id';
     label: string;
     minWidth?: number;
     align?: 'left';
@@ -187,26 +173,12 @@ export default function RuleSetRequestEntry() {
     { id: 'history_type', label: 'History Type', format: (value: string) => returnHistoryTypeIcon(value) },
     { id: 'history_id', label: 'History ID' },
     { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
-    { id: 'action', label: 'Action' },
-    { id: 'protocol', label: 'Protocol' },
-    { id: 'source_name', label: 'Source Name' },
-    { id: 'source_ip_orig', label: 'Source IP (Original)' },
-    { id: 'source_ip_nat', label: 'Source IP (NAT)' },
-    { id: 'source_port', label: 'Source Port' },
-    { id: 'destination_name', label: 'Destination Name' },
-    { id: 'destination_ip_orig', label: 'Destination IP (Original)' },
-    { id: 'destination_ip_nat', label: 'Destination IP (NAT)' },
-    { id: 'destination_port', label: 'Destination Port' },
     { id: 'status', label: 'Status' },
-    { id: 'requester', label: 'Requester' },
+    { id: 'approver_id', label: 'Approver'},
     { id: 'created_on', label: 'Created On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
     { id: 'last_updated_on', label: 'Last Updated On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
-    { id: 'ticket', label: 'Ticket' },
-    { id: 'notes', label: 'Notes' },
-    { id: 'is_deleted', label: 'Is Deleted?' },
     { id: 'created_by_id', label: 'Created By (ID)' },
     { id: 'last_updated_by_id', label: 'Last Updated By (ID)' },
-    { id: 'rule_set_request_id', label: 'Rule Set Request (ID)' },
   ];
 
 
