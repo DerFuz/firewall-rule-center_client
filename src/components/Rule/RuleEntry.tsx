@@ -28,8 +28,8 @@ import {
 import Grid from '@mui/material/Unstable_Grid2';
 import {
   DoubleArrowRounded as DoubleArrowRoundedIcon,
-  SaveOutlined as SaveOutlinedIcon,
-  DeleteOutlined as DeleteOutlinedIcon,
+  Save as SaveIcon,
+  Delete as DeleteIcon,
   Info as InfoIcon
 } from '@mui/icons-material';
 
@@ -271,7 +271,7 @@ export default function RuleEntry() {
       <Typography variant="h4" gutterBottom>
         Rule {rule?.pk} Info
       </Typography>
-      
+
       <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
         <Grid container>
           <Grid xs={12} sm={6} md={6}>
@@ -518,22 +518,24 @@ export default function RuleEntry() {
           </Stack>
         </Grid>
       </Grid>
-      <Button
-        color='error'
-        variant='outlined'
-        endIcon={<DeleteOutlinedIcon />}
-        onClick={() => deleteRule(rule?.pk)}
-      >
-        Delete
-      </Button>
-      <Button
-        color='success'
-        variant='outlined'
-        endIcon={<SaveOutlinedIcon />}
-        onClick={updateRule}
-      >
-        Update
-      </Button>
+      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        <Button
+          color='error'
+          variant='contained'
+          endIcon={<DeleteIcon />}
+          onClick={() => deleteRule(rule?.pk)}
+        >
+          Delete
+        </Button>
+        <Button
+          color='success'
+          variant='contained'
+          endIcon={<SaveIcon />}
+          onClick={updateRule}
+        >
+          Update
+        </Button>
+      </Box>
 
       <Divider sx={{ marginTop: 5, marginBottom: 5 }} />
       <Typography variant="subtitle2">
