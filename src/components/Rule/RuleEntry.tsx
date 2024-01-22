@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Rule, ActionEnum, ProtocolEnum, StatusEnum, FirewallObject } from '../api/api';
+import { Rule, ActionEnum, ProtocolEnum, RuleStatusEnum, FirewallObject } from '../api/api';
 import MyApi from '../api/myapi';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
@@ -183,7 +183,7 @@ export default function RuleEntry() {
         case "status":
           setRule({
             ...rule,
-            [name]: value as StatusEnum
+            [name]: value as RuleStatusEnum
           }); 
           break;
         case "action":
@@ -320,7 +320,7 @@ export default function RuleEntry() {
                   value={rule?.status ? rule.status : ''}
                 >
                   {
-                    Object.values(StatusEnum).map((value) => {
+                    Object.values(RuleStatusEnum).map((value) => {
                       return <MenuItem value={value}>{value}</MenuItem>
                     })
                   }
