@@ -7,7 +7,6 @@ import {
   useMaterialReactTable,
   type MRT_ColumnDef,
   type MRT_SortingState,
-  type MRT_Virtualizer,
   type MRT_TableOptions,
 } from 'material-react-table';
 import { 
@@ -207,9 +206,6 @@ export default function RuleTable() {
     // [validationErrors],
   );
 
-  const rowVirtualizerInstanceRef =
-    useRef<MRT_Virtualizer<HTMLDivElement, HTMLTableRowElement>>(null);
-
   const [isLoading, setIsLoading] = useState(true);
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
 
@@ -219,15 +215,6 @@ export default function RuleTable() {
       setIsLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    //scroll to the top of the table when the sorting changes
-    try {
-      rowVirtualizerInstanceRef.current?.scrollToIndex?.(0);
-    } catch (error) {
-      console.error(error);
-    }
-  }, [sorting]);
 
   const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({row, table, values}) => {
 
@@ -278,11 +265,8 @@ export default function RuleTable() {
         "created_by.username": false
       }
     },
-    enableRowVirtualization: true,
     onSortingChange: setSorting,
     state: { isLoading, sorting },
-    rowVirtualizerInstanceRef, //optional
-    rowVirtualizerOptions: { overscan: 5 }, //optionally customize the row virtualizer
     enableRowActions: true,
     displayColumnDefOptions: {
       'mrt-row-actions': {
