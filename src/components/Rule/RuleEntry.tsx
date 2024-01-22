@@ -4,6 +4,7 @@ import MyApi from '../api/myapi';
 import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import HistoryTable, { returnHistoryTypeIcon } from '../HistoryTable/HistoryTable';
 import { dateTimeFormatLong, FirewallRuleCenterClientToastContainer } from '../../Generics';
 
 import {
@@ -22,13 +23,6 @@ import {
   Select,
   SelectChangeEvent,
   Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
   Divider
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
@@ -36,9 +30,7 @@ import {
   DoubleArrowRounded as DoubleArrowRoundedIcon,
   SaveOutlined as SaveOutlinedIcon,
   DeleteOutlined as DeleteOutlinedIcon,
-  Add as AddIcon,
-  Delete as DeleteIcon,
-  Edit as EditIcon
+  Info as InfoIcon
 } from '@mui/icons-material';
 
 
@@ -63,18 +55,6 @@ export default function RuleEntry() {
   
   const [rule, setRule] = useState<Rule>();
   const [allFirewalls, setAllFirewalls] = useState<FirewallObject[]>([]);
-
-  const dateTimeFormatLong = new Intl.DateTimeFormat('de-AT', 
-    {
-      weekday: "long",
-      day: "2-digit",
-      month: "long",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    }
-  );
 
   useEffect(() => {
     if (ruleId !== undefined && !Number.isNaN(parseInt(ruleId))) {
@@ -219,7 +199,7 @@ export default function RuleEntry() {
     }
   };
 
-  interface historyColumn {
+  interface historyColumns {
     id: 'history_type' |
       'history_id' |
       'history_date' | 
@@ -249,20 +229,7 @@ export default function RuleEntry() {
     format?: (value: any) => string | JSX.Element;
   }
 
-  const returnHistoryTypeIcon = (type: string) => {
-    switch (type) {
-      case "+":
-        return <AddIcon />;
-      case "~":
-        return <EditIcon />;
-      case "-":
-        return <DeleteIcon />;
-      default:
-        return "";
-    }
-  }
-  
-  const historyColumns: historyColumn[] = [
+  const historyColumns: historyColumns[] = [
     { id: 'history_type', label: 'History Type', format: (value: string) => returnHistoryTypeIcon(value) },
     { id: 'history_id', label: 'History ID' },
     { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
@@ -567,53 +534,11 @@ export default function RuleEntry() {
       </Container>
       
       <Divider sx={{marginTop: 5, marginBottom: 5}} />
-
-      <Container>
-        <Typography variant="h6">
-          History
-        </Typography>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} size="small" aria-label="history-table">
-            <TableHead>
-              <TableRow>
-                {historyColumns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ top: 57, minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-                  <TableCell
-                    key="firewalls"
-                    align="left"
-                    style={{ top: 57 }}
-                  >
-                    Firewalls
-                  </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rule?.history.map((row) => (
-                <TableRow
-                  key={row.history_id}
-                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                >
-                  {historyColumns.map((column) => (
-                    <TableCell component="th" scope="row">
-                      {column.format && row[column.id] ? column.format(row[column.id]) : row[column.id]}
-                    </TableCell>
-                  ))}
-                    <TableCell>
-                      Firewall History not implemented yet...
-                    </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </Container>
+      <Typography variant="subtitle2">
+        <InfoIcon fontSize='small' />
+        Firewalls history not implemented yet.
+      </Typography>          
+      <HistoryTable tableData={rule?.history ? rule.history : []} historyColumns={historyColumns} />
 
       <Copyright />
       <FirewallRuleCenterClientToastContainer />
