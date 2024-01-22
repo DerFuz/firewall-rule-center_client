@@ -1,6 +1,5 @@
-import "react-toastify/dist/ReactToastify.min.css";
-import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, RuleStatusEnum, ProtocolEnum, RuleSetStatusEnum, RuleRequest, Rule, RuleSetRequest, UserPublic, UsersApi } from '../api';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
+import { ActionEnum, RuleStatusEnum, ProtocolEnum, RuleRequest, UserPublic } from '../api';
 import MyApi from '../api/myapi';
 import Papa from 'papaparse';
 import {
@@ -11,7 +10,7 @@ import {
   type MRT_Row,
   type MRT_TableInstance,
 } from 'material-react-table';
-import { ToastContainer, toast, Flip } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
 import {
   Button,
@@ -20,8 +19,6 @@ import {
   Tooltip,
   Typography,
   Container,
-  Chip,
-  Avatar,
   FormControl,
   InputLabel,
   Select,
@@ -34,90 +31,16 @@ import {
   Edit as EditIcon
 } from '@mui/icons-material';
 import { AxiosError } from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { FirewallRuleCenterClientToastContainer } from '../../Generics';
+import { INPUT_VALIDATION_RULES } from 'react-hook-form/dist/constants';
 
-
-
-export function CreateRuleSetRequest() {
+export default function CreateRuleSetRequest() {
 
   const api = new MyApi();
   const rulesapi = api.rulesApi();
   const usersapi = api.usersApi();
 
-  const [rules, setRules] = useState<RuleRequest[]>(
-    [
-      {
-        "action": "DEN",
-        "protocol": "UDP",
-        "source_name": "any",
-        "source_ip_orig": "0.0.0.0/0",
-        "source_ip_nat": "",
-        "source_port": null,
-        "destination_name": "Google-DNS",
-        "destination_ip_orig": "8.8.8.8",
-        "destination_ip_nat": "",
-        "destination_port": 53,
-        "requester": "1",
-        "ticket": "#126",
-        "rule_set_request": null,
-        "notes": "No DNS to Google-DNS (UDP)",
-        "firewalls": [
-          {
-            "hostname": "Firewall2"
-          }
-        ],
-        "status": "CON",
-        "is_deleted": false,
-      },
-      {
-        "action": "DEN",
-        "protocol": "TCP",
-        "source_name": "any",
-        "source_ip_orig": "0.0.0.0/0",
-        "source_ip_nat": "",
-        "source_port": null,
-        "destination_name": "Google-DNS",
-        "destination_ip_orig": "8.8.8.8",
-        "destination_ip_nat": "",
-        "destination_port": 53,
-        "requester": "1",
-        "ticket": "#126",
-        "rule_set_request": null,
-        "notes": "No DNS to Google-DNS (UDP)",
-        "firewalls": [
-          {
-            "hostname": "Firewall2"
-          }
-        ],
-        "status": "CON",
-        "is_deleted": false,
-      },
-      {
-        "action": "DEN",
-        "protocol": "TCPUDP",
-        "source_name": "any",
-        "source_ip_orig": "0.0.0.0/0",
-        "source_ip_nat": "",
-        "source_port": null,
-        "destination_name": "Google-DNS",
-        "destination_ip_orig": "8.8.8.8",
-        "destination_ip_nat": "",
-        "destination_port": 53,
-        "requester": "1",
-        "ticket": "#126",
-        "rule_set_request": null,
-        "notes": "No DNS to Google-DNS (UDP)",
-        "firewalls": [
-          {
-            "hostname": "Firewall2"
-          }
-        ],
-        "status": "CON",
-        "is_deleted": false,
-      }
-    ]
-  );
-
+  const [rules, setRules] = useState<RuleRequest[]>([]);
   const [users, setUsers] = useState<UserPublic[]>([]);
   const [approver, setApprover] = useState<UserPublic>();
 
@@ -212,7 +135,23 @@ export function CreateRuleSetRequest() {
     console.log("update: table", table);
     console.log("update: values", values);
     let rulesCopy = [...rules];
-    rulesCopy[row.index] = values;
+    rulesCopy[row.index] = {
+      ...rulesCopy[row.index],
+      'action': values.action,
+      'protocol': values.protocol,
+      'source_name': values.source_name,
+      'source_ip_orig': values.source_ip_orig,
+      'source_ip_nat': values.source_ip_nat,
+      'source_port': !Number.isNaN(parseInt(values.source_port)) ? parseInt(values.source_port) : 0,
+      'destination_name': values.destination_name,
+      'destination_ip_orig': values.destination_ip_orig,
+      'destination_ip_nat': values.destination_ip_nat,
+      'destination_port': !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
+      'requester': values.requester,
+      'ticket': values.ticket,
+      'notes': values.notes,
+      'status': RuleStatusEnum.Req
+    };
     setRules(rulesCopy);
     toast.success("Updated rule successful");
     table.setEditingRow(null); //exit editing mode
@@ -232,18 +171,15 @@ export function CreateRuleSetRequest() {
         "source_name": values.source_name,
         "source_ip_orig": values.source_ip_orig,
         "source_ip_nat": values.source_ip_nat,
-        "source_port": values.source_port,
+        "source_port": !Number.isNaN(parseInt(values.source_port)) ? parseInt(values.source_port) : 0,
         "destination_name": values.destination_name,
         "destination_ip_orig": values.destination_ip_orig,
         "destination_ip_nat": values.destination_ip_nat,
-        "destination_port": values.destination_port,
+        "destination_port": !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
         "requester": values.requester,
         "ticket": values.ticket,
-        "rule_set_request": 0,
         "notes": values.notes,
-        "firewalls": values.firewalls,
         "status": RuleStatusEnum.Req,
-        "is_deleted": false,
       }
     ]);
     toast.success("Updated rule successful");
@@ -255,7 +191,7 @@ export function CreateRuleSetRequest() {
     console.log("deleting Rule " + row.index + " from state");
     console.log(row.original);
     console.log(rules);
-    setRules(rules.filter((_, index) => (index !== row.index))); // better to compare objects
+    setRules(rules.filter((_, index) => (index !== row.index))); // TODO better to compare objects
     console.log(rules);
   };
 
@@ -264,7 +200,7 @@ export function CreateRuleSetRequest() {
       console.log("createRuleSet");
       if (approver) {
         const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
-          {"approver": approver }
+          { "approver": approver }
         );
         console.log(responseRuleSetRequestCreate.data);
         toast.success("Created ruleSetRequest successful");
@@ -273,7 +209,7 @@ export function CreateRuleSetRequest() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
+        toast.error("Loading failed: " + JSON.stringify(error.response.data));
       }
       return null;
     }
@@ -282,13 +218,13 @@ export function CreateRuleSetRequest() {
   const createRule = async (rule: RuleRequest, ruleSetNumber: number) => {
     try {
       console.log("getRule");
-      const responseRuleCreate = await rulesapi.rulesCreate({...rule, 'rule_set_request': ruleSetNumber});
+      const responseRuleCreate = await rulesapi.rulesCreate({ ...rule, 'rule_set_request': ruleSetNumber });
       console.log(responseRuleCreate.data);
       toast.success("Created rule successful");
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
+        toast.error("Loading failed: " + JSON.stringify(error.response.data));
       }
     }
   }
@@ -302,6 +238,7 @@ export function CreateRuleSetRequest() {
     if (ruleSetRequestId) {
       // TODO Change Create Serializer to accept many Rules at once
       // many=True
+      // TODO RuleSetRequest is created, even if the rules are invalid
       rules.forEach(rule => {
         createRule(rule, ruleSetRequestId);
       });
@@ -365,7 +302,7 @@ export function CreateRuleSetRequest() {
     const { name, value } = event.target;
     console.log(name, value);
     if (users) {
-      setApprover(users.filter((user) => user.id == parseInt(value))[0]); 
+      setApprover(users.filter((user) => user.id == parseInt(value))[0]);
     }
   };
 
@@ -483,207 +420,15 @@ export function CreateRuleSetRequest() {
 
   return (
     <div>
-    <Container>
+      <Container>
         <Typography variant="h4" gutterBottom>
           Create RuleSetRequest
-        </Typography>     
-    </Container>
+        </Typography>
+      </Container>
+
       <MaterialReactTable table={table} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover
-        limit={5}
-        transition={Flip}
-      />
-    </div>
-  );
-}
-
-export default function RuleSetRequestEntry() {
-
-  const { rulesetrequestId } = useParams();
-  const navigate = useNavigate();
-
-  const api = new MyApi();
-  const rulesapi = api.rulesApi();
-
-  const [ruleSetRequest, setRuleSetRequest] = useState<RuleSetRequest>();
-
-  const columns = useMemo<MRT_ColumnDef<Rule>[]>(
-    () => [
-      {
-        accessorKey: 'action',
-        header: 'Action',
-        editVariant: 'select',
-      },
-      {
-        accessorKey: 'protocol',
-        header: 'Protocol',
-        editVariant: 'select',
-      },
-      {
-        accessorKey: 'source_name',
-        header: 'Source Name',
-      },
-      {
-        accessorKey: 'source_ip_orig',
-        header: 'Source IP',
-      },
-      {
-        accessorKey: 'source_ip_nat',
-        header: 'Source IP (NAT)',
-      },
-      {
-        accessorFn: (originalRow) => (originalRow.source_port?.toLocaleString()),
-        id: 'source_port',
-        header: 'Source Port',
-      },
-      {
-        accessorKey: 'destination_name',
-        header: 'Destination Name',
-      },
-      {
-        accessorKey: 'destination_ip_orig',
-        header: 'Destination IP',
-      },
-      {
-        accessorKey: 'destination_ip_nat',
-        header: 'Destination IP (NAT)',
-      },
-      {
-        accessorFn: (originalRow) => (originalRow.destination_port?.toLocaleString()),
-        id: 'destination_port',
-        header: 'Destination Port',
-      },
-      {
-        accessorKey: 'notes',
-        header: 'Notes',
-      },
-      {
-        accessorKey: 'requester',
-        header: 'Requester',
-      },
-      {
-        accessorKey: 'ticket',
-        header: 'Ticket',
-      }
-    ],
-    []
-  );
-
-  const getRuleSetRequest = async (id: number) => {
-    try {
-      console.log("getRuleSetRequest");
-      const responseRuleSetRequest = await rulesapi.rulesRequestsRetrieve(id);
-      console.log(responseRuleSetRequest.data);
-      setRuleSetRequest(responseRuleSetRequest.data);
-      toast.success("Loaded rulesetrequest successful");
-    } catch (error) {
-      console.log(error);
-      if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (rulesetrequestId !== undefined && !Number.isNaN(parseInt(rulesetrequestId))) {
-      const id = parseInt(rulesetrequestId);
-      console.log("parsed", id);
-      getRuleSetRequest(id);
-    } else {
-      navigate("..");
-    }
-  }, [rulesetrequestId, navigate]
-  );
-
-  const approveRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
-    console.log("approving rulesetrequest");
-    console.log(ruleSetRequest);
-    console.log(table.getRowModel().rows);
-  };
-
-  const refuseRuleSetRequest = (table: MRT_TableInstance<Rule>) => {
-    console.log("approving rulesetrequest");
-    console.log(ruleSetRequest);
-    console.log(table.getRowModel().rows);
-  };
-
-
-  const table = useMaterialReactTable({
-    columns: columns,
-    data: ruleSetRequest?.related_rules ? ruleSetRequest.related_rules : [],
-    enableColumnResizing: true,
-    enableDensityToggle: false,
-    initialState: {
-      showColumnFilters: false,
-      density: 'compact',
-      showGlobalFilter: false,
-      pagination: {
-        pageSize: 50,
-        pageIndex: 0
-      },
-    },
-    renderBottomToolbarCustomActions: () => (
-      <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <Button
-          color="success"
-          variant="contained"
-          onClick={() => approveRuleSetRequest(table)}
-          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
-        >
-          Approve
-        </Button>
-        {/* {Object.values(validationErrors).some((error) => !!error) && (
-                <Typography color="error">Fix errors before submitting</Typography>
-              )} */}
-        <Button
-          color="error"
-          variant="contained"
-          onClick={() => refuseRuleSetRequest(table)}
-          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
-        >
-          Refuse
-        </Button>
-        {/* {Object.values(validationErrors).some((error) => !!error) && (
-                <Typography color="error">Fix errors before submitting</Typography>
-              )} */}
-      </Box>
-    )
-  });
-
-
-  return (
-    <div>
-    <Container>
-      <Typography variant="h4" gutterBottom>
-        RuleSetRequest {ruleSetRequest?.pk}
-      </Typography>   
-      <Box>
-        Current Status: <Chip size="small" label={ruleSetRequest?.status} />
-        Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
-        Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
-      </Box>
-    </Container>
-      <MaterialReactTable table={table} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover
-        limit={5}
-        transition={Flip}
-      />
+      
+      <FirewallRuleCenterClientToastContainer />
     </div>
   );
 }
