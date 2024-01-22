@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ActionEnum, RuleStatusEnum, ProtocolEnum, Rule } from '../api';
 import MyApi from '../api/myapi';
-import { ToastContainer, toast, Flip } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.min.css";
+import { toast } from 'react-toastify';
 import {
   MaterialReactTable,
   useMaterialReactTable,
@@ -23,6 +22,7 @@ import {
 } from '@mui/icons-material';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { dateTimeFormatShort, FirewallRuleCenterClientToastContainer } from '../../Generics';
 
 
 export default function RuleTable() {
@@ -33,17 +33,6 @@ export default function RuleTable() {
 
   const [rules, setRules] = useState<Rule[]>([]);
   // const [validationErrors, setValidationErrors] = useState<Record<string, string | undefined>>({});
-
-  const dateTimeFormatShort = new Intl.DateTimeFormat('de-AT', 
-    {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-      second: "2-digit"
-    }
-  );
 
   const getRules = async () => {
     try {
@@ -318,18 +307,7 @@ export default function RuleTable() {
   return (
     <div>
       <MaterialReactTable table={table} />
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover
-        limit={5}
-        transition={Flip}
-      />
+      <FirewallRuleCenterClientToastContainer />
     </div>
   );
 }

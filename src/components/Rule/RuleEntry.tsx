@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Rule, ActionEnum, ProtocolEnum, RuleStatusEnum, FirewallObject } from '../api/api';
 import MyApi from '../api/myapi';
-import { ToastContainer, toast, Flip } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.min.css";
-
+import { toast } from 'react-toastify';
 import { AxiosError } from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { dateTimeFormatLong, FirewallRuleCenterClientToastContainer } from '../../Generics';
 
 import {
   Container,
@@ -279,8 +278,8 @@ export default function RuleEntry() {
     { id: 'destination_port', label: 'Destination Port' },
     { id: 'status', label: 'Status' },
     { id: 'requester', label: 'Requester' },
-    { id: 'created_on', label: 'Created On', format: (value: string) => dateTimeFormatLong.format(new Date(value))  },
-    { id: 'last_updated_on', label: 'Last Updated On', format: (value: string) => dateTimeFormatLong.format(new Date(value))  },
+    { id: 'created_on', label: 'Created On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
+    { id: 'last_updated_on', label: 'Last Updated On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
     { id: 'ticket', label: 'Ticket' },
     { id: 'notes', label: 'Notes' },
     { id: 'is_deleted', label: 'Is Deleted?' },
@@ -617,18 +616,7 @@ export default function RuleEntry() {
       </Container>
 
       <Copyright />
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss={false}
-        draggable={false}
-        pauseOnHover
-        limit={3}
-        transition={Flip}
-      />
+      <FirewallRuleCenterClientToastContainer />
     </Container>
   );
 }

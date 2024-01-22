@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ToastContainer, toast, Flip } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.min.css";
+import { toast } from 'react-toastify';
 import MyApi from '../api/myapi';
 import { useNavigate } from "react-router-dom";
+import { FirewallRuleCenterClientToastContainer } from '../../Generics';
 
 export default function Login() {
     const [username, setUserName] = useState("");
@@ -74,18 +74,7 @@ export default function Login() {
             <button type="submit">Submit</button>
             </div>
         </form>
-        <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss={false}
-            draggable={false}
-            pauseOnHover
-            limit={1}
-            transition={Flip}
-        />
+        <FirewallRuleCenterClientToastContainer />
         </div>
     );
 }
