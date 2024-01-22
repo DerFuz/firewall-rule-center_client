@@ -224,10 +224,10 @@ export interface PatchedRuleRequest {
     'firewalls'?: Array<FirewallObjectShortRequest>;
     /**
      * 
-     * @type {StatusEnum}
+     * @type {RuleStatusEnum}
      * @memberof PatchedRuleRequest
      */
-    'status'?: StatusEnum;
+    'status'?: RuleStatusEnum;
     /**
      * 
      * @type {boolean}
@@ -358,10 +358,10 @@ export interface Rule {
     'firewalls'?: Array<FirewallObjectShort>;
     /**
      * 
-     * @type {StatusEnum}
+     * @type {RuleStatusEnum}
      * @memberof Rule
      */
-    'status': StatusEnum;
+    'status': RuleStatusEnum;
     /**
      * 
      * @type {string}
@@ -517,10 +517,10 @@ export interface RuleRequest {
     'firewalls'?: Array<FirewallObjectShortRequest>;
     /**
      * 
-     * @type {StatusEnum}
+     * @type {RuleStatusEnum}
      * @memberof RuleRequest
      */
-    'status': StatusEnum;
+    'status': RuleStatusEnum;
     /**
      * 
      * @type {boolean}
@@ -550,10 +550,10 @@ export interface RuleSetRequest {
     'related_rules': Array<Rule>;
     /**
      * 
-     * @type {string}
+     * @type {RuleSetStatusEnum}
      * @memberof RuleSetRequest
      */
-    'status': string;
+    'status': RuleSetStatusEnum;
     /**
      * 
      * @type {UserPublic}
@@ -609,6 +609,8 @@ export interface RuleSetRequest {
      */
     'history': Array<{ [key: string]: any; }>;
 }
+
+
 /**
  * 
  * @export
@@ -623,12 +625,28 @@ export interface RuleSetRequestRequest {
     'approver': UserPublicRequest;
 }
 /**
+ * * `REQ` - RuleSetRequest requested * `REF` - RuleSetRequest refused * `APR` - RuleSetRequest approved * `CON` - All rules in this RuleSetRequest configured
+ * @export
+ * @enum {string}
+ */
+
+export const RuleSetStatusEnum = {
+    Req: 'REQ',
+    Ref: 'REF',
+    Apr: 'APR',
+    Con: 'CON'
+} as const;
+
+export type RuleSetStatusEnum = typeof RuleSetStatusEnum[keyof typeof RuleSetStatusEnum];
+
+
+/**
  * * `REQ` - Rule requested * `REF` - Rule refused * `APR` - Rule approved * `CON` - Rule configured * `TES` - Rule tested * `DEL` - Rule deleted
  * @export
  * @enum {string}
  */
 
-export const StatusEnum = {
+export const RuleStatusEnum = {
     Req: 'REQ',
     Ref: 'REF',
     Apr: 'APR',
@@ -637,7 +655,7 @@ export const StatusEnum = {
     Del: 'DEL'
 } as const;
 
-export type StatusEnum = typeof StatusEnum[keyof typeof StatusEnum];
+export type RuleStatusEnum = typeof RuleStatusEnum[keyof typeof RuleStatusEnum];
 
 
 /**
