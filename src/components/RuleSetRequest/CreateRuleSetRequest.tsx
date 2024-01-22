@@ -419,16 +419,14 @@ export default function CreateRuleSetRequest() {
   });
 
   return (
-    <div>
-      <Container>
-        <Typography variant="h4" gutterBottom>
-          Create RuleSetRequest
-        </Typography>
-      </Container>
+    <Container maxWidth={false}>
+      <Typography variant="h4" gutterBottom>
+        Create RuleSetRequest
+      </Typography>
 
       <MaterialReactTable table={table} />
-      
+
       <FirewallRuleCenterClientToastContainer />
-    </div>
+    </Container>
   );
 }

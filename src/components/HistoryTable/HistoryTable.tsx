@@ -28,11 +28,11 @@ export const returnHistoryTypeIcon = (type: string) => {
   }
 }
 
-export default function HistoryTable({tableData, historyColumns} : {tableData: Array<{ [key: string]: any }>, historyColumns: any[]}) {
+export default function HistoryTable({ tableData, historyColumns }: { tableData: Array<{ [key: string]: any }>, historyColumns: any[] }) {
 
   return (
-    <Container>
-      <Typography variant="h6">
+    <Container maxWidth={false} disableGutters>
+      <Typography variant="h6" gutterBottom>
         History
       </Typography>
       <TableContainer component={Paper}>

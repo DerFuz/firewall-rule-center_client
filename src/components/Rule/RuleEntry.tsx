@@ -26,7 +26,7 @@ import {
   Divider
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { 
+import {
   DoubleArrowRounded as DoubleArrowRoundedIcon,
   SaveOutlined as SaveOutlinedIcon,
   DeleteOutlined as DeleteOutlinedIcon,
@@ -52,7 +52,7 @@ export default function RuleEntry() {
   const { ruleId } = useParams();
   const navigate = useNavigate();
   console.log(useParams())
-  
+
   const [rule, setRule] = useState<Rule>();
   const [allFirewalls, setAllFirewalls] = useState<FirewallObject[]>([]);
 
@@ -163,28 +163,28 @@ export default function RuleEntry() {
           setRule({
             ...rule,
             [name]: value as RuleStatusEnum
-          }); 
+          });
           break;
         case "action":
           setRule({
             ...rule,
             [name]: value as ActionEnum
-          }); 
+          });
           break;
         case "protocol":
           setRule({
             ...rule,
             [name]: value as ProtocolEnum
-          }); 
+          });
           break;
-      }     
+      }
     }
     else {
       console.log("No existing rule instance");
     }
   };
 
- 
+
   const handleChangeFirewalls = (event: SelectChangeEvent<string[]>) => {
     const { name, value } = event.target;
     if (rule) {
@@ -201,28 +201,28 @@ export default function RuleEntry() {
 
   interface historyColumns {
     id: 'history_type' |
-      'history_id' |
-      'history_date' | 
-      'action' |
-      'protocol' |
-      'source_name' |
-      'source_ip_orig' |
-      'source_ip_nat' |
-      'source_port' |
-      'destination_name' |
-      'destination_ip_orig' |
-      'destination_ip_nat' |
-      'destination_port' |
-      'status' |
-      'requester' |
-      'created_on' |
-      'last_updated_on' |
-      'ticket' |
-      'notes' |
-      'is_deleted' |
-      'created_by_id' |
-      'last_updated_by_id' |
-      'rule_set_request_id';
+    'history_id' |
+    'history_date' |
+    'action' |
+    'protocol' |
+    'source_name' |
+    'source_ip_orig' |
+    'source_ip_nat' |
+    'source_port' |
+    'destination_name' |
+    'destination_ip_orig' |
+    'destination_ip_nat' |
+    'destination_port' |
+    'status' |
+    'requester' |
+    'created_on' |
+    'last_updated_on' |
+    'ticket' |
+    'notes' |
+    'is_deleted' |
+    'created_by_id' |
+    'last_updated_by_id' |
+    'rule_set_request_id';
     label: string;
     minWidth?: number;
     align?: 'left';
@@ -254,7 +254,7 @@ export default function RuleEntry() {
     { id: 'last_updated_by_id', label: 'Last Updated By (ID)' },
     { id: 'rule_set_request_id', label: 'Rule Set Request (ID)' },
   ];
- 
+
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
   const MenuProps = {
@@ -267,280 +267,279 @@ export default function RuleEntry() {
   };
 
   return (
-    <Container>
-      <Container>
-        <Typography variant="h4" gutterBottom>
-          Rule {rule?.pk} Info
-        </Typography>
-        <Grid container spacing={2} sx={{marginTop: 1, marginBottom: 1}}>
+    <Container maxWidth={false}>
+      <Typography variant="h4" gutterBottom>
+        Rule {rule?.pk} Info
+      </Typography>
+      
+      <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
         <Grid container>
-            <Grid xs={12} sm={6} md={6}>
-              <FormControl fullWidth>
-                <InputLabel id="status-label">Status</InputLabel>
-                <Select
-                  id="status"
-                  name="status"
-                  labelId="status-label"
-                  label="Status"
-                  onChange={handleSelectChange}
-                  value={rule?.status ? rule.status : ''}
-                >
-                  {
-                    Object.values(RuleStatusEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
-                    })
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <FormControl fullWidth>
-                <InputLabel id="action-label">Action</InputLabel>
-                <Select
-                  id="action"
-                  name="action"
-                  labelId="action-label"
-                  label="Action"
-                  onChange={handleSelectChange}
-                  value={rule?.action ? rule.action : ''}
-                >
-                  {
-                    Object.values(ActionEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
-                    })
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <FormControl fullWidth>
-                <InputLabel id="protocol-label">Protocol</InputLabel>
-                <Select
-                  id="protocol"
-                  name="protocol"
-                  labelId="protocol-label"
-                  label="Protocol"
-                  onChange={handleSelectChange}
-                  value={rule?.protocol ? rule.protocol : ''}
-                >
-                  {
-                    Object.values(ProtocolEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
-                    })
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="status-label">Status</InputLabel>
+              <Select
+                id="status"
+                name="status"
+                labelId="status-label"
+                label="Status"
+                onChange={handleSelectChange}
+                value={rule?.status ? rule.status : ''}
+              >
+                {
+                  Object.values(RuleStatusEnum).map((value) => {
+                    return <MenuItem value={value}>{value}</MenuItem>
+                  })
+                }
+              </Select>
+            </FormControl>
           </Grid>
-          <Grid container>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField
-                fullWidth
-                id="source_name"
-                name="source_name"
-                label="Source Name"
-                InputLabelProps={{ shrink: true }}
-                value={rule?.source_name}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="source_ip_orig" 
-                name="source_ip_orig" 
-                label="Source IP (Original)" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.source_ip_orig}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="source_ip_nat" 
-                name="source_ip_nat" 
-                label="Source IP (NAT)" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.source_ip_nat}                
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="source_port" 
-                name="source_port" 
-                label="Source Port" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.source_port ? rule.source_port : ''}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="action-label">Action</InputLabel>
+              <Select
+                id="action"
+                name="action"
+                labelId="action-label"
+                label="Action"
+                onChange={handleSelectChange}
+                value={rule?.action ? rule.action : ''}
+              >
+                {
+                  Object.values(ActionEnum).map((value) => {
+                    return <MenuItem value={value}>{value}</MenuItem>
+                  })
+                }
+              </Select>
+            </FormControl>
           </Grid>
-          <Grid container>
-            <Grid>
-              <DoubleArrowRoundedIcon />
-            </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <FormControl fullWidth>
+              <InputLabel id="protocol-label">Protocol</InputLabel>
+              <Select
+                id="protocol"
+                name="protocol"
+                labelId="protocol-label"
+                label="Protocol"
+                onChange={handleSelectChange}
+                value={rule?.protocol ? rule.protocol : ''}
+              >
+                {
+                  Object.values(ProtocolEnum).map((value) => {
+                    return <MenuItem value={value}>{value}</MenuItem>
+                  })
+                }
+              </Select>
+            </FormControl>
           </Grid>
-          <Grid container>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="destination_name" 
-                name="destination_name" 
-                label="Destination Name" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_name}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="destination_ip_orig" 
-                name="destination_ip_orig" 
-                label="Destination IP (Original)" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_ip_orig}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="destination_ip_nat" 
-                name="destination_ip_nat" 
-                label="Destination IP (NAT)"
-                InputLabelProps={{ shrink: true }}
-                value={rule?.destination_ip_nat}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="destination_port" 
-                name="destination_port" 
-                label="Destination Port" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.destination_port ? rule.destination_port : ''} 
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
+        </Grid>
+        <Grid container>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="source_name"
+              name="source_name"
+              label="Source Name"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.source_name}
+              onChange={handleTextFieldChange}
+            />
           </Grid>
-          <Grid container>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="ticket" 
-                name="ticket" 
-                label="Ticket" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.ticket}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={6} md={6}>
-              <TextField 
-                fullWidth 
-                id="requester" 
-                name="requester" 
-                label="Requester" 
-                InputLabelProps={{ shrink: true }} 
-                value={rule?.requester}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
-            <Grid xs={12} sm={12} md={12}>
-              <TextField 
-                fullWidth 
-                id="notes" 
-                name="notes" 
-                label="Notes"
-                InputLabelProps={{ shrink: true }}
-                value={rule?.notes}
-                onChange={handleTextFieldChange}
-              />
-            </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="source_ip_orig"
+              name="source_ip_orig"
+              label="Source IP (Original)"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.source_ip_orig}
+              onChange={handleTextFieldChange}
+            />
           </Grid>
-          <Grid container>
-            <Grid xs={12} sm={6} md={6}>
-              <FormControl sx={{ width: 300 }}>
-                <InputLabel id="firewalls-label">Firewalls</InputLabel>
-                <Select
-                  id="firewalls"
-                  name="firewalls"
-                  labelId="firewalls-label"
-                  label="Firewalls"
-                  multiple
-                  value={rule?.firewalls ? Object.values(rule.firewalls).map(firewall => firewall.hostname) : []}
-                  onChange={handleChangeFirewalls}
-                  input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                  MenuProps={MenuProps}
-                >
-                  { 
-                    allFirewalls.map((firewall) => (
-                      <MenuItem key={firewall.hostname} value={firewall.hostname}>{firewall.hostname}</MenuItem>
-                    ))
-                  }
-                </Select>
-              </FormControl>
-            </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="source_ip_nat"
+              name="source_ip_nat"
+              label="Source IP (NAT)"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.source_ip_nat}
+              onChange={handleTextFieldChange}
+            />
           </Grid>
-          {rule?.rule_set_request ? 
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="source_port"
+              name="source_port"
+              label="Source Port"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.source_port ? rule.source_port : ''}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid>
+            <DoubleArrowRoundedIcon />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="destination_name"
+              name="destination_name"
+              label="Destination Name"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.destination_name}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="destination_ip_orig"
+              name="destination_ip_orig"
+              label="Destination IP (Original)"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.destination_ip_orig}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="destination_ip_nat"
+              name="destination_ip_nat"
+              label="Destination IP (NAT)"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.destination_ip_nat}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="destination_port"
+              name="destination_port"
+              label="Destination Port"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.destination_port ? rule.destination_port : ''}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="ticket"
+              name="ticket"
+              label="Ticket"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.ticket}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <TextField
+              fullWidth
+              id="requester"
+              name="requester"
+              label="Requester"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.requester}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+          <Grid xs={12} sm={12} md={12}>
+            <TextField
+              fullWidth
+              id="notes"
+              name="notes"
+              label="Notes"
+              InputLabelProps={{ shrink: true }}
+              value={rule?.notes}
+              onChange={handleTextFieldChange}
+            />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid xs={12} sm={6} md={6}>
+            <FormControl sx={{ width: 300 }}>
+              <InputLabel id="firewalls-label">Firewalls</InputLabel>
+              <Select
+                id="firewalls"
+                name="firewalls"
+                labelId="firewalls-label"
+                label="Firewalls"
+                multiple
+                value={rule?.firewalls ? Object.values(rule.firewalls).map(firewall => firewall.hostname) : []}
+                onChange={handleChangeFirewalls}
+                input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+                renderValue={(selected) => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map((value) => (
+                      <Chip key={value} label={value} />
+                    ))}
+                  </Box>
+                )}
+                MenuProps={MenuProps}
+              >
+                {
+                  allFirewalls.map((firewall) => (
+                    <MenuItem key={firewall.hostname} value={firewall.hostname}>{firewall.hostname}</MenuItem>
+                  ))
+                }
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+        {rule?.rule_set_request ?
           <Grid container>
             <Chip label={`Rulesetrequest ${rule?.rule_set_request}`} onClick={() => navigate(`/rulesetrequest/${rule?.rule_set_request}`)} />
           </Grid>
           : ''
-          }
-          <Grid container>
-            <Stack direction="column" spacing={0.5}>
-              <span>
-                <span>Created: </span>
-                <Chip size="small" label={rule?.created_on ? dateTimeFormatLong.format(new Date(rule.created_on)) : ""} />
-                <span> by </span>
-                <Chip size="small" avatar={<Avatar>{rule?.created_by ? rule.created_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.created_by ? rule.created_by.username : ""} />
-              </span>
-              <span>
-                <span>Last updated: </span>
-                <Chip size="small" label={rule?.last_updated_on ? dateTimeFormatLong.format(new Date(rule.last_updated_on)) : ""} />
-                <span> by </span> 
-                <Chip size="small" avatar={<Avatar>{rule?.last_updated_by ? rule.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.last_updated_by ? rule.last_updated_by.username : ""} />
-              </span>
-            </Stack>
-          </Grid>
+        }
+        <Grid container>
+          <Stack direction="column" spacing={0.5}>
+            <span>
+              <span>Created: </span>
+              <Chip size="small" label={rule?.created_on ? dateTimeFormatLong.format(new Date(rule.created_on)) : ""} />
+              <span> by </span>
+              <Chip size="small" avatar={<Avatar>{rule?.created_by ? rule.created_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.created_by ? rule.created_by.username : ""} />
+            </span>
+            <span>
+              <span>Last updated: </span>
+              <Chip size="small" label={rule?.last_updated_on ? dateTimeFormatLong.format(new Date(rule.last_updated_on)) : ""} />
+              <span> by </span>
+              <Chip size="small" avatar={<Avatar>{rule?.last_updated_by ? rule.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={rule?.last_updated_by ? rule.last_updated_by.username : ""} />
+            </span>
+          </Stack>
         </Grid>
-        <Button 
-          color='error'
-          variant='outlined'
-          endIcon={<DeleteOutlinedIcon />}
-          onClick={() => deleteRule(rule?.pk)}
-        >
-          Delete
-        </Button>
-        <Button 
-          color='success'
-          variant='outlined'
-          endIcon={<SaveOutlinedIcon />}
-          onClick={updateRule}
-        >
-          Update
-        </Button>
-      </Container>
-      
-      <Divider sx={{marginTop: 5, marginBottom: 5}} />
+      </Grid>
+      <Button
+        color='error'
+        variant='outlined'
+        endIcon={<DeleteOutlinedIcon />}
+        onClick={() => deleteRule(rule?.pk)}
+      >
+        Delete
+      </Button>
+      <Button
+        color='success'
+        variant='outlined'
+        endIcon={<SaveOutlinedIcon />}
+        onClick={updateRule}
+      >
+        Update
+      </Button>
+
+      <Divider sx={{ marginTop: 5, marginBottom: 5 }} />
       <Typography variant="subtitle2">
         <InfoIcon fontSize='small' />
         Firewalls history not implemented yet.
-      </Typography>          
+      </Typography>
       <HistoryTable tableData={rule?.history ? rule.history : []} historyColumns={historyColumns} />
 
       <Copyright />

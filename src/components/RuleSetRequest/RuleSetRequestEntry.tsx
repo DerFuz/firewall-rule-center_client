@@ -14,8 +14,10 @@ import {
   Container,
   Chip,
   Avatar,
-  Divider
+  Divider,
+  Stack
 } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 import { AxiosError } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import HistoryTable, { returnHistoryTypeIcon } from '../HistoryTable/HistoryTable';
@@ -155,14 +157,14 @@ export default function RuleSetRequestEntry() {
 
   interface historyColumns {
     id: 'history_type' |
-      'history_id' |
-      'history_date' | 
-      'status' |
-      'approver_id' |
-      'created_on' |
-      'last_updated_on' |
-      'created_by_id' |
-      'last_updated_by_id';
+    'history_id' |
+    'history_date' |
+    'status' |
+    'approver_id' |
+    'created_on' |
+    'last_updated_on' |
+    'created_by_id' |
+    'last_updated_by_id';
     label: string;
     minWidth?: number;
     align?: 'left';
@@ -174,7 +176,7 @@ export default function RuleSetRequestEntry() {
     { id: 'history_id', label: 'History ID' },
     { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
     { id: 'status', label: 'Status' },
-    { id: 'approver_id', label: 'Approver'},
+    { id: 'approver_id', label: 'Approver' },
     { id: 'created_on', label: 'Created On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
     { id: 'last_updated_on', label: 'Last Updated On', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
     { id: 'created_by_id', label: 'Created By (ID)' },
@@ -226,23 +228,48 @@ export default function RuleSetRequestEntry() {
 
 
   return (
-    <div>
-      <Container>
-        <Typography variant="h4" gutterBottom>
-          RuleSetRequest {ruleSetRequest?.pk}
-        </Typography>
-        <Box>
+    <Container maxWidth={false}>
+      <Typography variant="h4" gutterBottom>
+        RuleSetRequest {ruleSetRequest?.pk} Info
+      </Typography>
+      
+      <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
+        <Grid xs={12} sm={6} md={6}>
           Current Status: <Chip size="small" label={ruleSetRequest?.status} />
+        </Grid>
+        <Grid xs={12} sm={6} md={6}>
           Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
+        </Grid>
+        <Grid xs={12} sm={6} md={6}>
           Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
-        </Box>
-      </Container>
+        </Grid>
+        <Grid xs={12} sm={6} md={6}>
+          <Stack direction="column" spacing={0.5}>
+            <span>
+              <span>Created: </span>
+              <Chip size="small" label={ruleSetRequest?.created_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.created_on)) : ""} />
+              <span> by </span>
+              <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by ? ruleSetRequest.created_by.username : ""} />
+            </span>
+          </Stack>
+        </Grid>
+        <Grid xs={12} sm={6} md={6}>
+          <Stack direction="column" spacing={0.5}>
+            <span>
+              <span>Last updated: </span>
+              <Chip size="small" label={ruleSetRequest?.last_updated_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.last_updated_on)) : ""} />
+              <span> by </span>
+              <Chip size="small" avatar={<Avatar>{ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username : ""} />
+            </span>
+          </Stack>
+        </Grid>
+      </Grid>
       <MaterialReactTable table={table} />
 
-      <Divider sx={{marginTop: 5, marginBottom: 5}} />        
+      <Divider sx={{ marginTop: 5, marginBottom: 5 }} />
       <HistoryTable tableData={ruleSetRequest?.history ? ruleSetRequest.history : []} historyColumns={historyColumns} />
 
       <FirewallRuleCenterClientToastContainer />
-    </div>
+    </Container>
   );
 }

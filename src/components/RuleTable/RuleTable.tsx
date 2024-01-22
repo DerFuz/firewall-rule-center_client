@@ -9,10 +9,12 @@ import {
   type MRT_SortingState,
   type MRT_TableOptions,
 } from 'material-react-table';
-import { 
-  Box, 
+import {
+  Box,
   IconButton,
-  Chip
+  Chip,
+  Container,
+  Typography
 } from '@mui/material';
 import {
   Edit as EditIcon,
@@ -120,7 +122,7 @@ export default function RuleTable() {
       {
         accessorFn: (originalRow) => (originalRow.source_port?.toLocaleString()),
         id: 'source_port',
-        header: 'Source Port',        
+        header: 'Source Port',
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
       },
@@ -161,11 +163,11 @@ export default function RuleTable() {
       {
         accessorKey: 'rule_set_request',
         header: 'Rule Set Request',
-        Cell: ({cell}) => (
-          cell.getValue<number>() 
+        Cell: ({ cell }) => (
+          cell.getValue<number>()
             ? <Chip label={`${cell.getValue<number>()}`} onClick={() => navigate(`/rulesetrequest/${cell.getValue<number>()}/`)} />
             : ''
-          ),
+        ),
         enableGlobalFilter: false,
         enableEditing: false,
       },
@@ -173,7 +175,7 @@ export default function RuleTable() {
         accessorFn: (originalRow) => new Date(originalRow.last_updated_on),
         id: 'last_updated_on',
         header: 'Last Update on',
-        Cell: ({cell}) => (dateTimeFormatShort.format(cell.getValue<Date>())),
+        Cell: ({ cell }) => (dateTimeFormatShort.format(cell.getValue<Date>())),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
         enableEditing: false,
@@ -189,7 +191,7 @@ export default function RuleTable() {
         accessorFn: (originalRow) => new Date(originalRow.created_on),
         id: 'created_on',
         header: 'Created on',
-        Cell: ({cell}) => (dateTimeFormatShort.format(cell.getValue<Date>())),
+        Cell: ({ cell }) => (dateTimeFormatShort.format(cell.getValue<Date>())),
         filterVariant: 'date-range',
         enableGlobalFilter: false,
         enableEditing: false,
@@ -216,7 +218,7 @@ export default function RuleTable() {
     }
   }, []);
 
-  const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({row, table, values}) => {
+  const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({ row, table, values }) => {
 
     try {
       console.log("updatingRule");
@@ -246,7 +248,7 @@ export default function RuleTable() {
     editDisplayMode: 'row',
     onEditingRowSave: handleSaveRule,
     // onEditingRowCancel: () => setValidationErrors({}),
-    initialState: { 
+    initialState: {
       showColumnFilters: true,
       density: 'compact',
       showGlobalFilter: true,
@@ -278,7 +280,7 @@ export default function RuleTable() {
         <IconButton color="primary" onClick={() => navigate(`/rules/${row.original.pk}`)}>
           <PageviewIcon />
         </IconButton>
-        <IconButton color="secondary" onClick={() => {table.setEditingRow(row)}}>
+        <IconButton color="secondary" onClick={() => { table.setEditingRow(row) }}>
           <EditIcon />
         </IconButton>
         <IconButton color="error" onClick={() => deleteRule(row.original.pk)}>
@@ -289,9 +291,14 @@ export default function RuleTable() {
   });
 
   return (
-    <div>
+    <Container maxWidth={false}>
+      <Typography variant="h4" gutterBottom>
+        Ruletable
+      </Typography>
+
       <MaterialReactTable table={table} />
+
       <FirewallRuleCenterClientToastContainer />
-    </div>
+    </Container>
   );
 }
