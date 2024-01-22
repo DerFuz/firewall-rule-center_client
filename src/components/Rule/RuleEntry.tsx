@@ -495,9 +495,12 @@ export default function RuleEntry() {
               </FormControl>
             </Grid>
           </Grid>
+          {rule?.rule_set_request ? 
           <Grid container>
             <Chip label={`Rulesetrequest ${rule?.rule_set_request}`} onClick={() => navigate(`/rulesetrequest/${rule?.rule_set_request}`)} />
           </Grid>
+          : ''
+          }
           <Grid container>
             <Stack direction="column" spacing={0.5}>
               <span>
