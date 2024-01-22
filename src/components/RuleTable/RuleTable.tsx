@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, StatusEnum, ProtocolEnum, Rule } from '../api';
+import { ActionEnum, RuleStatusEnum, ProtocolEnum, Rule } from '../api';
 import MyApi from '../api/myapi';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.min.css";
@@ -92,7 +92,7 @@ export default function RuleTable() {
         filterVariant: 'multi-select',
         enableGlobalFilter: false,
         editVariant: 'select',
-        editSelectOptions: Object.values(StatusEnum),
+        editSelectOptions: Object.values(RuleStatusEnum),
         // muiEditTextFieldProps: {
         //   select: true,
         //   error: !!validationErrors?.state,

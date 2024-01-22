@@ -1,6 +1,6 @@
 import "react-toastify/dist/ReactToastify.min.css";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
-import { ActionEnum, StatusEnum, ProtocolEnum, RuleRequest, Rule, RuleSetRequest, UserPublic, UsersApi } from '../api';
+import { ActionEnum, RuleStatusEnum, ProtocolEnum, RuleSetStatusEnum, RuleRequest, Rule, RuleSetRequest, UserPublic, UsersApi } from '../api';
 import MyApi from '../api/myapi';
 import Papa from 'papaparse';
 import {
@@ -242,7 +242,7 @@ export function CreateRuleSetRequest() {
         "rule_set_request": 0,
         "notes": values.notes,
         "firewalls": values.firewalls,
-        "status": StatusEnum.Req,
+        "status": RuleStatusEnum.Req,
         "is_deleted": false,
       }
     ]);
@@ -341,7 +341,7 @@ export function CreateRuleSetRequest() {
                   "rule_set_request": 0,
                   "notes": element.notes,
                   "firewalls": element.firewalls,
-                  "status": StatusEnum.Req,
+                  "status": RuleStatusEnum.Req,
                   "is_deleted": false,
                 }
               });
@@ -636,10 +636,7 @@ export default function RuleSetRequestEntry() {
           color="success"
           variant="contained"
           onClick={() => approveRuleSetRequest(table)}
-        // disabled={
-        //   Object.keys(editedUsers).length === 0 ||
-        //   Object.values(validationErrors).some((error) => !!error)
-        // }
+          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
         >
           Approve
         </Button>
@@ -650,10 +647,7 @@ export default function RuleSetRequestEntry() {
           color="error"
           variant="contained"
           onClick={() => refuseRuleSetRequest(table)}
-        // disabled={
-        //   Object.keys(editedUsers).length === 0 ||
-        //   Object.values(validationErrors).some((error) => !!error)
-        // }
+          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
         >
           Refuse
         </Button>
