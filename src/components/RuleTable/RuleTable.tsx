@@ -44,7 +44,7 @@ export default function RuleTable() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
+        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -63,7 +63,7 @@ export default function RuleTable() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
+        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -231,7 +231,7 @@ export default function RuleTable() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.statusText);
+        toast.error("Loading failed: " + JSON.stringify(error.response.statusText));
       }
     }
     table.setEditingRow(null); //exit editing mode

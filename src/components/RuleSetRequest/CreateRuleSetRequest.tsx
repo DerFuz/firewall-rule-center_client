@@ -53,7 +53,7 @@ export default function CreateRuleSetRequest() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + error.response.data.detail);
+        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
       }
     }
   }
