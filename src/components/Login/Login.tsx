@@ -37,7 +37,7 @@ export default function Login() {
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Login failed: " + JSON.stringify(error.response.data.detail));
+        toast.error("Login failed: " + JSON.stringify(error.response.data));
       }
     }
   };
