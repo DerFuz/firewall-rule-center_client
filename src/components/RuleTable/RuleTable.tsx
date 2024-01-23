@@ -24,6 +24,7 @@ import {
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { dateTimeFormatShort, FirewallRuleCenterClientToastContainer } from '../../Generics';
+import CustomAppBar from '../CustomAppBar/CustomAppBar';
 
 
 export default function RuleTable() {
@@ -291,14 +292,18 @@ export default function RuleTable() {
   });
 
   return (
-    <Container maxWidth={false}>
+    <Container maxWidth={false} disableGutters>
+      <CustomAppBar />
+
+      <Container maxWidth={false}>
       <Typography variant="h4" gutterBottom>
         Ruletable
       </Typography>
 
       <MaterialReactTable table={table} />
-
+      
       <FirewallRuleCenterClientToastContainer />
+      </Container>
     </Container>
   );
 }

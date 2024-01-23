@@ -32,6 +32,7 @@ import {
 } from '@mui/icons-material';
 import { AxiosError } from "axios";
 import { FirewallRuleCenterClientToastContainer } from '../../Generics';
+import CustomAppBar from '../CustomAppBar/CustomAppBar';
 
 export default function CreateRuleSetRequest() {
 
@@ -418,14 +419,18 @@ export default function CreateRuleSetRequest() {
   });
 
   return (
-    <Container maxWidth={false}>
-      <Typography variant="h4" gutterBottom>
-        Create RuleSetRequest
-      </Typography>
+    <Container maxWidth={false} disableGutters>
+      <CustomAppBar />
+      
+      <Container maxWidth={false}>
+        <Typography variant="h4" gutterBottom>
+          Create RuleSetRequest
+        </Typography>
 
-      <MaterialReactTable table={table} />
+        <MaterialReactTable table={table} />
 
-      <FirewallRuleCenterClientToastContainer />
+        <FirewallRuleCenterClientToastContainer />
+      </Container>
     </Container>
   );
 }

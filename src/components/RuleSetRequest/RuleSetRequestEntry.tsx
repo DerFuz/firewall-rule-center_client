@@ -22,6 +22,7 @@ import { AxiosError } from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import HistoryTable, { returnHistoryTypeIcon } from '../HistoryTable/HistoryTable';
 import { FirewallRuleCenterClientToastContainer, dateTimeFormatLong } from '../../Generics';
+import CustomAppBar from '../CustomAppBar/CustomAppBar';
 
 export default function RuleSetRequestEntry() {
 
@@ -228,48 +229,52 @@ export default function RuleSetRequestEntry() {
 
 
   return (
-    <Container maxWidth={false}>
-      <Typography variant="h4" gutterBottom>
-        RuleSetRequest {ruleSetRequest?.pk} Info
-      </Typography>
+    <Container maxWidth={false} disableGutters>
+      <CustomAppBar />
       
-      <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
-        <Grid xs={12} sm={6} md={6}>
-          Current Status: <Chip size="small" label={ruleSetRequest?.status} />
-        </Grid>
-        <Grid xs={12} sm={6} md={6}>
-          Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
-        </Grid>
-        <Grid xs={12} sm={6} md={6}>
-          Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
-        </Grid>
-        <Grid xs={12} sm={6} md={6}>
-          <Stack direction="column" spacing={0.5}>
-            <span>
-              <span>Created: </span>
-              <Chip size="small" label={ruleSetRequest?.created_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.created_on)) : ""} />
-              <span> by </span>
-              <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by ? ruleSetRequest.created_by.username : ""} />
-            </span>
-          </Stack>
-        </Grid>
-        <Grid xs={12} sm={6} md={6}>
-          <Stack direction="column" spacing={0.5}>
-            <span>
-              <span>Last updated: </span>
-              <Chip size="small" label={ruleSetRequest?.last_updated_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.last_updated_on)) : ""} />
-              <span> by </span>
-              <Chip size="small" avatar={<Avatar>{ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username : ""} />
-            </span>
-          </Stack>
-        </Grid>
-      </Grid>
-      <MaterialReactTable table={table} />
+      <Container maxWidth={false}>
+        <Typography variant="h4" gutterBottom>
+          RuleSetRequest {ruleSetRequest?.pk} Info
+        </Typography>
 
-      <Divider sx={{ marginTop: 5, marginBottom: 5 }} />
-      <HistoryTable tableData={ruleSetRequest?.history ? ruleSetRequest.history : []} historyColumns={historyColumns} />
+        <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
+          <Grid xs={12} sm={6} md={6}>
+            Current Status: <Chip size="small" label={ruleSetRequest?.status} />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <Stack direction="column" spacing={0.5}>
+              <span>
+                <span>Created: </span>
+                <Chip size="small" label={ruleSetRequest?.created_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.created_on)) : ""} />
+                <span> by </span>
+                <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by ? ruleSetRequest.created_by.username : ""} />
+              </span>
+            </Stack>
+          </Grid>
+          <Grid xs={12} sm={6} md={6}>
+            <Stack direction="column" spacing={0.5}>
+              <span>
+                <span>Last updated: </span>
+                <Chip size="small" label={ruleSetRequest?.last_updated_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.last_updated_on)) : ""} />
+                <span> by </span>
+                <Chip size="small" avatar={<Avatar>{ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username : ""} />
+              </span>
+            </Stack>
+          </Grid>
+        </Grid>
+        <MaterialReactTable table={table} />
 
-      <FirewallRuleCenterClientToastContainer />
+        <Divider sx={{ marginTop: 5, marginBottom: 5 }} />
+        <HistoryTable tableData={ruleSetRequest?.history ? ruleSetRequest.history : []} historyColumns={historyColumns} />
+
+        <FirewallRuleCenterClientToastContainer />
+      </Container>
     </Container>
   );
 }
