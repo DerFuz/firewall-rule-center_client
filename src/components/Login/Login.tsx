@@ -10,6 +10,7 @@ import {
   Stack
 } from '@mui/material';
 import { FirewallRuleCenterClientToastContainer } from '../../Generics';
+import { AxiosError } from 'axios';
 
 export default function Login() {
   const [username, setUserName] = useState("");
@@ -19,41 +20,26 @@ export default function Login() {
   const api = new MyApi();
   const tokenapi = api.tokenApi();
 
-  const handleSubmit = () => {
-    tokenapi.tokenCreate(
-      {
-        'username': username,
-        'password': password,
-      }
-    ).then((response) => {
-      console.log("Access-Token: ", response.data.access);
-      localStorage.setItem("access", response.data.access);
-      localStorage.setItem("refresh", response.data.refresh);
-      toast.success("Login successful", {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: 0,
-        toastId: "my_toast",
-      });
+  const handleSubmit = async () => {
+    try {
+      const responseTokenCreate = await tokenapi.tokenCreate(
+        {
+          'username': username,
+          'password': password,
+        }
+      );
+      console.log("Access-Token: ", responseTokenCreate.data.access);
+      localStorage.setItem("access", responseTokenCreate.data.access);
+      localStorage.setItem("refresh", responseTokenCreate.data.refresh);
+      localStorage.setItem("username", username);
+      toast.success("Login successful");
       navigate("/rules");
-    }, (response) => {
-      console.log(response);
-      // TODO Check Error
-      toast.error("Login failed: " + response.response.data.detail, {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: 0,
-        toastId: "my_toast",
-      });
-    });
+    } catch (error) {
+      console.log(error);
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Login failed: " + JSON.stringify(error.response.data.detail));
+      }
+    }
   };
 
   function verifyToken(token: string) {
