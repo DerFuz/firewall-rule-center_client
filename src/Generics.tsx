@@ -4,7 +4,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 export function FirewallRuleCenterClientToastContainer() {
     return (
       <ToastContainer
-        position="top-right"
+        position="bottom-right"
         autoClose={5000}
         hideProgressBar
         closeOnClick
