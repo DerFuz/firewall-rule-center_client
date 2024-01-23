@@ -9,6 +9,7 @@ import CreateRuleSetRequest from './components/RuleSetRequest/CreateRuleSetReque
 import RuleSetRequestEntry from './components/RuleSetRequest/RuleSetRequestEntry';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { redirect } from 'react-router-dom';
 
 // Response interceptor to try getting a new access token
 axios.interceptors.response.use(
@@ -38,6 +39,12 @@ axios.interceptors.response.use(
             localStorage.setItem('refresh', response.data.refresh);
             originalConfig.headers.Authorization = 'Bearer ' + response.data.access;
             return axios(originalConfig);
+          }
+          else {
+            localStorage.removeItem('refresh');
+            localStorage.removeItem('access');
+            localStorage.removeItem('username');
+            return redirect("/login");
           }
         } catch (error) {
           console.log(error);
