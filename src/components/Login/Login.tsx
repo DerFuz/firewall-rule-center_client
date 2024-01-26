@@ -7,7 +7,8 @@ import {
   Container,
   TextField,
   Button,
-  Stack
+  Stack,
+  Box
 } from '@mui/material';
 import { FirewallRuleCenterClientToastContainer } from '../../Generics';
 import { AxiosError } from 'axios';
@@ -52,48 +53,56 @@ export default function Login() {
 
   return (
     <Container>
-      <Typography variant="h4" gutterBottom>
-        Please Log-In
-      </Typography>
+      <Box
+        display={'flex'}
+        flexDirection={'column'}
+        alignItems={'center'}
+        justifyContent={'center'}
+        height={'100vh'}
+      >
+        <Typography variant="h4" gutterBottom>
+          Please Log-In
+        </Typography>
 
-      <form >
-        <Stack spacing={2} direction="column">
-          <TextField
-            fullWidth
-            id="username"
-            name="username"
-            label="Username"
-            InputLabelProps={{ shrink: true }}
-            value={username}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setUserName(e.target.value)}
-          />
+        <form>
+          <Stack spacing={2} direction="column">
+            <TextField
+              fullWidth
+              id="username"
+              name="username"
+              label="Username"
+              InputLabelProps={{ shrink: true }}
+              value={username}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setUserName(e.target.value)}
+            />
 
-          <TextField
-            fullWidth
-            id="password"
-            name="password"
-            label="Password"
-            type='password'
-            InputLabelProps={{ shrink: true }}
-            value={password}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setPassword(e.target.value)}
-          />
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              label="Password"
+              type='password'
+              InputLabelProps={{ shrink: true }}
+              value={password}
+              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setPassword(e.target.value)}
+            />
 
-          <Button
-            type='submit'
-            color='primary'
-            variant='contained'
-            onClick={(e) => {
-              e.preventDefault();
-              handleSubmit();
-            }
-            }
-          >
-            Log In
-          </Button>
-        </Stack>
-      </form>
+            <Button
+              type='submit'
+              color='primary'
+              variant='contained'
+              onClick={(e) => {
+                e.preventDefault();
+                handleSubmit();
+              }
+              }
+            >
+              Log In
+            </Button>
+          </Stack>
+        </form>
 
+      </Box>
       <FirewallRuleCenterClientToastContainer />
     </Container>
   );
