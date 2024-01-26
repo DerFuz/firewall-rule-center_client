@@ -10,6 +10,7 @@ import RuleSetRequestEntry from './components/RuleSetRequest/RuleSetRequestEntry
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { redirect } from 'react-router-dom';
+import ProtectedRoute from './ProtectedRoute';
 
 // Response interceptor to try getting a new access token
 axios.interceptors.response.use(
@@ -61,18 +62,20 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/rules">
-          <Route path=":ruleId" element={<RuleEntry />} />
-          <Route index element={
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <RuleTable />
-            </LocalizationProvider>
-          } />
-        </Route>
         <Route path="/login" element={<Login />} />
-        <Route path="/rulesetrequest">
-          <Route path=":rulesetrequestId" element={<RuleSetRequestEntry />} />
-          <Route index element={<CreateRuleSetRequest />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/rules">
+            <Route path=":ruleId" element={<RuleEntry />} />
+            <Route index element={
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <RuleTable />
+              </LocalizationProvider>
+            } />
+          </Route>
+          <Route path="/rulesetrequest">
+            <Route path=":rulesetrequestId" element={<RuleSetRequestEntry />} />
+            <Route index element={<CreateRuleSetRequest />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
