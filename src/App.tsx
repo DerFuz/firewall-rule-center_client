@@ -4,7 +4,7 @@ import axios from 'axios';
 import Login from './components/Login/Login';
 import MyApi from './components/api/myapi';
 import RuleEntry from './components/Rule/RuleEntry';
-import RuleTable from './components/RuleTable/RuleTable';
+import RuleTable from './components/Rule/RuleTable';
 import CreateRuleSetRequest from './components/RuleSetRequest/CreateRuleSetRequest';
 import RuleSetRequestEntry from './components/RuleSetRequest/RuleSetRequestEntry';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
