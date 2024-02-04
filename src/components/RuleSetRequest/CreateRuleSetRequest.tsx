@@ -147,7 +147,7 @@ export default function CreateRuleSetRequest() {
       'destination_ip_orig': values.destination_ip_orig,
       'destination_ip_nat': values.destination_ip_nat,
       'destination_port': !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
-      'requester': values.requester,
+      'requester': values.requester ? values.requester : localStorage.getItem('username'),
       'ticket': values.ticket,
       'notes': values.notes,
       'status': RuleStatusEnum.Req
@@ -176,7 +176,7 @@ export default function CreateRuleSetRequest() {
         "destination_ip_orig": values.destination_ip_orig,
         "destination_ip_nat": values.destination_ip_nat,
         "destination_port": !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
-        "requester": values.requester,
+        "requester": values.requester ? values.requester : localStorage.getItem('username'),
         "ticket": values.ticket,
         "notes": values.notes,
         "status": RuleStatusEnum.Req,
