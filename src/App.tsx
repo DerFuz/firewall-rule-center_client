@@ -28,7 +28,7 @@ axios.interceptors.response.use(
         try {
           const api = new MyApi();
           const tokenapi = api.tokenApi();
-
+          console.log('App |', 'Unauthorized request intercepted - trying to refresh access-token');
           const response = await tokenapi.tokenRefreshCreate(
             {
               'refresh': refreshToken
@@ -38,16 +38,18 @@ axios.interceptors.response.use(
             localStorage.setItem('access', response.data.access);
             localStorage.setItem('refresh', response.data.refresh);
             originalConfig.headers.Authorization = 'Bearer ' + response.data.access;
+            console.log('App |', 'Access-token is refreshed. Retrying request...');
             return axios(originalConfig);
           }
           else {
             localStorage.removeItem('refresh');
             localStorage.removeItem('access');
             localStorage.removeItem('username');
+            console.log('App |', 'Access-token could not be refreshed. Redirect to login...');
             return redirect('/login');
           }
         } catch (error) {
-          console.log(error);
+          console.log('App |', 'Error when refreshing access token:', error);
         }
       }
       return Promise.reject(error);
