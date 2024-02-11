@@ -377,7 +377,7 @@ export default function CreateRuleSetRequest() {
           >
             {
               Object.values(users).map((value) => {
-                return <MenuItem value={value.id}>{value.username}</MenuItem>
+                return <MenuItem key={value.id} value={value.id}>{value.username}</MenuItem>
               })
             }
           </Select>
