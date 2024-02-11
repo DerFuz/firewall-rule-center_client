@@ -29,16 +29,16 @@ export default function Login() {
           'password': password,
         }
       );
-      console.log('Access-Token: ', responseTokenCreate.data.access);
+      console.log('Login |', 'Login successful. Setting access-, refresh-token and username to localStorage')
       localStorage.setItem('access', responseTokenCreate.data.access);
       localStorage.setItem('refresh', responseTokenCreate.data.refresh);
       localStorage.setItem('username', username);
-      toast.success('Login successful');
+      toast.success(`Login successful. Welcome ${username}`);
       navigate('/rules');
     } catch (error) {
-      console.log(error);
+      console.log('Login |', 'Error logging in', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Login failed: ' + JSON.stringify(error.response.data));
+        toast.error('Login failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   };
