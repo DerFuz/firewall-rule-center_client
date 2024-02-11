@@ -60,11 +60,11 @@ export default function RuleEntry() {
     try {
       console.log('RuleEntry |', 'Fetching rule data for id', id);
       const responseRule = await rulesapi.rulesRetrieve(id);
-      console.log('RuleEntry |', 'Fetched rule data:', responseRule.data);
+      console.log('RuleEntry |', 'Fetched rule data for id', id, ':', responseRule.data);
       setRule(responseRule.data);
       toast.success(`Loaded rule ${id} successful`);
     } catch (error) {
-      console.log('RuleEntry |', 'Error fetching rule data:', error);
+      console.log('RuleEntry |', 'Error fetching rule data for id', id, ':', error);
       if (error instanceof AxiosError && error.response) {
         toast.error(`Loading rule ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
@@ -95,10 +95,10 @@ export default function RuleEntry() {
     try {
       console.log('RuleEntry |', 'Deleting rule id', id);
       const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
-      console.log('RuleEntry |', 'Deleted rule id:', responseDeleteRule);
+      console.log('RuleEntry |', 'Deleted rule id', id, ':', responseDeleteRule);
       toast.success(`Deleted rule ${id} successful`);
     } catch (error) {
-      console.log('RuleEntry |', 'Error deleting rule:', error);
+      console.log('RuleEntry |', 'Error deleting rule for id', id, ':', error);
       if (error instanceof AxiosError && error.response) {
         toast.error(`Deleting rule ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
@@ -106,17 +106,20 @@ export default function RuleEntry() {
   }
 
   const updateRule = async () => {
+    if (rule === undefined) {
+      console.log('RuleEntry |', 'No existing rule instance');
+      toast.error('Rule is undefined')
+      return
+    }
     try {
-      if (rule) {
-        console.log('RuleEntry |', 'Updating rule id', rule.pk);
-        const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(rule.pk, rule);
-        console.log('RuleEntry |', 'Updated rule id:', responseUpdateRule.data);
-        toast.success(`Deleted rule ${rule.pk} successful`);
-      }
+      console.log('RuleEntry |', 'Updating rule id', rule.pk);
+      const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(rule.pk, rule);
+      console.log('RuleEntry |', 'Updated rule id', rule.pk, ':', responseUpdateRule.data);
+      toast.success(`Updated rule ${rule.pk} successful`);
     } catch (error) {
-      console.log('RuleEntry |', 'Error updating rule:', error);
+      console.log('RuleEntry |', 'Error updating rule for id', rule.pk, ':', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error(`Updating rule ${rule?.pk} failed: ` + JSON.stringify(error.response.statusText));
+        toast.error(`Updating rule ${rule.pk} failed: ` + JSON.stringify(error.response.statusText));
       }
     }
   }
