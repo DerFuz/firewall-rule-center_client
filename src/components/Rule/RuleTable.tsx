@@ -38,33 +38,33 @@ export default function RuleTable() {
 
   const getRules = async () => {
     try {
-      console.log('getRules');
+      console.log('RuleTable |', 'Fetching rules');
       const response = await rulesapi.rulesList();
       setRules(response.data);
       toast.success('Loaded rules successful');
     } catch (error) {
-      console.log(error);
+      console.log('RuleTable |', 'Error fetching rules:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error('Loading rules failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
 
   const deleteRule = async (id: number | undefined) => {
     if (id === undefined) {
-      console.log('ID is not valid')
+      console.log('RuleTable |', 'Given rule-ID', id, 'is invalid');
       toast.error('ID is not valid')
       return
     }
     try {
-      console.log('deleteRule');
+      console.log('RuleTable |', 'Deleting rule id', id);
       const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
-      console.log(responseDeleteRule.data);
-      toast.success('Deleted rule successful');
+      console.log('RuleTable |', 'Deleted rule id:', responseDeleteRule);
+      toast.success(`Deleted rule ${id} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleTable |', 'Error deleting rule:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error(`Deleting rule ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -220,19 +220,15 @@ export default function RuleTable() {
   }, []);
 
   const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({ row, table, values }) => {
-
     try {
-      console.log('updatingRule');
-      console.log('update: row', row);
-      console.log('update: table', table);
-      console.log('update: values', values);
+      console.log('RuleTable |', 'Updating rule', row.original.pk, ', values:', values);
       const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(row.original.pk, values);
-      console.log(responseUpdateRule.data);
-      toast.success('Updated rule successful');
+      console.log('RuleTable |', 'Updated rule id', row.original.pk, ':', responseUpdateRule.data);
+      toast.success(`Updated rule ${row.original.pk} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleTable |', 'Error updating rule for id', row.original.pk, ':', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.statusText));
+        toast.error(`Updating rule ${row.original.pk} failed: ` + JSON.stringify(error.response.statusText));
       }
     }
     table.setEditingRow(null); //exit editing mode
