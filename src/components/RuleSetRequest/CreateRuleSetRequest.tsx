@@ -248,7 +248,7 @@ export default function CreateRuleSetRequest() {
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     console.log('upload');
     const eventFiles: FileList | null = event.target.files;
-    if (eventFiles && eventFiles.length == 1 && eventFiles[0] instanceof File) {
+    if (eventFiles && eventFiles.length === 1 && eventFiles[0] instanceof File) {
       Papa.parse<RuleRequest, File>(
         eventFiles[0],
         {
@@ -302,7 +302,7 @@ export default function CreateRuleSetRequest() {
     const { name, value } = event.target;
     console.log(name, value);
     if (users) {
-      setApprover(users.filter((user) => user.id == parseInt(value))[0]);
+      setApprover(users.filter((user) => user.id === parseInt(value))[0]);
     }
   };
 

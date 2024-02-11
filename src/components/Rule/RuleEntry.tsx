@@ -167,7 +167,7 @@ export default function RuleEntry() {
   };
 
   const handleChangeFirewalls = (event: SelectChangeEvent<string[]>) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     if (rule) {
       console.log('firewalls', value, Object.values(allFirewalls).filter(firewall => value.includes(firewall.hostname)));
       setRule({
@@ -180,7 +180,7 @@ export default function RuleEntry() {
     }
   };
 
-  interface historyColumns {
+  interface historyColumn {
     id: 'history_type' |
     'history_id' |
     'history_date' |
@@ -210,7 +210,7 @@ export default function RuleEntry() {
     format?: (value: any) => string | JSX.Element;
   }
 
-  const historyColumns: historyColumns[] = [
+  const historyColumns: historyColumn[] = [
     { id: 'history_type', label: 'History Type', format: (value: string) => returnHistoryTypeIcon(value) },
     { id: 'history_id', label: 'History ID' },
     { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },

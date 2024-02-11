@@ -156,7 +156,7 @@ export default function RuleSetRequestEntry() {
     }
   };
 
-  interface historyColumns {
+  interface historyColumn {
     id: 'history_type' |
     'history_id' |
     'history_date' |
@@ -172,7 +172,7 @@ export default function RuleSetRequestEntry() {
     format?: (value: any) => string | JSX.Element;
   }
 
-  const historyColumns: historyColumns[] = [
+  const historyColumns: historyColumn[] = [
     { id: 'history_type', label: 'History Type', format: (value: string) => returnHistoryTypeIcon(value) },
     { id: 'history_id', label: 'History ID' },
     { id: 'history_date', label: 'History Date', format: (value: string) => dateTimeFormatLong.format(new Date(value)) },
@@ -209,9 +209,6 @@ export default function RuleSetRequestEntry() {
         >
           Approve
         </Button>
-        {/* {Object.values(validationErrors).some((error) => !!error) && (
-                  <Typography color='error'>Fix errors before submitting</Typography>
-                )} */}
         <Button
           color='error'
           variant='contained'
@@ -220,9 +217,6 @@ export default function RuleSetRequestEntry() {
         >
           Refuse
         </Button>
-        {/* {Object.values(validationErrors).some((error) => !!error) && (
-                  <Typography color='error'>Fix errors before submitting</Typography>
-                )} */}
       </Box>
     )
   });
