@@ -26,7 +26,7 @@ const pages = [
   }
 ];
 
-export default function MenuAppBar() {
+export default function CustomAppBar() {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -48,6 +48,7 @@ export default function MenuAppBar() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
+    console.log('CustomAppBar |', 'Logout the current user');
     localStorage.removeItem('refresh');
     localStorage.removeItem('access');
     localStorage.removeItem('username');
