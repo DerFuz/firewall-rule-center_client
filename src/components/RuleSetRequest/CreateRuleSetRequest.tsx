@@ -46,15 +46,15 @@ export default function CreateRuleSetRequest() {
 
   const getUsers = async () => {
     try {
-      console.log('getUsers');
+      console.log('CreateRuleSetRequest |', 'Fetching users');
       const responseUsers = await usersapi.usersList();
-      console.log(responseUsers.data);
+      console.log('CreateRuleSetRequest |', 'Fetched users data:', responseUsers.data);
       setUsers(responseUsers.data);
       toast.success('Loaded users successful');
     } catch (error) {
-      console.log(error);
+      console.log('CreateRuleSetRequest |', 'Error fetching users', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error('Loading users failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -130,10 +130,7 @@ export default function CreateRuleSetRequest() {
 
 
   const handleEditRule: MRT_TableOptions<RuleRequest>['onEditingRowSave'] = ({ row, table, values }) => {
-    console.log('updatingRule');
-    console.log('update: row', row);
-    console.log('update: table', table);
-    console.log('update: values', values);
+    console.log('CreateRuleSetRequest |', 'Updating local rulesetrequest-rule', row.index, ', values:', values);
     let rulesCopy = [...rules];
     rulesCopy[row.index] = {
       ...rulesCopy[row.index],
@@ -152,17 +149,13 @@ export default function CreateRuleSetRequest() {
       'notes': values.notes,
       'status': RuleStatusEnum.Req
     };
+    console.log('CreateRuleSetRequest |', 'Updated local rulesetrequest-rule', row.index, ', values:', rules[row.index]);
     setRules(rulesCopy);
-    toast.success('Updated rule successful');
     table.setEditingRow(null); //exit editing mode
   };
 
-  const handleCreateRule: MRT_TableOptions<RuleRequest>['onCreatingRowSave'] = ({ row, table, values }) => {
-    console.log('creatingRule');
-    console.log('update: row', row);
-    console.log('update: table', table);
-    console.log('update: values', values);
-    console.log(rules);
+  const handleCreateRule: MRT_TableOptions<RuleRequest>['onCreatingRowSave'] = ({ table, values }) => {
+    console.log('CreateRuleSetRequest |', 'Creating local rulesetrequest-rule with values:', values);
     setRules(oldRules => [
       ...oldRules,
       {
@@ -182,34 +175,31 @@ export default function CreateRuleSetRequest() {
         'status': RuleStatusEnum.Req,
       }
     ]);
-    toast.success('Updated rule successful');
-    console.log(rules);
+    // commented, because setRules is async and console.log will not print anything useful at this point
+    // console.log('CreateRuleSetRequest |', 'Created local rulesetrequest-rule', rules.length, ' values:', rules[rules.length - 1]);
     table.setCreatingRow(null); //exit creating mode
   };
 
   const handleDeleteRule = (row: MRT_Row<RuleRequest>) => {
-    console.log('deleting Rule ' + row.index + ' from state');
-    console.log(row.original);
-    console.log(rules);
+    console.log('CreateRuleSetRequest |', 'Deleting local rulesetrequest-rule', row.index, 'with values:', row.original);
     setRules(rules.filter((_, index) => (index !== row.index))); // TODO better to compare objects
-    console.log(rules);
   };
 
   const createRuleSetRequest = async () => {
     try {
-      console.log('createRuleSet');
       if (approver) {
+        console.log('CreateRuleSetRequest |', 'Creating rulesetrequest');
         const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
           { 'approver': approver }
         );
-        console.log(responseRuleSetRequestCreate.data);
-        toast.success('Created ruleSetRequest successful');
+        console.log('CreateRuleSetRequest |', 'Created rulesetrequest (without rules yet):', responseRuleSetRequestCreate.data);
+        toast.success('Created ruleSetRequest successful (without rules yet)');
         return responseRuleSetRequestCreate.data.pk;
       }
     } catch (error) {
-      console.log(error);
+      console.log('CreateRuleSetRequest |', 'Error creating rulesetrequest:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
+        toast.error('Creating rulesetrequest failed: ' + JSON.stringify(error.response.data));
       }
       return null;
     }
@@ -217,22 +207,20 @@ export default function CreateRuleSetRequest() {
 
   const createRule = async (rule: RuleRequest, ruleSetNumber: number) => {
     try {
-      console.log('getRule');
+      console.log('CreateRuleSetRequest |', 'Creating rule for rulesetrequest', ruleSetNumber);
       const responseRuleCreate = await rulesapi.rulesCreate({ ...rule, 'rule_set_request': ruleSetNumber });
-      console.log(responseRuleCreate.data);
-      toast.success('Created rule successful');
+      console.log('CreateRuleSetRequest |', 'Created rule for rulesetrequest', ruleSetNumber, ':', responseRuleCreate.data);
+      toast.success(`Created rule for rulesetrequest ${ruleSetNumber} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('CreateRuleSetRequest |', 'Error creating rule for rulesetrequest', ruleSetNumber, ':', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
+        toast.error(`Creating rule for rulesetrequest ${ruleSetNumber} failed: ` + JSON.stringify(error.response.data));
       }
     }
   }
 
   const handleCreateRuleSetRequest = async (table: MRT_TableInstance<RuleRequest>) => {
-    console.log('creating rulesetrequest');
-    console.log(rules);
-    console.log(table.getRowModel().rows);
+    console.log('CreateRuleSetRequest |', 'Start creating rulesetrequest and its attached rules');
 
     const ruleSetRequestId = await createRuleSetRequest();
     if (ruleSetRequestId) {
@@ -246,7 +234,7 @@ export default function CreateRuleSetRequest() {
   };
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log('upload');
+    console.log('CreateRuleSetRequest |', 'Rulesetrequest-rules are uploaded. Parsing...');
     const eventFiles: FileList | null = event.target.files;
     if (eventFiles && eventFiles.length === 1 && eventFiles[0] instanceof File) {
       Papa.parse<RuleRequest, File>(
@@ -257,10 +245,10 @@ export default function CreateRuleSetRequest() {
           dynamicTyping: true,
           complete: (results, file) => {
             if (results.errors.length !== 0) {
-              console.log('CSV-parsing-errors', results.errors);
+              console.log('CreateRuleSetRequest |', 'CSV-parsing-errors', results.errors);
               toast.error(`Some errors appear when reading ${file.name}`);
             } else {
-              console.log(results);
+              console.log('CreateRuleSetRequest |', 'CSV is parsed - not mapped yet:', results);
               const newResults = results.data.map(element => {
                 return {
                   'action': element.action,
@@ -282,7 +270,7 @@ export default function CreateRuleSetRequest() {
                   'is_deleted': false,
                 }
               });
-              console.log(newResults);
+              console.log('CreateRuleSetRequest |', 'CSV is parsed - and mapped:', newResults);
               setRules(oldRules => [
                 ...oldRules,
                 ...newResults
@@ -291,7 +279,7 @@ export default function CreateRuleSetRequest() {
             }
           },
           error: (error, file) => {
-            console.log(error, file);
+            console.log('CreateRuleSetRequest |', 'Error with CSV-parser:', error, file);
           }
         }
       );
@@ -300,7 +288,6 @@ export default function CreateRuleSetRequest() {
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
-    console.log(name, value);
     if (users) {
       setApprover(users.filter((user) => user.id === parseInt(value))[0]);
     }
