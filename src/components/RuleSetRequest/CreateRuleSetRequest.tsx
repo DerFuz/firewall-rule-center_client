@@ -287,7 +287,7 @@ export default function CreateRuleSetRequest() {
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
-    const { name, value } = event.target;
+    const { value } = event.target;
     if (users) {
       setApprover(users.filter((user) => user.id === parseInt(value))[0]);
     }
