@@ -36,7 +36,6 @@ import CustomAppBar from '../CustomAppBar/CustomAppBar';
 export default function RuleEntry() {
   const { ruleId } = useParams();
   const navigate = useNavigate();
-  console.log(useParams())
 
   const [rule, setRule] = useState<Rule>();
   const [allFirewalls, setAllFirewalls] = useState<FirewallObject[]>([]);
@@ -44,7 +43,7 @@ export default function RuleEntry() {
   useEffect(() => {
     if (ruleId !== undefined && !Number.isNaN(parseInt(ruleId))) {
       const id = parseInt(ruleId);
-      console.log('parsed', id);
+      console.log('RuleEntry |', 'Parsed rule id:', id);
       getRule(id);
       getFirewalls();
     } else {
@@ -59,66 +58,65 @@ export default function RuleEntry() {
 
   const getRule = async (id: number) => {
     try {
-      console.log('getRule');
+      console.log('RuleEntry |', 'Fetching rule data for id', id);
       const responseRule = await rulesapi.rulesRetrieve(id);
-      console.log(responseRule.data);
+      console.log('RuleEntry |', 'Fetched rule data:', responseRule.data);
       setRule(responseRule.data);
-      toast.success('Loaded rule successful');
+      toast.success(`Loaded rule ${id} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleEntry |', 'Error fetching rule data:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error(`Loading rule ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
     }
   }
 
   const getFirewalls = async () => {
     try {
-      console.log('getFirewalls');
+      console.log('RuleEntry |', 'Fetching firewalls');
       const responseFirewalls = await firewallsapi.firewallsList();
-      console.log(responseFirewalls.data);
+      console.log('RuleEntry |', 'Fetched firewalls data:', responseFirewalls.data);
       setAllFirewalls(responseFirewalls.data);
       toast.success('Loaded firewalls successful');
     } catch (error) {
-      console.log(error);
+      console.log('RuleEntry |', 'Error fetching firewalls', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error('Loading firewalls failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
 
   const deleteRule = async (id: number | undefined) => {
     if (id === undefined) {
-      console.log('ID is not valid')
+      console.log('RuleEntry |', 'Given rule-ID', id, 'is invalid');
       toast.error('ID is not valid')
       return
     }
     try {
-      console.log('deleteRule');
+      console.log('RuleEntry |', 'Deleting rule id', id);
       const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
-      console.log(responseDeleteRule.data);
-      toast.success('Deleted rule successful');
+      console.log('RuleEntry |', 'Deleted rule id:', responseDeleteRule);
+      toast.success(`Deleted rule ${id} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleEntry |', 'Error deleting rule:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
+        toast.error(`Deleting rule ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
     }
   }
 
   const updateRule = async () => {
-    console.log(rule);
     try {
       if (rule) {
-        console.log('updatingRule');
+        console.log('RuleEntry |', 'Updating rule id', rule.pk);
         const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(rule.pk, rule);
-        console.log(responseUpdateRule.data);
-        toast.success('Updated rule successful');
+        console.log('RuleEntry |', 'Updated rule id:', responseUpdateRule.data);
+        toast.success(`Deleted rule ${rule.pk} successful`);
       }
     } catch (error) {
-      console.log(error);
+      console.log('RuleEntry |', 'Error updating rule:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.statusText));
+        toast.error(`Updating rule ${rule?.pk} failed: ` + JSON.stringify(error.response.statusText));
       }
     }
   }
@@ -132,14 +130,13 @@ export default function RuleEntry() {
       });
     }
     else {
-      console.log('No existing rule instance');
+      console.log('RuleEntry |', 'No existing rule instance');
     }
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     const { name, value } = event.target;
     if (rule) {
-      console.log(name);
       switch (name) {
         case 'status':
           setRule({
@@ -162,21 +159,20 @@ export default function RuleEntry() {
       }
     }
     else {
-      console.log('No existing rule instance');
+      console.log('RuleEntry |', 'No existing rule instance');
     }
   };
 
   const handleChangeFirewalls = (event: SelectChangeEvent<string[]>) => {
     const { value } = event.target;
     if (rule) {
-      console.log('firewalls', value, Object.values(allFirewalls).filter(firewall => value.includes(firewall.hostname)));
       setRule({
         ...rule,
         'firewalls': Object.values(allFirewalls).filter(firewall => value.includes(firewall.hostname))
       });
     }
     else {
-      console.log('No existing rule instance');
+      console.log('RuleEntry |', 'No existing rule instance');
     }
   };
 
