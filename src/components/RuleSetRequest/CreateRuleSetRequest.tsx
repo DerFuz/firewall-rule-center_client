@@ -392,10 +392,9 @@ export default function CreateRuleSetRequest() {
           color="success"
           variant="contained"
           onClick={() => handleCreateRuleSetRequest(table)}
-        // disabled={
-        //   Object.keys(editedUsers).length === 0 ||
-        //   Object.values(validationErrors).some((error) => !!error)
-        // }
+          disabled={
+            Object.keys(rules).length === 0 || !approver?.id
+          }
         >
           Save
         </Button>
