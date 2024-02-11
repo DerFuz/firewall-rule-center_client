@@ -17,14 +17,14 @@ import {
 
 export const returnHistoryTypeIcon = (type: string) => {
   switch (type) {
-    case "+":
+    case '+':
       return <AddIcon />;
-    case "~":
+    case '~':
       return <EditIcon />;
-    case "-":
+    case '-':
       return <DeleteIcon />;
     default:
-      return "";
+      return '';
   }
 }
 
@@ -32,11 +32,11 @@ export default function HistoryTable({ tableData, historyColumns }: { tableData:
 
   return (
     <Container maxWidth={false} disableGutters>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant='h6' gutterBottom>
         History
       </Typography>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="history-table">
+        <Table sx={{ minWidth: 650 }} size='small' aria-label='history-table'>
           <TableHead>
             <TableRow>
               {historyColumns.map((column) => (
@@ -57,7 +57,7 @@ export default function HistoryTable({ tableData, historyColumns }: { tableData:
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 {historyColumns.map((column) => (
-                  <TableCell component="th" scope="row">
+                  <TableCell component='th' scope='row'>
                     {column.format && row[column.id] ? column.format(row[column.id]) : row[column.id]}
                   </TableCell>
                 ))}

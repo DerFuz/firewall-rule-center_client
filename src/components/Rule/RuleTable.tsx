@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ActionEnum, RuleStatusEnum, ProtocolEnum, Rule } from '../api';
 import MyApi from '../api/myapi';
 import { toast } from 'react-toastify';
@@ -38,33 +38,33 @@ export default function RuleTable() {
 
   const getRules = async () => {
     try {
-      console.log("getRules");
+      console.log('getRules');
       const response = await rulesapi.rulesList();
       setRules(response.data);
-      toast.success("Loaded rules successful");
+      toast.success('Loaded rules successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
 
   const deleteRule = async (id: number | undefined) => {
     if (id === undefined) {
-      console.log("ID is not valid")
-      toast.error("ID is not valid")
+      console.log('ID is not valid')
+      toast.error('ID is not valid')
       return
     }
     try {
-      console.log("deleteRule");
+      console.log('deleteRule');
       const responseDeleteRule = await rulesapi.rulesDeleteDestroy(id);
       console.log(responseDeleteRule.data);
-      toast.success("Deleted rule successful");
+      toast.success('Deleted rule successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -222,17 +222,17 @@ export default function RuleTable() {
   const handleSaveRule: MRT_TableOptions<Rule>['onEditingRowSave'] = async ({ row, table, values }) => {
 
     try {
-      console.log("updatingRule");
-      console.log("update: row", row);
-      console.log("update: table", table);
-      console.log("update: values", values);
+      console.log('updatingRule');
+      console.log('update: row', row);
+      console.log('update: table', table);
+      console.log('update: values', values);
       const responseUpdateRule = await rulesapi.rulesUpdatePartialUpdate(row.original.pk, values);
       console.log(responseUpdateRule.data);
-      toast.success("Updated rule successful");
+      toast.success('Updated rule successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.statusText));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.statusText));
       }
     }
     table.setEditingRow(null); //exit editing mode
@@ -258,14 +258,14 @@ export default function RuleTable() {
         pageIndex: 0
       },
       columnVisibility: {
-        "pk": false,
-        "source_ip_nat": false,
-        "source_port": false,
-        "destination_ip_nat": false,
-        "last_updated_on": false,
-        "last_updated_by.username": false,
-        "created_on": false,
-        "created_by.username": false
+        'pk': false,
+        'source_ip_nat': false,
+        'source_port': false,
+        'destination_ip_nat': false,
+        'last_updated_on': false,
+        'last_updated_by.username': false,
+        'created_on': false,
+        'created_by.username': false
       }
     },
     onSortingChange: setSorting,
@@ -278,13 +278,13 @@ export default function RuleTable() {
     },
     renderRowActions: ({ row, table }) => (
       <Box>
-        <IconButton color="primary" onClick={() => navigate(`/rules/${row.original.pk}`)}>
+        <IconButton color='primary' onClick={() => navigate(`/rules/${row.original.pk}`)}>
           <PageviewIcon />
         </IconButton>
-        <IconButton color="secondary" onClick={() => { table.setEditingRow(row) }}>
+        <IconButton color='secondary' onClick={() => { table.setEditingRow(row) }}>
           <EditIcon />
         </IconButton>
-        <IconButton color="error" onClick={() => deleteRule(row.original.pk)}>
+        <IconButton color='error' onClick={() => deleteRule(row.original.pk)}>
           <DeleteIcon />
         </IconButton>
       </Box>
@@ -296,7 +296,7 @@ export default function RuleTable() {
       <CustomAppBar />
 
       <Container maxWidth={false}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant='h4' gutterBottom>
         Ruletable
       </Typography>
 

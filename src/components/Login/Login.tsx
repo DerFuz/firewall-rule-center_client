@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { toast } from 'react-toastify';
 import MyApi from '../api/myapi';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import {
   Typography,
   Container,
@@ -14,8 +14,8 @@ import { FirewallRuleCenterClientToastContainer } from '../../Generics';
 import { AxiosError } from 'axios';
 
 export default function Login() {
-  const [username, setUserName] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUserName] = useState('');
+  const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
   const api = new MyApi();
@@ -29,27 +29,20 @@ export default function Login() {
           'password': password,
         }
       );
-      console.log("Access-Token: ", responseTokenCreate.data.access);
-      localStorage.setItem("access", responseTokenCreate.data.access);
-      localStorage.setItem("refresh", responseTokenCreate.data.refresh);
-      localStorage.setItem("username", username);
-      toast.success("Login successful");
-      navigate("/rules");
+      console.log('Access-Token: ', responseTokenCreate.data.access);
+      localStorage.setItem('access', responseTokenCreate.data.access);
+      localStorage.setItem('refresh', responseTokenCreate.data.refresh);
+      localStorage.setItem('username', username);
+      toast.success('Login successful');
+      navigate('/rules');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Login failed: " + JSON.stringify(error.response.data));
+        toast.error('Login failed: ' + JSON.stringify(error.response.data));
       }
     }
   };
 
-  function verifyToken(token: string) {
-    tokenapi.tokenVerifyCreate(
-      { 'token': token }
-    ).then((value) => {
-      console.log(value)
-    });
-  }
 
   return (
     <Container>
@@ -60,17 +53,17 @@ export default function Login() {
         justifyContent={'center'}
         height={'100vh'}
       >
-        <Typography variant="h4" gutterBottom>
+        <Typography variant='h4' gutterBottom>
           Please Log-In
         </Typography>
 
         <form>
-          <Stack spacing={2} direction="column">
+          <Stack spacing={2} direction='column'>
             <TextField
               fullWidth
-              id="username"
-              name="username"
-              label="Username"
+              id='username'
+              name='username'
+              label='Username'
               InputLabelProps={{ shrink: true }}
               value={username}
               onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setUserName(e.target.value)}
@@ -78,9 +71,9 @@ export default function Login() {
 
             <TextField
               fullWidth
-              id="password"
-              name="password"
-              label="Password"
+              id='password'
+              name='password'
+              label='Password'
               type='password'
               InputLabelProps={{ shrink: true }}
               value={password}

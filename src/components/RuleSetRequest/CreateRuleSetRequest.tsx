@@ -30,7 +30,7 @@ import {
   Delete as DeleteIcon,
   Edit as EditIcon
 } from '@mui/icons-material';
-import { AxiosError } from "axios";
+import { AxiosError } from 'axios';
 import { FirewallRuleCenterClientToastContainer } from '../../Generics';
 import CustomAppBar from '../CustomAppBar/CustomAppBar';
 
@@ -46,15 +46,15 @@ export default function CreateRuleSetRequest() {
 
   const getUsers = async () => {
     try {
-      console.log("getUsers");
+      console.log('getUsers');
       const responseUsers = await usersapi.usersList();
       console.log(responseUsers.data);
       setUsers(responseUsers.data);
-      toast.success("Loaded users successful");
+      toast.success('Loaded users successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data.detail));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -130,10 +130,10 @@ export default function CreateRuleSetRequest() {
 
 
   const handleEditRule: MRT_TableOptions<RuleRequest>['onEditingRowSave'] = ({ row, table, values }) => {
-    console.log("updatingRule");
-    console.log("update: row", row);
-    console.log("update: table", table);
-    console.log("update: values", values);
+    console.log('updatingRule');
+    console.log('update: row', row);
+    console.log('update: table', table);
+    console.log('update: values', values);
     let rulesCopy = [...rules];
     rulesCopy[row.index] = {
       ...rulesCopy[row.index],
@@ -153,42 +153,42 @@ export default function CreateRuleSetRequest() {
       'status': RuleStatusEnum.Req
     };
     setRules(rulesCopy);
-    toast.success("Updated rule successful");
+    toast.success('Updated rule successful');
     table.setEditingRow(null); //exit editing mode
   };
 
   const handleCreateRule: MRT_TableOptions<RuleRequest>['onCreatingRowSave'] = ({ row, table, values }) => {
-    console.log("creatingRule");
-    console.log("update: row", row);
-    console.log("update: table", table);
-    console.log("update: values", values);
+    console.log('creatingRule');
+    console.log('update: row', row);
+    console.log('update: table', table);
+    console.log('update: values', values);
     console.log(rules);
     setRules(oldRules => [
       ...oldRules,
       {
-        "action": values.action,
-        "protocol": values.protocol,
-        "source_name": values.source_name,
-        "source_ip_orig": values.source_ip_orig,
-        "source_ip_nat": values.source_ip_nat,
-        "source_port": !Number.isNaN(parseInt(values.source_port)) ? parseInt(values.source_port) : 0,
-        "destination_name": values.destination_name,
-        "destination_ip_orig": values.destination_ip_orig,
-        "destination_ip_nat": values.destination_ip_nat,
-        "destination_port": !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
-        "requester": values.requester ? values.requester : localStorage.getItem('username'),
-        "ticket": values.ticket,
-        "notes": values.notes,
-        "status": RuleStatusEnum.Req,
+        'action': values.action,
+        'protocol': values.protocol,
+        'source_name': values.source_name,
+        'source_ip_orig': values.source_ip_orig,
+        'source_ip_nat': values.source_ip_nat,
+        'source_port': !Number.isNaN(parseInt(values.source_port)) ? parseInt(values.source_port) : 0,
+        'destination_name': values.destination_name,
+        'destination_ip_orig': values.destination_ip_orig,
+        'destination_ip_nat': values.destination_ip_nat,
+        'destination_port': !Number.isNaN(parseInt(values.destination_port)) ? parseInt(values.destination_port) : 0,
+        'requester': values.requester ? values.requester : localStorage.getItem('username'),
+        'ticket': values.ticket,
+        'notes': values.notes,
+        'status': RuleStatusEnum.Req,
       }
     ]);
-    toast.success("Updated rule successful");
+    toast.success('Updated rule successful');
     console.log(rules);
     table.setCreatingRow(null); //exit creating mode
   };
 
   const handleDeleteRule = (row: MRT_Row<RuleRequest>) => {
-    console.log("deleting Rule " + row.index + " from state");
+    console.log('deleting Rule ' + row.index + ' from state');
     console.log(row.original);
     console.log(rules);
     setRules(rules.filter((_, index) => (index !== row.index))); // TODO better to compare objects
@@ -197,19 +197,19 @@ export default function CreateRuleSetRequest() {
 
   const createRuleSetRequest = async () => {
     try {
-      console.log("createRuleSet");
+      console.log('createRuleSet');
       if (approver) {
         const responseRuleSetRequestCreate = await rulesapi.rulesRequestsCreate(
-          { "approver": approver }
+          { 'approver': approver }
         );
         console.log(responseRuleSetRequestCreate.data);
-        toast.success("Created ruleSetRequest successful");
+        toast.success('Created ruleSetRequest successful');
         return responseRuleSetRequestCreate.data.pk;
       }
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
       }
       return null;
     }
@@ -217,20 +217,20 @@ export default function CreateRuleSetRequest() {
 
   const createRule = async (rule: RuleRequest, ruleSetNumber: number) => {
     try {
-      console.log("getRule");
+      console.log('getRule');
       const responseRuleCreate = await rulesapi.rulesCreate({ ...rule, 'rule_set_request': ruleSetNumber });
       console.log(responseRuleCreate.data);
-      toast.success("Created rule successful");
+      toast.success('Created rule successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
       }
     }
   }
 
   const handleCreateRuleSetRequest = async (table: MRT_TableInstance<RuleRequest>) => {
-    console.log("creating rulesetrequest");
+    console.log('creating rulesetrequest');
     console.log(rules);
     console.log(table.getRowModel().rows);
 
@@ -246,7 +246,7 @@ export default function CreateRuleSetRequest() {
   };
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    console.log("upload");
+    console.log('upload');
     const eventFiles: FileList | null = event.target.files;
     if (eventFiles && eventFiles.length == 1 && eventFiles[0] instanceof File) {
       Papa.parse<RuleRequest, File>(
@@ -257,29 +257,29 @@ export default function CreateRuleSetRequest() {
           dynamicTyping: true,
           complete: (results, file) => {
             if (results.errors.length !== 0) {
-              console.log("CSV-parsing-errors", results.errors);
+              console.log('CSV-parsing-errors', results.errors);
               toast.error(`Some errors appear when reading ${file.name}`);
             } else {
               console.log(results);
               const newResults = results.data.map(element => {
                 return {
-                  "action": element.action,
-                  "protocol": element.protocol,
-                  "source_name": element.source_name,
-                  "source_ip_orig": element.source_ip_orig,
-                  "source_ip_nat": element.source_ip_nat,
-                  "source_port": element.source_port,
-                  "destination_name": element.destination_name,
-                  "destination_ip_orig": element.destination_ip_orig,
-                  "destination_ip_nat": element.destination_ip_nat,
-                  "destination_port": element.destination_port,
-                  "requester": element.requester,
-                  "ticket": element.ticket,
-                  "rule_set_request": 0,
-                  "notes": element.notes,
-                  "firewalls": element.firewalls,
-                  "status": RuleStatusEnum.Req,
-                  "is_deleted": false,
+                  'action': element.action,
+                  'protocol': element.protocol,
+                  'source_name': element.source_name,
+                  'source_ip_orig': element.source_ip_orig,
+                  'source_ip_nat': element.source_ip_nat,
+                  'source_port': element.source_port,
+                  'destination_name': element.destination_name,
+                  'destination_ip_orig': element.destination_ip_orig,
+                  'destination_ip_nat': element.destination_ip_nat,
+                  'destination_port': element.destination_port,
+                  'requester': element.requester,
+                  'ticket': element.ticket,
+                  'rule_set_request': 0,
+                  'notes': element.notes,
+                  'firewalls': element.firewalls,
+                  'status': RuleStatusEnum.Req,
+                  'is_deleted': false,
                 }
               });
               console.log(newResults);
@@ -335,13 +335,13 @@ export default function CreateRuleSetRequest() {
     },
     renderRowActions: ({ row }) => (
       <Box sx={{ display: 'flex', gap: '0.75rem' }}>
-        <Tooltip title="Delete">
-          <IconButton color="error" onClick={() => handleDeleteRule(row)}>
+        <Tooltip title='Delete'>
+          <IconButton color='error' onClick={() => handleDeleteRule(row)}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Edit">
-          <IconButton color="warning" onClick={() => table.setEditingRow(row)}>
+        <Tooltip title='Edit'>
+          <IconButton color='warning' onClick={() => table.setEditingRow(row)}>
             <EditIcon />
           </IconButton>
         </Tooltip>
@@ -349,20 +349,14 @@ export default function CreateRuleSetRequest() {
     ),
     renderTopToolbarCustomActions: ({ table }) => (
       <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+        <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
           Upload file
-          <VisuallyHiddenInput type="file" id="fileUpload" onChange={handleFileUpload} />
+          <VisuallyHiddenInput type='file' id='fileUpload' onChange={handleFileUpload} />
         </Button>
         <Button
-          variant="contained"
+          variant='contained'
           onClick={() => {
-            table.setCreatingRow(true); //simplest way to open the create row modal with no default values
-            //or you can pass in a row object to set default values with the `createRow` helper function
-            // table.setCreatingRow(
-            //   createRow(table, {
-            //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
-            //   }),
-            // );
+            table.setCreatingRow(true);
           }}
         >
           Create New Rule
@@ -371,13 +365,13 @@ export default function CreateRuleSetRequest() {
     ),
     renderBottomToolbarCustomActions: () => (
       <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center', width: '300px' }}>
-        <FormControl fullWidth size="small">
-          <InputLabel id="action-label">Approver</InputLabel>
+        <FormControl fullWidth size='small'>
+          <InputLabel id='action-label'>Approver</InputLabel>
           <Select
-            id="approver"
-            name="approver"
-            labelId="approver-label"
-            label="Approver"
+            id='approver'
+            name='approver'
+            labelId='approver-label'
+            label='Approver'
             onChange={handleSelectChange}
             value={approver?.id ? approver.id.toString() : ''}
           >
@@ -389,8 +383,8 @@ export default function CreateRuleSetRequest() {
           </Select>
         </FormControl>
         <Button
-          color="success"
-          variant="contained"
+          color='success'
+          variant='contained'
           onClick={() => handleCreateRuleSetRequest(table)}
           disabled={
             Object.keys(rules).length === 0 || !approver?.id
@@ -398,9 +392,6 @@ export default function CreateRuleSetRequest() {
         >
           Save
         </Button>
-        {/* {Object.values(validationErrors).some((error) => !!error) && (
-                <Typography color="error">Fix errors before submitting</Typography>
-              )} */}
       </Box>
     )
   });
@@ -420,9 +411,9 @@ export default function CreateRuleSetRequest() {
   return (
     <Container maxWidth={false} disableGutters>
       <CustomAppBar />
-      
+
       <Container maxWidth={false}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant='h4' gutterBottom>
           Create RuleSetRequest
         </Typography>
 

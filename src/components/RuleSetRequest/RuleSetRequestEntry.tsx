@@ -18,8 +18,8 @@ import {
   Stack
 } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { AxiosError } from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { AxiosError } from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import HistoryTable, { returnHistoryTypeIcon } from '../HistoryTable/HistoryTable';
 import { FirewallRuleCenterClientToastContainer, dateTimeFormatLong } from '../../Generics';
 import CustomAppBar from '../CustomAppBar/CustomAppBar';
@@ -98,15 +98,15 @@ export default function RuleSetRequestEntry() {
 
   const getRuleSetRequest = async (id: number) => {
     try {
-      console.log("getRuleSetRequest");
+      console.log('getRuleSetRequest');
       const responseRuleSetRequest = await rulesapi.rulesRequestsRetrieve(id);
       console.log(responseRuleSetRequest.data);
       setRuleSetRequest(responseRuleSetRequest.data);
-      toast.success("Loaded rulesetrequest successful");
+      toast.success('Loaded rulesetrequest successful');
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
       }
     }
   }
@@ -114,44 +114,44 @@ export default function RuleSetRequestEntry() {
   useEffect(() => {
     if (rulesetrequestId !== undefined && !Number.isNaN(parseInt(rulesetrequestId))) {
       const id = parseInt(rulesetrequestId);
-      console.log("parsed", id);
+      console.log('parsed', id);
       getRuleSetRequest(id);
     } else {
-      navigate("..");
+      navigate('..');
     }
   }, [rulesetrequestId, navigate]
   );
 
   const approveRuleSetRequest = async () => {
-    console.log("approving rulesetrequest");
+    console.log('approving rulesetrequest');
     try {
-      console.log("approveRuleSetRequest");
+      console.log('approveRuleSetRequest');
       if (ruleSetRequest?.pk) {
         const responseApproveRuleSetRequest = await rulesapi.rulesRequestsApproveRetrieve(ruleSetRequest.pk);
         console.log(responseApproveRuleSetRequest.data);
-        toast.success("Approved rulesetrequest successful");
+        toast.success('Approved rulesetrequest successful');
       }
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
       }
     }
   };
 
   const refuseRuleSetRequest = async () => {
-    console.log("refusing rulesetrequest");
+    console.log('refusing rulesetrequest');
     try {
-      console.log("refusingRuleSetRequest");
+      console.log('refusingRuleSetRequest');
       if (ruleSetRequest?.pk) {
         const responseApproveRuleSetRequest = await rulesapi.rulesRequestsRefuseRetrieve(ruleSetRequest.pk);
         console.log(responseApproveRuleSetRequest.data);
-        toast.success("Refused rulesetrequest successful");
+        toast.success('Refused rulesetrequest successful');
       }
     } catch (error) {
       console.log(error);
       if (error instanceof AxiosError && error.response) {
-        toast.error("Loading failed: " + JSON.stringify(error.response.data));
+        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
       }
     }
   };
@@ -202,26 +202,26 @@ export default function RuleSetRequestEntry() {
     renderBottomToolbarCustomActions: () => (
       <Box sx={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
         <Button
-          color="success"
-          variant="contained"
+          color='success'
+          variant='contained'
           onClick={approveRuleSetRequest}
           disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
         >
           Approve
         </Button>
         {/* {Object.values(validationErrors).some((error) => !!error) && (
-                  <Typography color="error">Fix errors before submitting</Typography>
+                  <Typography color='error'>Fix errors before submitting</Typography>
                 )} */}
         <Button
-          color="error"
-          variant="contained"
+          color='error'
+          variant='contained'
           onClick={refuseRuleSetRequest}
           disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
         >
           Refuse
         </Button>
         {/* {Object.values(validationErrors).some((error) => !!error) && (
-                  <Typography color="error">Fix errors before submitting</Typography>
+                  <Typography color='error'>Fix errors before submitting</Typography>
                 )} */}
       </Box>
     )
@@ -231,39 +231,39 @@ export default function RuleSetRequestEntry() {
   return (
     <Container maxWidth={false} disableGutters>
       <CustomAppBar />
-      
+
       <Container maxWidth={false}>
-        <Typography variant="h4" gutterBottom>
+        <Typography variant='h4' gutterBottom>
           RuleSetRequest {ruleSetRequest?.pk} Info
         </Typography>
 
         <Grid container spacing={2} sx={{ marginTop: 1, marginBottom: 1 }}>
           <Grid xs={12} sm={6} md={6}>
-            Current Status: <Chip size="small" label={ruleSetRequest?.status} />
+            Current Status: <Chip size='small' label={ruleSetRequest?.status} />
           </Grid>
           <Grid xs={12} sm={6} md={6}>
-            Requester: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by.username} />
+            Requester: <Chip size='small' avatar={<Avatar>{ruleSetRequest?.created_by.username ? ruleSetRequest.created_by.username[0].toUpperCase() : ''}</Avatar>} label={ruleSetRequest?.created_by.username} />
           </Grid>
           <Grid xs={12} sm={6} md={6}>
-            Approver: <Chip size="small" avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.approver.username} />
+            Approver: <Chip size='small' avatar={<Avatar>{ruleSetRequest?.approver.username ? ruleSetRequest.approver.username[0].toUpperCase() : ''}</Avatar>} label={ruleSetRequest?.approver.username} />
           </Grid>
           <Grid xs={12} sm={6} md={6}>
-            <Stack direction="column" spacing={0.5}>
+            <Stack direction='column' spacing={0.5}>
               <span>
                 <span>Created: </span>
-                <Chip size="small" label={ruleSetRequest?.created_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.created_on)) : ""} />
+                <Chip size='small' label={ruleSetRequest?.created_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.created_on)) : ''} />
                 <span> by </span>
-                <Chip size="small" avatar={<Avatar>{ruleSetRequest?.created_by ? ruleSetRequest.created_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.created_by ? ruleSetRequest.created_by.username : ""} />
+                <Chip size='small' avatar={<Avatar>{ruleSetRequest?.created_by ? ruleSetRequest.created_by.username[0].toUpperCase() : ''}</Avatar>} label={ruleSetRequest?.created_by ? ruleSetRequest.created_by.username : ''} />
               </span>
             </Stack>
           </Grid>
           <Grid xs={12} sm={6} md={6}>
-            <Stack direction="column" spacing={0.5}>
+            <Stack direction='column' spacing={0.5}>
               <span>
                 <span>Last updated: </span>
-                <Chip size="small" label={ruleSetRequest?.last_updated_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.last_updated_on)) : ""} />
+                <Chip size='small' label={ruleSetRequest?.last_updated_on ? dateTimeFormatLong.format(new Date(ruleSetRequest.last_updated_on)) : ''} />
                 <span> by </span>
-                <Chip size="small" avatar={<Avatar>{ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username[0].toUpperCase() : ""}</Avatar>} label={ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username : ""} />
+                <Chip size='small' avatar={<Avatar>{ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username[0].toUpperCase() : ''}</Avatar>} label={ruleSetRequest?.last_updated_by ? ruleSetRequest.last_updated_by.username : ''} />
               </span>
             </Stack>
           </Grid>

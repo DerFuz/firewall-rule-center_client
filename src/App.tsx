@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Home from './Home';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import axios from 'axios';
 import Login from './components/Login/Login';
 import MyApi from './components/api/myapi';
@@ -45,7 +44,7 @@ axios.interceptors.response.use(
             localStorage.removeItem('refresh');
             localStorage.removeItem('access');
             localStorage.removeItem('username');
-            return redirect("/login");
+            return redirect('/login');
           }
         } catch (error) {
           console.log(error);
@@ -66,18 +65,18 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Navigate to={'/rules'} replace />} />
-        <Route path="/login" element={<Login />} />
+        <Route path='/login' element={<Login />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/rules">
-            <Route path=":ruleId" element={<RuleEntry />} />
+          <Route path='/rules'>
+            <Route path=':ruleId' element={<RuleEntry />} />
             <Route index element={
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <RuleTable />
               </LocalizationProvider>
             } />
           </Route>
-          <Route path="/rulesetrequest">
-            <Route path=":rulesetrequestId" element={<RuleSetRequestEntry />} />
+          <Route path='/rulesetrequest'>
+            <Route path=':rulesetrequestId' element={<RuleSetRequestEntry />} />
             <Route index element={<CreateRuleSetRequest />} />
           </Route>
         </Route>
