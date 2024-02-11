@@ -271,7 +271,7 @@ export default function RuleEntry() {
                 >
                   {
                     Object.values(RuleStatusEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
+                      return <MenuItem key={value} value={value}>{value}</MenuItem>
                     })
                   }
                 </Select>
@@ -290,7 +290,7 @@ export default function RuleEntry() {
                 >
                   {
                     Object.values(ActionEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
+                      return <MenuItem key={value} value={value}>{value}</MenuItem>
                     })
                   }
                 </Select>
@@ -309,7 +309,7 @@ export default function RuleEntry() {
                 >
                   {
                     Object.values(ProtocolEnum).map((value) => {
-                      return <MenuItem value={value}>{value}</MenuItem>
+                      return <MenuItem key={value} value={value}>{value}</MenuItem>
                     })
                   }
                 </Select>
@@ -324,7 +324,7 @@ export default function RuleEntry() {
                 name='source_name'
                 label='Source Name'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.source_name}
+                value={rule?.source_name ? rule.source_name : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -335,7 +335,7 @@ export default function RuleEntry() {
                 name='source_ip_orig'
                 label='Source IP (Original)'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.source_ip_orig}
+                value={rule?.source_ip_orig ? rule.source_ip_orig : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -346,7 +346,7 @@ export default function RuleEntry() {
                 name='source_ip_nat'
                 label='Source IP (NAT)'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.source_ip_nat}
+                value={rule?.source_ip_nat ? rule.source_ip_nat : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -375,7 +375,7 @@ export default function RuleEntry() {
                 name='destination_name'
                 label='Destination Name'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.destination_name}
+                value={rule?.destination_name ? rule.destination_name : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -386,7 +386,7 @@ export default function RuleEntry() {
                 name='destination_ip_orig'
                 label='Destination IP (Original)'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.destination_ip_orig}
+                value={rule?.destination_ip_orig ? rule.destination_ip_orig : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -397,7 +397,7 @@ export default function RuleEntry() {
                 name='destination_ip_nat'
                 label='Destination IP (NAT)'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.destination_ip_nat}
+                value={rule?.destination_ip_nat ? rule.destination_ip_nat : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -421,7 +421,7 @@ export default function RuleEntry() {
                 name='ticket'
                 label='Ticket'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.ticket}
+                value={rule?.ticket ? rule.ticket : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -432,7 +432,7 @@ export default function RuleEntry() {
                 name='requester'
                 label='Requester'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.requester}
+                value={rule?.requester ? rule.requester : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>
@@ -443,7 +443,7 @@ export default function RuleEntry() {
                 name='notes'
                 label='Notes'
                 InputLabelProps={{ shrink: true }}
-                value={rule?.notes}
+                value={rule?.notes ? rule.notes : ''}
                 onChange={handleTextFieldChange}
               />
             </Grid>

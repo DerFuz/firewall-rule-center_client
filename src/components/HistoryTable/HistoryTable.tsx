@@ -57,7 +57,11 @@ export default function HistoryTable({ tableData, historyColumns }: { tableData:
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 {historyColumns.map((column) => (
-                  <TableCell component='th' scope='row'>
+                  <TableCell
+                    key={`${row.history_id}_${column.id}`}
+                    component='th'
+                    scope='row'
+                  >
                     {column.format && row[column.id] ? column.format(row[column.id]) : row[column.id]}
                   </TableCell>
                 ))}
