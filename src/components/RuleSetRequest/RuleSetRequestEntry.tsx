@@ -98,15 +98,14 @@ export default function RuleSetRequestEntry() {
 
   const getRuleSetRequest = async (id: number) => {
     try {
-      console.log('getRuleSetRequest');
+      console.log('RuleSetRequestEntry |', 'Fetching rulesetrequest data for id', id);
       const responseRuleSetRequest = await rulesapi.rulesRequestsRetrieve(id);
-      console.log(responseRuleSetRequest.data);
-      setRuleSetRequest(responseRuleSetRequest.data);
-      toast.success('Loaded rulesetrequest successful');
+      console.log('RuleSetRequestEntry |', 'Fetched rulesetrequest data:', responseRuleSetRequest.data);
+      toast.success(`Loaded rulesetrequest ${id} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleSetRequestEntry |', 'Error fetching rulesetrequest data:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
+        toast.error(`Loading rulesetrequest ${id} failed: ` + JSON.stringify(error.response.data.detail));
       }
     }
   }
@@ -114,7 +113,7 @@ export default function RuleSetRequestEntry() {
   useEffect(() => {
     if (rulesetrequestId !== undefined && !Number.isNaN(parseInt(rulesetrequestId))) {
       const id = parseInt(rulesetrequestId);
-      console.log('parsed', id);
+      console.log('RuleSetRequestEntry |', 'Parsed rulesetrequest id:', id);
       getRuleSetRequest(id);
     } else {
       navigate('..');
@@ -123,35 +122,37 @@ export default function RuleSetRequestEntry() {
   );
 
   const approveRuleSetRequest = async () => {
-    console.log('approving rulesetrequest');
+    if (ruleSetRequest?.pk === undefined) {
+      console.log('RuleSetRequestEntry |', 'No rulesetrequest-ID');
+      return
+    }
     try {
-      console.log('approveRuleSetRequest');
-      if (ruleSetRequest?.pk) {
-        const responseApproveRuleSetRequest = await rulesapi.rulesRequestsApproveRetrieve(ruleSetRequest.pk);
-        console.log(responseApproveRuleSetRequest.data);
-        toast.success('Approved rulesetrequest successful');
-      }
+      console.log('RuleSetRequestEntry |', 'Approving rulesetrequest', ruleSetRequest.pk);
+      const responseApproveRuleSetRequest = await rulesapi.rulesRequestsApproveRetrieve(ruleSetRequest.pk);
+      console.log('RuleSetRequestEntry |', 'Approved rulesetrequest:', responseApproveRuleSetRequest.data);
+      toast.success(`Approved rulesetrequest ${ruleSetRequest.pk} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleSetRequestEntry |', 'Error approving rulesetrequest:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
+        toast.error(`Approving rulesetrequest ${ruleSetRequest.pk} failed: ` + JSON.stringify(error.response.data));
       }
     }
   };
 
   const refuseRuleSetRequest = async () => {
-    console.log('refusing rulesetrequest');
+    if (ruleSetRequest?.pk === undefined) {
+      console.log('RuleSetRequestEntry |', 'No rulesetrequest-ID');
+      return
+    }
     try {
-      console.log('refusingRuleSetRequest');
-      if (ruleSetRequest?.pk) {
-        const responseApproveRuleSetRequest = await rulesapi.rulesRequestsRefuseRetrieve(ruleSetRequest.pk);
-        console.log(responseApproveRuleSetRequest.data);
-        toast.success('Refused rulesetrequest successful');
-      }
+      console.log('RuleSetRequestEntry |', 'Refusing rulesetrequest', ruleSetRequest.pk);
+      const responseApproveRuleSetRequest = await rulesapi.rulesRequestsRefuseRetrieve(ruleSetRequest.pk);
+      console.log('RuleSetRequestEntry |', 'Refused rulesetrequest:', responseApproveRuleSetRequest.data);
+      toast.success(`Refused rulesetrequest ${ruleSetRequest.pk} successful`);
     } catch (error) {
-      console.log(error);
+      console.log('RuleSetRequestEntry |', 'Error refusing rulesetrequest:', error);
       if (error instanceof AxiosError && error.response) {
-        toast.error('Loading failed: ' + JSON.stringify(error.response.data));
+        toast.error(`Refusing rulesetrequest ${ruleSetRequest.pk} failed: ` + JSON.stringify(error.response.data));
       }
     }
   };
