@@ -101,6 +101,7 @@ export default function RuleSetRequestEntry() {
       console.log('RuleSetRequestEntry |', 'Fetching rulesetrequest data for id', id);
       const responseRuleSetRequest = await rulesapi.rulesRequestsRetrieve(id);
       console.log('RuleSetRequestEntry |', 'Fetched rulesetrequest data:', responseRuleSetRequest.data);
+      setRuleSetRequest(responseRuleSetRequest.data);
       toast.success(`Loaded rulesetrequest ${id} successful`);
     } catch (error) {
       console.log('RuleSetRequestEntry |', 'Error fetching rulesetrequest data:', error);
