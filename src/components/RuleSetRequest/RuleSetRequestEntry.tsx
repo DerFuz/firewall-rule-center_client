@@ -207,7 +207,7 @@ export default function RuleSetRequestEntry() {
           color='success'
           variant='contained'
           onClick={approveRuleSetRequest}
-          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
+          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req || localStorage.getItem('username') !== ruleSetRequest.approver.username}
         >
           Approve
         </Button>
@@ -215,7 +215,7 @@ export default function RuleSetRequestEntry() {
           color='error'
           variant='contained'
           onClick={refuseRuleSetRequest}
-          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req}
+          disabled={ruleSetRequest?.status !== RuleSetStatusEnum.Req || localStorage.getItem('username') !== ruleSetRequest.approver.username}
         >
           Refuse
         </Button>
