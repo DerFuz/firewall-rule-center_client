@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes, redirect } from 'react-router-dom';
 import axios from 'axios';
 import Login from './components/Login/Login';
 import MyApi from './components/api/myapi';
@@ -8,7 +8,6 @@ import CreateRuleSetRequest from './components/RuleSetRequest/CreateRuleSetReque
 import RuleSetRequestEntry from './components/RuleSetRequest/RuleSetRequestEntry';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { redirect } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute';
 
 // Response interceptor to try getting a new access token
